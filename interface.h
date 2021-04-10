@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-namespace ChessConsole {
+namespace ConsoleChess {
 
 
 class Interface
@@ -19,6 +19,8 @@ protected:
 
     static int Question(char const* querry, char const* options);
     static std::string BuildQuestion(char const* querry, char const* options);
+    static int ChooseRandomColour();
+
 
 };
 

@@ -4,14 +4,27 @@
 #include <algorithm>
 #include <cstring>
 
-namespace ChessConsole{
+#include <stdlib.h>
+#include <time.h>
+
+namespace ConsoleChess{
 
 
 int Interface::Intro()
 {
     std::cout << "Console Chess v0.0." << std::endl;
-    int colour =  Question("What colour are you going to play?", "wb");
-    std::cout << "You selected ";
+    int colour =  Question("What colour are you going to play?", "wbr");
+
+    if(colour != Colour::Undefined)
+    {
+        std::cout << "You selected ";
+    }
+    else
+    {
+        colour = ChooseRandomColour();
+        std::cout << "Randomly selected ";
+    }
+
     switch (colour) {
     case Colour::Black:
         std::cout << "black." << std::endl;
@@ -20,7 +33,6 @@ int Interface::Intro()
         std::cout << "white." << std::endl;
         break;
     default:
-        std::cerr << "invalid colour" << std::endl;
         std::cerr <<"Unreachable code reached in " << __FILE__ <<":"<<__LINE__<<std::endl;
         throw;
     }
@@ -39,9 +51,9 @@ std::string Interface::BuildQuestion(char const* querry, char const* options)
         if(!first)
         {
             ss << "|";
-            first = false;
         }
         ss << *opt;
+        first = false;
     }
     ss << "): ";
     return ss.str();
@@ -72,5 +84,10 @@ int Interface::Question(char const* querry, char const* options)
     throw;
 }
 
+int Interface::ChooseRandomColour()
+{
+    srand(time(nullptr));
+    return rand() % 2;
+}
 
 }

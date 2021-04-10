@@ -3,7 +3,7 @@
 
 #include <memory>
 
-namespace ChessConsole {
+namespace ConsoleChess {
 
 #include "defines.h"
 

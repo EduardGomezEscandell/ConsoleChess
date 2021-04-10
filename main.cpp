@@ -1,12 +1,10 @@
 #include <iostream>
-
-#include "interface.h"
-#include "defines.h"
-#include "player.h"
+#include "game.h"
 
 int main()
 {
-    ChessConsole::Interface::Intro();
+    auto game = ConsoleChess::Game();
+    game.Run();
 
 }
 

@@ -2,13 +2,15 @@
 #define DEFINES_H
 
 
-namespace ChessConsole {
+
+namespace ConsoleChess {
 
 
 enum Colour
 {
     White,
-    Black
+    Black,
+    Undefined
 };
 
 
