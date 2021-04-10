@@ -16,10 +16,10 @@ public:
 
     const static int NumberOfFiles = 8;
     const static int NumberOfRanks = 8;
-    const static int NumberOfCells = NumberOfRanks * NumberOfFiles;
+    const static int NumberOfSquares = NumberOfRanks * NumberOfFiles;
 
 protected:
-    Piece * squares[NumberOfCells];
+    Piece * squares[NumberOfSquares];
 };
 
 }

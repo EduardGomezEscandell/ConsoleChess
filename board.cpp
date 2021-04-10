@@ -6,7 +6,7 @@ namespace ConsoleChess {
 
 Board::Board()
 {
-    for(int i=0; i<NumberOfCells; i++)
+    for(int i=0; i<NumberOfSquares; i++)
     {
         squares[i] = nullptr;
     }
