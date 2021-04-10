@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <cstring>
+#include <cstdio>
 
 #include <stdlib.h>
 #include <time.h>
@@ -33,7 +34,7 @@ int Interface::Intro()
         std::cout << "white." << std::endl;
         break;
     default:
-        std::cerr <<"Unreachable code reached in " << __FILE__ <<":"<<__LINE__<<std::endl;
+        std::cerr <<"\nUnreachable code reached in " << __FILE__ <<":"<<__LINE__<<std::endl;
         throw;
     }
     return colour;
@@ -68,16 +69,17 @@ int Interface::Question(char const* querry, char const* options)
     {
         std::cout << question;
 
-        std::cin.clear();
+        std::string answer;
+        std::cin >> answer;
 
-        char answer = std::cin.get();
-
-        const char * search_result = strchr(options, answer);
+        const char * search_result = strchr(options, answer[0]);
 
         if(search_result)
         {
             return static_cast<int>(search_result - options);
         }
+
+        std::cout << "Unrecognized input.\n";
     }
 
     std::cerr <<"Unreachable code reached in " << __FILE__ <<":"<<__LINE__<<std::endl;
