@@ -15,6 +15,8 @@ public:
 
     static int Intro();
 
+    void AskMove();
+
 protected:
 
     static int Question(char const* querry, char const* options);
