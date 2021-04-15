@@ -9,4 +9,5 @@ add_executable(Chess main.cpp
                      interface.cpp
                      game.cpp
                      piece.cpp
-                     board.cpp)
+                     board.cpp
+                     knight.cpp)

@@ -13,6 +13,17 @@ enum Colour
     Undefined
 };
 
+enum PieceSet
+{
+    NONE,
+    PAWN,
+    KNIGHT,
+    BISHOP,
+    ROOK,
+    QUEEN,
+    KING
+};
+
 enum File
 {
     a = 0,
@@ -28,8 +39,10 @@ enum File
 
 struct Move
 {
-    const int delta_rank;
-    const int delta_file;
+    const int initial_rank;
+    const int initial_file;
+    const int destination_rank;
+    const int destination_file;
 };
 
 
