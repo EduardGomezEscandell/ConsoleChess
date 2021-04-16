@@ -14,30 +14,30 @@ namespace ConsoleChess{
 int Interface::Intro()
 {
     std::cout << "Console Chess v0.0." << std::endl;
-    int colour =  Question("What colour are you going to play?", "wbr");
+    Colour colour = (Colour) Question("What colour are you going to play?", "wbr");
 
-    if(colour != Colour::Undefined)
+    if(colour != Colour::UNDEFINED)
     {
         std::cout << "You selected ";
     }
     else
     {
-        colour = ChooseRandomColour();
+        colour = (Colour) ChooseRandomColour();
         std::cout << "Randomly selected ";
     }
 
     switch (colour) {
-    case Colour::Black:
+    case Colour::BLACK:
         std::cout << "black." << std::endl;
         break;
-    case Colour::White:
+    case Colour::WHITE:
         std::cout << "white." << std::endl;
         break;
     default:
         std::cerr <<"\nUnreachable code reached in " << __FILE__ <<":"<<__LINE__<<std::endl;
         throw;
     }
-    return colour;
+    return (int) colour;
 }
 
 
@@ -89,7 +89,7 @@ int Interface::Question(char const* querry, char const* options)
 int Interface::ChooseRandomColour()
 {
     srand(time(nullptr));
-    return rand() % 2;
+    return  (rand() % 2);
 }
 
 }

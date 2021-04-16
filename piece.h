@@ -27,7 +27,7 @@ protected:
     int mPinDirection;
 
     PieceSet mPieceType = PieceSet::NONE;
-    const Colour mColour = Colour::Undefined;
+    const Colour mColour = Colour::UNDEFINED;
 
     std::vector<Move> mLegalMoves;
 

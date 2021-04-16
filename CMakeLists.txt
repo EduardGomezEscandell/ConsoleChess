@@ -10,4 +10,14 @@ add_executable(Chess main.cpp
                      game.cpp
                      piece.cpp
                      board.cpp
-                     knight.cpp)
+                     knight/knight.cpp)
+
+add_executable(ChessTests testing/main_tests.cpp
+                          testing/tester.cpp
+                          testing/test_suite.cpp
+                          knight/test_knight.cpp
+                          interface.cpp
+                          game.cpp
+                          piece.cpp
+                          board.cpp
+                          knight/knight.cpp)

@@ -2,18 +2,10 @@
 #define DEFINES_H
 
 
-
 namespace ConsoleChess {
 
 
-enum Colour
-{
-    White,
-    Black,
-    Undefined
-};
-
-enum PieceSet
+enum class PieceSet
 {
     NONE,
     PAWN,
@@ -24,7 +16,22 @@ enum PieceSet
     KING
 };
 
-enum File
+enum class Verbosity
+{
+    NONE = 0,
+    PROGRESS = 1,
+    FULL = 2
+};
+
+
+enum class Colour
+{
+    WHITE,
+    BLACK,
+    UNDEFINED
+};
+
+enum class File
 {
     a = 0,
     b = 1,

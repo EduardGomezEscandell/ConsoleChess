@@ -1,5 +1,5 @@
 #include "board.h"
-#include "knight.h"
+#include "knight/knight.h"
 #include <iostream>
 
 namespace ConsoleChess {
@@ -41,15 +41,16 @@ Piece::Pointer Board::CreatePieceInLocation(PieceSet piece_type, const int & ran
 
     default:
         throw "Unknown piece type";
-
     }
+
+    return square;
 }
 
 Colour Board::GetColourOccupied(const int & rank, const int & file) const
 {
     const Piece::Pointer & p_square = pGetSquareContent(rank, file);
 
-    if(p_square == nullptr) return Colour::Undefined;
+    if(p_square == nullptr) return Colour::UNDEFINED;
 
     return p_square->GetColour();
 

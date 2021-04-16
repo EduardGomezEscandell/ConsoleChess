@@ -1,9 +1,9 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
-#include "defines.h"
 #include <iostream>
 #include <vector>
+#include "defines.h"
 
 namespace ConsoleChess {
 
