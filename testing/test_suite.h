@@ -2,6 +2,7 @@
 #define TESTSUITE_H
 
 #include <vector>
+#include <map>
 #include <memory>
 #include "../defines.h"
 
@@ -45,14 +46,29 @@ protected:
 };
 
 
+struct TestReport
+{
+    TestReport(const char * test_name) : TestReport(Result::SUCCESS, test_name, nullptr) {};
+    TestReport(const Result & result, const char * test_name, const char * msg) :
+        mResult(result), mTestName(test_name), mMessage(msg)
+    {};
+
+    void AddSuiteName(const char * suite_name)
+    {
+        mSuiteName = suite_name;
+    }
+
+    Result mResult;
+    const char * mTestName;
+    const char * mSuiteName;
+    const char * mMessage;
+};
 
 
 class Test
 {
 public:
-    enum class Result{FAILURE, ERROR, SUCCESS};
-
-    Result Run() const;
+    TestReport Run() const;
 
     virtual const char * GetName() const = 0;
 
@@ -62,13 +78,11 @@ protected:
 };
 
 
-
-
 class TestSuite
 {
 public:
     TestSuite(const Verbosity & verbosity);
-    void Run() const;
+    void Run(std::vector<TestReport> & rReportList);
 
     template<typename TTestType>
     void AddTest()

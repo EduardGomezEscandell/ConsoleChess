@@ -20,9 +20,46 @@ void Tester::Print(const Verbosity & minimum_verbosity, const char * message) co
 void Tester::Run()
 {
     this->Print(Verbosity::NONE, "Running tests\n");
+
+    std::vector<TestReport> test_reports;
+
     for(auto & suite : mTestSuites)
     {
-        suite->Run();
+        suite->Run(test_reports);
+    }
+
+    this->Print(Verbosity::NONE, "\n\nTests completed. Results:\n");
+
+    for(auto & report: test_reports)
+    {
+        switch(report.mResult)
+        {
+        case Result::SUCCESS:
+            this->Print(Verbosity::FULL, "Test ");
+            this->Print(Verbosity::FULL, report.mSuiteName);
+            this->Print(Verbosity::FULL, "/");
+            this->Print(Verbosity::FULL, report.mTestName);
+            this->Print(Verbosity::FULL, " was completed succesfully.\n");
+            break;
+        case Result::ERROR:
+            this->Print(Verbosity::NONE, "Test ");
+            this->Print(Verbosity::NONE, report.mSuiteName);
+            this->Print(Verbosity::NONE, "/");
+            this->Print(Verbosity::NONE, report.mTestName);
+            this->Print(Verbosity::NONE, " was erroneous. Exception message:\n");
+            this->Print(Verbosity::NONE, report.mMessage);
+            this->Print(Verbosity::NONE, "\n----------------------------------\n");
+            break;
+        case Result::FAILURE:
+            this->Print(Verbosity::NONE, "Test ");
+            this->Print(Verbosity::NONE, report.mSuiteName);
+            this->Print(Verbosity::NONE, "/");
+            this->Print(Verbosity::NONE, report.mTestName);
+            this->Print(Verbosity::NONE, " failed. Exception message:\n");
+            this->Print(Verbosity::NONE, report.mMessage);
+            this->Print(Verbosity::NONE, "\n----------------------------------\n");
+            break;
+        }
     }
 }
 

@@ -4,6 +4,10 @@
 
 namespace ConsoleChess {
 
+enum class Result
+{
+    FAILURE, ERROR, SUCCESS
+};
 
 enum class PieceSet
 {

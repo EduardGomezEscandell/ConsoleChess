@@ -4,24 +4,24 @@
 namespace ConsoleChess {
 
 
-Test::Result Test::Run() const
+TestReport Test::Run() const
 {
     {
         try
         {
             RunTest();
         }
-        catch(TestFailure)
+        catch(const TestFailure e)
         {
-            return Result::FAILURE;
+            return TestReport(Result::FAILURE, this->GetName(), e.what());
         }
-        catch(...)
+        catch(const std::exception e)
         {
-            return Result::ERROR;
+            return TestReport(Result::ERROR, this->GetName(), e.what());
         }
     };
 
-    return Result::SUCCESS;
+    return TestReport(this->GetName());
 }
 
 
@@ -30,7 +30,7 @@ TestSuite::TestSuite(const Verbosity & verbosity)
 {
 }
 
-void TestSuite::Run() const
+void TestSuite::Run(std::vector<TestReport> & rReportList)
 {
     char buffer[512];
     sprintf(buffer, "Running %s: ", this->GetName());
@@ -38,24 +38,27 @@ void TestSuite::Run() const
 
     for(auto & test: mTests)
     {
-        Test::Result r = test->Run();
+        TestReport r = test->Run();
+        r.AddSuiteName(this->GetName());
 
-        switch (r)
+        switch (r.mResult)
         {
-        case Test::Result::SUCCESS:
+        case Result::SUCCESS:
             this->Print(Verbosity::PROGRESS, ".");
+            rReportList.push_back(r);
             break;
 
-        case Test::Result::FAILURE:
+        case Result::FAILURE:
             this->Print(Verbosity::PROGRESS, "x");
+            rReportList.push_back(r);
             break;
 
-        case Test::Result::ERROR:
+        case Result::ERROR:
             this->Print(Verbosity::PROGRESS, "e");
+            rReportList.push_back(r);
             break;
         }
     }
-
     this->Print(Verbosity::FULL, "\n");
 }
 
