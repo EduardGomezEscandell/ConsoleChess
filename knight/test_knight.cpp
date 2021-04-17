@@ -1,8 +1,7 @@
 #include "test_knight.h"
-#include "../board.h"
+#include "../board/board.h"
 
 namespace ConsoleChess {
-
 
 namespace KnightTests {
 
@@ -14,9 +13,9 @@ CHESS_DEFINE_TEST(BlankTest)
 
 }
 
-KnightTestSuite::KnightTestSuite(const Verbosity & verbosity) : TestSuite(verbosity)
+CHESS_TEST_LIST(KnightTestSuite)
 {
-    mTests.emplace_back(new KnightTests::BlankTest());
+    CHESS_TEST_LIST_ITEM(KnightTests::BlankTest);
 }
 
 

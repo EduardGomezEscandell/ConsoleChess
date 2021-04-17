@@ -4,6 +4,8 @@
 #include <vector>
 #include <map>
 #include <memory>
+
+#include "test.h"
 #include "../defines.h"
 
 enum class Verbosity;
@@ -27,55 +29,27 @@ protected:                                          \
                                                     \
 void name::RunTest() const                          \
 
+#define CHESS_DEFINE_TEST_SUITE(name)               \
+class name : public TestSuite                       \
+{                                                   \
+public:                                             \
+    name(const Verbosity & verbosity);              \
+                                                    \
+    const char * GetName() const override           \
+    {                                               \
+        return #name;                               \
+    }                                               \
+};                                                  \
 
+#define CHESS_TEST_LIST(suite_name)                 \
+suite_name::suite_name(const Verbosity & verbosity) \
+    : TestSuite(verbosity)
 
+#define CHESS_TEST_LIST_ITEM(test_name)             \
+mTests.emplace_back(new test_name());
 
 namespace ConsoleChess {
 
-
-class TestFailure : public std::exception
-{
-public:
-    TestFailure(const char * msg)  : message(msg) {};
-    const char * what () const throw ()
-    {
-        return message;
-    }
-protected:
-    const char * message;
-};
-
-
-struct TestReport
-{
-    TestReport(const char * test_name) : TestReport(Result::SUCCESS, test_name, nullptr) {};
-    TestReport(const Result & result, const char * test_name, const char * msg) :
-        mResult(result), mTestName(test_name), mMessage(msg)
-    {};
-
-    void AddSuiteName(const char * suite_name)
-    {
-        mSuiteName = suite_name;
-    }
-
-    Result mResult;
-    const char * mTestName;
-    const char * mSuiteName;
-    const char * mMessage;
-};
-
-
-class Test
-{
-public:
-    TestReport Run() const;
-
-    virtual const char * GetName() const = 0;
-
-protected:
-    virtual void RunTest() const = 0;
-    Test() {}
-};
 
 
 class TestSuite

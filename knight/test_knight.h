@@ -9,18 +9,7 @@
 
 namespace ConsoleChess {
 
-////////////////// TEST SUITE ///////////////////////////////
-
-class KnightTestSuite : public TestSuite
-{
-public:
-    KnightTestSuite(const Verbosity & verbosity);
-
-    const char * GetName() const override
-    {
-        return "KnightTestSuite";
-    }
-};
+CHESS_DEFINE_TEST_SUITE(KnightTestSuite)
 
 
 }

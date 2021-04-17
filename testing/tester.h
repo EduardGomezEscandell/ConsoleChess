@@ -20,6 +20,7 @@ protected:
 
 
     void Print(const Verbosity & minimum_verbosity, const char * message) const;
+    void Print(const Verbosity & minimum_verbosity, const std::string & message) const;
 };
 
 }

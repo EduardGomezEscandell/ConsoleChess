@@ -1,6 +1,8 @@
 #include <iostream>
 #include "tester.h"
+
 #include "../knight/test_knight.h"
+#include "../board/test_board.h"
 
 namespace ConsoleChess {
 
@@ -8,9 +10,17 @@ Tester::Tester(const Verbosity & verbosity) :
     mVerbosity(verbosity)
 {
     mTestSuites.emplace_back(new KnightTestSuite(mVerbosity));
+    mTestSuites.emplace_back(new BoardTestSuite(mVerbosity));
 }
 
 void Tester::Print(const Verbosity & minimum_verbosity, const char * message) const
+{
+    if(this->mVerbosity < minimum_verbosity) return;
+
+    std::cout << message;
+}
+
+void Tester::Print(const Verbosity & minimum_verbosity, const std::string & message) const
 {
     if(this->mVerbosity < minimum_verbosity) return;
 
@@ -28,7 +38,7 @@ void Tester::Run()
         suite->Run(test_reports);
     }
 
-    this->Print(Verbosity::NONE, "\n\nTests completed. Results:\n");
+    this->Print(Verbosity::NONE, "\nTests completed.\n");
 
     for(auto & report: test_reports)
     {
@@ -42,6 +52,7 @@ void Tester::Run()
             this->Print(Verbosity::FULL, " was completed succesfully.\n");
             break;
         case Result::ERROR:
+            this->Print(Verbosity::NONE, "\n----------------------------------\n");
             this->Print(Verbosity::NONE, "Test ");
             this->Print(Verbosity::NONE, report.mSuiteName);
             this->Print(Verbosity::NONE, "/");
@@ -51,6 +62,7 @@ void Tester::Run()
             this->Print(Verbosity::NONE, "\n----------------------------------\n");
             break;
         case Result::FAILURE:
+            this->Print(Verbosity::NONE, "\n----------------------------------\n");
             this->Print(Verbosity::NONE, "Test ");
             this->Print(Verbosity::NONE, report.mSuiteName);
             this->Print(Verbosity::NONE, "/");

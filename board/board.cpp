@@ -1,5 +1,5 @@
 #include "board.h"
-#include "knight/knight.h"
+#include "../knight/knight.h"
 #include <iostream>
 
 namespace ConsoleChess {
