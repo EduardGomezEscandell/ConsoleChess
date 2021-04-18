@@ -20,7 +20,7 @@ protected:
 
     friend class Board;
 
-
+    bool mHasCastled = false;
 
 };
 

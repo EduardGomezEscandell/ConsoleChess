@@ -48,6 +48,7 @@ CHESS_DEFINE_TEST(FullPieceSet)
     Board board;
     board.CreatePieceInLocation(PieceSet::KING, 0, 4, Colour::WHITE);
     board.CreatePieceInLocation(PieceSet::KNIGHT, 0, 6, Colour::WHITE);
+    board.CreatePieceInLocation(PieceSet::ROOK, 0, 7, Colour::WHITE);
 }
 
 }
