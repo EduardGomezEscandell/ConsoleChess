@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-    ConsoleChess::Verbosity verb = ConsoleChess::Verbosity::FULL;
+    ConsoleChess::Verbosity verb = ConsoleChess::Verbosity::PROGRESS;
     int input = 0;
 
     switch(argc)

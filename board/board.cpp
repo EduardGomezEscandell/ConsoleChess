@@ -1,6 +1,7 @@
 #include "board.h"
 #include "../knight/knight.h"
 #include <iostream>
+#include <exception>
 
 namespace ConsoleChess {
 
@@ -38,9 +39,9 @@ Piece::Pointer Board::CreatePieceInLocation(PieceSet piece_type, const int & ran
         break;
     case PieceSet::KNIGHT:
         square = std::make_shared<Knight>(rank, file, this, colour);
-
+        break;
     default:
-        throw "Unknown piece type";
+        throw std::invalid_argument("Unknown piece type");
     }
 
     return square;

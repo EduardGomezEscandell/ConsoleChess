@@ -56,7 +56,7 @@ class TestSuite
 {
 public:
     TestSuite(const Verbosity & verbosity);
-    void Run(std::vector<TestReport> & rReportList);
+    Result Run(std::vector<TestReport> & rReportList);
 
     template<typename TTestType>
     void AddTest()

@@ -14,9 +14,17 @@ TestReport Test::Run() const
         {
             return TestReport(Result::FAILURE, this->GetName(), e.what());
         }
-        catch(const std::exception e)
+        catch(const std::logic_error e)
         {
             return TestReport(Result::ERROR, this->GetName(), e.what());
+        }
+        catch(const std::runtime_error e)
+        {
+            return TestReport(Result::ERROR, this->GetName(), e.what());
+        }
+        catch(const std::exception e)
+        {
+            return TestReport(Result::ERROR, this->GetName(), "No message");
         }
     };
 

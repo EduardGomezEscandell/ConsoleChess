@@ -30,12 +30,28 @@ CHESS_DEFINE_TEST(Constructor)
         }
     }
 }
+
+CHESS_DEFINE_TEST(CreatePiece)
+{
+    Board board;
+    board.CreatePieceInLocation(PieceSet::KNIGHT, 0,0, Colour::WHITE);
+
+    Colour c = board.GetColourOccupied(0,0);
+    this->AssertEqual((int) c, (int) Colour::WHITE, "Square colour should have been white but it was not");
+
+    c = board.GetColourOccupied(0,1);
+    this->AssertEqual((int) c, (int) Colour::UNDEFINED, "Square colour should have been undefined but it was not");
 }
+
+
+}
+
 
 
 CHESS_TEST_LIST(BoardTestSuite)
 {
     CHESS_TEST_LIST_ITEM(BoardTests::Constructor)
+    CHESS_TEST_LIST_ITEM(BoardTests::CreatePiece)
 }
 
 
