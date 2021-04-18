@@ -1,6 +1,5 @@
-#ifndef DEFINES_H
-#define DEFINES_H
-
+#ifndef CHESS_DEFINES_H
+#define CHESS_DEFINES_H
 
 namespace ConsoleChess {
 
@@ -35,7 +34,7 @@ enum class Colour
     UNDEFINED
 };
 
-enum class File
+enum class File : int
 {
     a = 0,
     b = 1,
@@ -48,16 +47,7 @@ enum class File
     undefined = -1
 };
 
-struct Move
-{
-    const int initial_rank;
-    const int initial_file;
-    const int destination_rank;
-    const int destination_file;
-};
-
-
 
 }
 
-#endif // DEFINES_H
+#endif // CHESS_DEFINES_H

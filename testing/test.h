@@ -5,6 +5,7 @@
 #include <cstring>
 #include <exception>
 #include <sstream>
+#include <algorithm>
 #include "../defines.h"
 
 namespace ConsoleChess {
@@ -90,6 +91,54 @@ protected:
         }
 
         throw TestFailure(ss.str());
+    }
+
+    template<typename T1, typename T2>
+    void AssertEqualContainers(const T1 & c1, const T2 & c2, const char * msg = "") const
+    {
+        if(c1.size() != c2.size())
+        {
+            std::stringstream ss;
+            ss << "Containers have different size: " << c1.size() << " versus " << c2.size() <<".";
+            if(msg[0] != '\0')
+            {
+                ss << "\n" << msg;
+            }
+            throw TestFailure(ss.str());
+        }
+
+        for(const auto & e : c1)
+        {
+            auto r = std::find(c2.begin(), c2.end(), e);
+
+            if(r == c2.end())
+            {
+                std::stringstream ss;
+//                ss << "Object" << e << "in container 1 not present in container 2.";
+                if(msg[0] != '\0')
+                {
+                    ss << "\n" << msg;
+                }
+                throw TestFailure(ss.str());
+            }
+        }
+
+        for(const auto & e : c2)
+        {
+            auto r = std::find(c1.begin(), c1.end(), e);
+
+            if(r == c1.end())
+            {
+                std::stringstream ss;
+//                ss << "Object" << e << "in container 2 not present in container 1.";
+                if(msg[0] != '\0')
+                {
+                    ss << "\n" << msg;
+                }
+                throw TestFailure(ss.str());
+            }
+        }
+
     }
 
 };

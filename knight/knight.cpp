@@ -23,11 +23,11 @@ void Knight::UpdateLegalMoves()
     for(int i=0; i<8; i++)
     {
         int destination_rank = initial_rank + valid_moves[i][0];
-        int destination_file = initial_file + valid_moves[i][0];
+        int destination_file = initial_file + valid_moves[i][1];
 
         if(CheckDestinationSquare(destination_rank, destination_file))
         {
-            mLegalMoves.push_back(Move{initial_rank, initial_file, destination_rank, destination_file});
+            mLegalMoves.emplace_back(initial_rank, initial_file, destination_rank, destination_file);
         }
 
     }

@@ -57,4 +57,12 @@ Colour Board::GetColourOccupied(const int & rank, const int & file) const
 
 }
 
+std::string Board::GetSquareName(unsigned int rank, unsigned int file)
+{
+    std::string s;
+    s.push_back('a' + file);
+    s.push_back('1' + rank);
+    return s;
+}
+
 }

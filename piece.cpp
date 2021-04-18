@@ -27,4 +27,14 @@ bool Piece::CheckDestinationSquare(const int & rank, const int & file) const
     return true;
 }
 
+const std::vector<Move> & Piece::GetMoves() const
+{
+    return mLegalMoves;
+}
+
+std::vector<Move> & Piece::GetMoves()
+{
+    return mLegalMoves;
+}
+
 }

@@ -2,6 +2,7 @@
 #define PIECE_H
 
 #include "defines.h"
+#include "move.h"
 #include <vector>
 #include <memory>
 
@@ -19,6 +20,9 @@ public:
 
     PieceSet WhatIsIt() {return mPieceType;}
     Colour GetColour() {return mColour;}
+
+    const std::vector<Move> & GetMoves() const;
+    std::vector<Move> & GetMoves();
 
 protected:
 
