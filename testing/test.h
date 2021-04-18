@@ -114,7 +114,7 @@ protected:
             if(r == c2.end())
             {
                 std::stringstream ss;
-//                ss << "Object" << e << "in container 1 not present in container 2.";
+                ss << "Object " << e << " in container 1 not present in container 2.";
                 if(msg[0] != '\0')
                 {
                     ss << "\n" << msg;
@@ -130,7 +130,7 @@ protected:
             if(r == c1.end())
             {
                 std::stringstream ss;
-//                ss << "Object" << e << "in container 2 not present in container 1.";
+                ss << "Object " << e << " in container 2 not present in container 1.";
                 if(msg[0] != '\0')
                 {
                     ss << "\n" << msg;

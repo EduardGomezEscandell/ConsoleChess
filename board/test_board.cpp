@@ -43,6 +43,12 @@ CHESS_DEFINE_TEST(CreatePiece)
     this->AssertEqual((int) c, (int) Colour::UNDEFINED, "Square colour should have been undefined but it was not");
 }
 
+CHESS_DEFINE_TEST(FullPieceSet)
+{
+    Board board;
+    board.CreatePieceInLocation(PieceSet::KING, 0, 4, Colour::WHITE);
+    board.CreatePieceInLocation(PieceSet::KNIGHT, 0, 6, Colour::WHITE);
+}
 
 }
 
@@ -52,6 +58,7 @@ CHESS_TEST_LIST(BoardTestSuite)
 {
     CHESS_TEST_LIST_ITEM(BoardTests::Constructor)
     CHESS_TEST_LIST_ITEM(BoardTests::CreatePiece)
+    CHESS_TEST_LIST_ITEM(BoardTests::FullPieceSet)
 }
 
 

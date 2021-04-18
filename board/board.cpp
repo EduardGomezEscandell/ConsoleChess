@@ -1,5 +1,6 @@
 #include "board.h"
 #include "../knight/knight.h"
+#include "../king/king.h"
 #include <iostream>
 #include <exception>
 
@@ -40,8 +41,11 @@ Piece::Pointer Board::CreatePieceInLocation(PieceSet piece_type, const int & ran
     case PieceSet::KNIGHT:
         square = std::make_shared<Knight>(rank, file, this, colour);
         break;
+    case PieceSet::KING:
+        square = std::make_shared<King>(rank, file, this, colour);
+        break;
     default:
-        throw std::invalid_argument("Unknown piece type");
+        throw std::invalid_argument("Unknown piece type.");
     }
 
     return square;

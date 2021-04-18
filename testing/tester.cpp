@@ -2,6 +2,7 @@
 #include "tester.h"
 
 #include "../knight/test_knight.h"
+#include "../king/test_king.h"
 #include "../board/test_board.h"
 
 namespace ConsoleChess {
@@ -10,6 +11,7 @@ Tester::Tester(const Verbosity & verbosity) :
     mVerbosity(verbosity)
 {
     mTestSuites.emplace_back(new KnightTestSuite(mVerbosity));
+    mTestSuites.emplace_back(new KingTestSuite(mVerbosity));
     mTestSuites.emplace_back(new BoardTestSuite(mVerbosity));
 }
 
