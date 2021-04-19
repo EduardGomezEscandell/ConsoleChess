@@ -1,5 +1,5 @@
-#ifndef MOVE_H
-#define MOVE_H
+#ifndef CHESS_MOVE_H
+#define CHESS_MOVE_H
 
 #include <ostream>
 
@@ -29,7 +29,7 @@ public:
              static_cast<unsigned int>(departure_file),
              static_cast<unsigned int>(landing_rank),
              static_cast<unsigned int>(landing_file))
-    {};
+    {}
 
     unsigned int departure_rank;
     unsigned int departure_file;
@@ -44,4 +44,4 @@ bool operator==(const Move &, const Move &);
 
 }
 
-#endif // MOVE_H
+#endif // CHESS_MOVE_H

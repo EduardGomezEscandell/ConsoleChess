@@ -1,8 +1,7 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef CHESS_GAME_H
+#define CHESS_GAME_H
 
 #include<memory>
-
 #include "player.h"
 
 namespace ConsoleChess   {
@@ -19,6 +18,7 @@ protected:
 
 };
 
-#endif // GAME_H
-
 }
+
+#endif // CHESS_GAME_H
+

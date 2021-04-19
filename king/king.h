@@ -1,8 +1,9 @@
-#ifndef KING_H
-#define KING_H
-
+#ifndef CHESS_KING_H
+#define CHESS_KING_H
 
 #include "../piece.h"
+#include "../board/board.h"
+#include "../defines.h"
 
 namespace ConsoleChess {
 
@@ -16,7 +17,7 @@ public:
     void UpdateLegalMoves() override;
 
 protected:
-    PieceSet mPieceType = PieceSet::KNIGHT;
+    PieceSet mPieceType = PieceSet::KING;
 
     friend class Board;
 
@@ -25,4 +26,4 @@ protected:
 };
 
 }
-#endif // KING_H
+#endif // CHESS_KING_H

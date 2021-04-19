@@ -1,11 +1,11 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef CHESS_PLAYER_H
+#define CHESS_PLAYER_H
 
 #include <memory>
+#include "defines.h"
 
 namespace ConsoleChess {
 
-#include "defines.h"
 
 class Player
 {
@@ -27,4 +27,4 @@ protected:
 
 }
 
-#endif // PLAYER_H
+#endif // CHESS_PLAYER_H

@@ -92,4 +92,19 @@ int Interface::ChooseRandomColour()
     return  (rand() % 2);
 }
 
+//void Interface::DisplayBoard(const Board & rBoard) const
+//{
+//    std::cout<<"+-+-+-+-+-+-+-+-+\n";
+//    for(unsigned int f=0; f<rBoard.NumberOfFiles; f++)
+//    {
+//        std::cout << "|";
+//        for(unsigned int r=0; r<rBoard.NumberOfRanks; r++)
+//        {
+
+//            std::cout <<"|";
+//        }
+//        std::cout<<"+-+-+-+-+-+-+-+-+\n";
+//    }
+//}
+
 }

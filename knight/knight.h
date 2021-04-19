@@ -1,7 +1,9 @@
-#ifndef KNIGHT_H
-#define KNIGHT_H
+#ifndef CHESS_KNIGHT_H
+#define CHESS_KNIGHT_H
 
 #include "../piece.h"
+#include "../board/board.h"
+#include "../defines.h"
 
 namespace ConsoleChess {
 
@@ -26,4 +28,4 @@ protected:
 
 }
 
-#endif // KNIGHT_H
+#endif // CHESS_KNIGHT_H

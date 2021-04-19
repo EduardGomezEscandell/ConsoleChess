@@ -1,5 +1,5 @@
-#ifndef PIECE_H
-#define PIECE_H
+#ifndef CHESS_PIECE_H
+#define CHESS_PIECE_H
 
 #include "defines.h"
 #include "move.h"
@@ -13,12 +13,9 @@ class Board;
 class Piece
 {
 public:
-    typedef std::shared_ptr<Piece> Pointer;
-    typedef std::shared_ptr<const Piece> ConstPointer;
-
     virtual void UpdateLegalMoves() = 0;
 
-    PieceSet WhatIsIt() {return mPieceType;}
+    PieceSet GetPieceType() {return mPieceType;}
     Colour GetColour() {return mColour;}
 
     const std::vector<Move> & GetMoves() const;
@@ -43,4 +40,4 @@ protected:
 
 }
 
-#endif // PIECE_H
+#endif // CHESS_PIECE_H

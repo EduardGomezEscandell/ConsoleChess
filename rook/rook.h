@@ -1,8 +1,9 @@
 #ifndef ROOK_H
 #define ROOK_H
 
-
 #include "../piece.h"
+#include "../board/board.h"
+#include "../defines.h"
 
 namespace ConsoleChess {
 

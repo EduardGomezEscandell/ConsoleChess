@@ -1,5 +1,4 @@
 #include "knight.h"
-#include "../board/board.h"
 
 namespace ConsoleChess {
 
