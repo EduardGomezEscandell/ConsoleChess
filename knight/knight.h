@@ -16,10 +16,10 @@ public:
         : Piece(rank, file, parent_board, colour){};
 
     void UpdateLegalMoves() override;
+    char GetPieceCharacter() const override;
 
 protected:
     PieceSet mPieceType = PieceSet::KNIGHT;
-
     friend class Board;
 
 

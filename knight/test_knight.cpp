@@ -34,16 +34,27 @@ CHESS_DEFINE_TEST(Movement)
     // Making sure it does not land in an occupied square
     piece->UpdateLegalMoves();
     this->AssertEqualContainers(piece->GetMoves(), expected_moves, "Movement constrained by occupied squares incorrect");
+}
 
+CHESS_DEFINE_TEST(Notation)
+{
+    Knight white_knight = Knight(1,1,nullptr, Colour::WHITE);
+    Knight batman = Knight(1,1,nullptr, Colour::BLACK); // dark knight
+    char c;
 
+    c = white_knight.GetPieceCharacter();
+    this->AssertEqual(c, 'N', "Incorrect notation for white knight");
+
+    c = batman.GetPieceCharacter();
+    this->AssertEqual(c, 'n', "Incorrect notation for black knight");
 }
 
 }
-
 CHESS_TEST_LIST(KnightTestSuite)
 {
     CHESS_TEST_LIST_ITEM(KnightTests::Constructor);
     CHESS_TEST_LIST_ITEM(KnightTests::Movement);
+    CHESS_TEST_LIST_ITEM(KnightTests::Notation);
 }
 
 

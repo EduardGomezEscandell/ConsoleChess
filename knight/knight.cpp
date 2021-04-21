@@ -2,6 +2,11 @@
 
 namespace ConsoleChess {
 
+char Knight::GetPieceCharacter() const
+{
+    static constexpr char c = 'n';
+    return mColour==Colour::BLACK ? c : (c + 'A'-'a'); // Capitalizing white pieces
+}
 
 void Knight::UpdateLegalMoves()
 {

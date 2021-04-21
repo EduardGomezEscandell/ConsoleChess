@@ -9,6 +9,12 @@ King::King(const int & rank, const int & file, const Board * parent_board, const
 
 }
 
+char King::GetPieceCharacter() const
+{
+    static constexpr char c = 'k';
+    return mColour==Colour::BLACK ? c : (c + 'A'-'a'); // Capitalizing white pieces
+}
+
 void King::UpdateLegalMoves()
 {
     mLegalMoves.clear();

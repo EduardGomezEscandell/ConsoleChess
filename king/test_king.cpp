@@ -26,12 +26,26 @@ CHESS_DEFINE_TEST(Movement)
 
 }
 
+CHESS_DEFINE_TEST(Notation)
+{
+    King white_king = King(1,1,nullptr, Colour::WHITE);
+    King black_king = King(1,1,nullptr, Colour::BLACK); // dark knight
+    char c;
+
+    c = white_king.GetPieceCharacter();
+    this->AssertEqual(c, 'K', "Incorrect notation for white knight");
+
+    c = black_king.GetPieceCharacter();
+    this->AssertEqual(c, 'k', "Incorrect notation for black knight");
+}
+
 
 }
 
 CHESS_TEST_LIST(KingTestSuite)
 {
     CHESS_TEST_LIST_ITEM(KingTests::Movement);
+    CHESS_TEST_LIST_ITEM(KingTests::Notation);
 }
 
 

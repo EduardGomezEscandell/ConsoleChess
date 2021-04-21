@@ -15,9 +15,11 @@ public:
     King(const int & rank, const int & file, const Board * parent_board, const Colour & colour);
 
     void UpdateLegalMoves() override;
+    char GetPieceCharacter() const override;
 
 protected:
     PieceSet mPieceType = PieceSet::KING;
+    static constexpr char mNotationCharacter = 'k';
 
     friend class Board;
 

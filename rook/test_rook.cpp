@@ -29,12 +29,27 @@ CHESS_DEFINE_TEST(Movement)
     this->AssertEqualContainers(moves, expected_moves, "Rook non-castling moves incorrect.");
 }
 
+CHESS_DEFINE_TEST(Notation)
+{
+    Rook white_rook = Rook(1,1,nullptr, Colour::WHITE);
+    Rook black_rook = Rook(1,1,nullptr, Colour::BLACK); // dark knight
+    char c;
+
+    c = white_rook.GetPieceCharacter();
+    this->AssertEqual(c, 'R', "Incorrect notation for white knight");
+
+    c = black_rook.GetPieceCharacter();
+    this->AssertEqual(c, 'r', "Incorrect notation for black knight");
+}
+
+
 
 }
 
 CHESS_TEST_LIST(RookTestSuite)
 {
     CHESS_TEST_LIST_ITEM(RookTests::Movement);
+    CHESS_TEST_LIST_ITEM(RookTests::Notation);
 }
 
 

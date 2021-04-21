@@ -20,17 +20,16 @@ public:
 
     std::vector<Move> & GetMoves();
     const std::vector<Move> & GetMoves() const;
+    virtual char GetPieceCharacter() const = 0;
 
 protected:
 
     int mLocation[2];
     const Board * mParentBoard;
-    int mPinDirection;
-
+    std::vector<Move> mLegalMoves;
     PieceSet mPieceType = PieceSet::NONE;
     const Colour mColour = Colour::UNDEFINED;
 
-    std::vector<Move> mLegalMoves;
 
     friend class Board;
 
