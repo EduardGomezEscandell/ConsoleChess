@@ -15,19 +15,19 @@ add_executable(Chess main.cpp
                      king/king.cpp
                      rook/rook.cpp)
 
-#add_executable(ChessTests testing/main_tests.cpp
-#                          testing/tester.cpp
-#                          testing/test_suite.cpp
-#                          testing/test.cpp
-#                          interface.cpp
-#                          game.cpp
-#                          piece.cpp
-#                          move.cpp
-#                          board/board.cpp
-#                          board/test_board.cpp
-#                          knight/knight.cpp
-#                          knight/test_knight.cpp
-#                          king/king.cpp
-#                          king/test_king.cpp
-#                          rook/rook.cpp
-#                          rook/test_rook.cpp)
+add_executable(ChessTests testing/main_tests.cpp
+                          testing/tester.cpp
+                          testing/test_suite.cpp
+                          testing/test.cpp
+                          interface.cpp
+                          game.cpp
+                          piece.cpp
+                          move.cpp
+                          board/board.cpp
+                          board/test_board.cpp
+                          knight/knight.cpp
+                          knight/test_knight.cpp
+                          king/king.cpp
+                          king/test_king.cpp
+                          rook/rook.cpp
+                          rook/test_rook.cpp)
