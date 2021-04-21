@@ -5,6 +5,7 @@
 #include "../rook/rook.h"
 #include <iostream>
 #include <exception>
+#include <memory>
 
 namespace ConsoleChess {
 
@@ -17,14 +18,14 @@ Board::Board()
     }
 }
 
-std::shared_ptr<Piece> & Board::pGetSquareContent(const int & rank, const int & file)
+Piece * Board::pGetSquareContent(const int & rank, const int & file)
 {
-    return mSquares[rank * NumberOfFiles + file];
+    return mSquares[rank * NumberOfFiles + file].get();
 }
 
-const std::shared_ptr<Piece> & Board::pGetSquareContent(const int & rank, const int & file) const
+const Piece * Board::pGetSquareContent(const int & rank, const int & file) const
 {
-    return mSquares[rank * NumberOfFiles + file];
+    return mSquares[rank * NumberOfFiles + file].get();
 }
 
 bool Board::SquareIsEmpty(const int & rank, const int & file)
@@ -32,33 +33,33 @@ bool Board::SquareIsEmpty(const int & rank, const int & file)
     return (mSquares[rank * NumberOfFiles + file] == nullptr);
 }
 
-std::shared_ptr<Piece> Board::CreatePieceInLocation(PieceSet piece_type, const int & rank, const int & file, const Colour & colour)
+Piece * Board::CreatePieceInLocation(PieceSet piece_type, const int & rank, const int & file, const Colour & colour)
 {
-    std::shared_ptr<Piece> & square = pGetSquareContent(rank, file);
-    switch (piece_type) {
+    std::unique_ptr<Piece> & square = mSquares[rank * NumberOfFiles + file];
+    square.reset();
 
+    switch (piece_type) {
     case PieceSet::NONE:
-        square.reset();
         break;
     case PieceSet::KNIGHT:
-        square = std::make_shared<Knight>(rank, file, this, colour);
+        square = std::unique_ptr<Piece>(new Knight(rank, file, this, colour));
         break;
     case PieceSet::KING:
-        square = std::make_shared<King>(rank, file, this, colour);
+        square = std::unique_ptr<Piece>(new King(rank, file, this, colour));
         break;
     case PieceSet::ROOK:
-        square = std::make_shared<Rook>(rank, file, this, colour);
+        square = std::unique_ptr<Piece>(new Rook(rank, file, this, colour));
         break;
     default:
         throw std::invalid_argument("Unknown piece type.");
     }
 
-    return square;
+    return square.get();
 }
 
 Colour Board::GetColourOccupied(const int & rank, const int & file) const
 {
-    const std::shared_ptr<Piece> & p_square = pGetSquareContent(rank, file);
+    const Piece * p_square = pGetSquareContent(rank, file);
 
     if(p_square == nullptr) return Colour::UNDEFINED;
 

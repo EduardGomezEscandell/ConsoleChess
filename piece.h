@@ -15,11 +15,11 @@ class Piece
 public:
     virtual void UpdateLegalMoves() = 0;
 
-    PieceSet GetPieceType() {return mPieceType;}
-    Colour GetColour() {return mColour;}
+    PieceSet GetPieceType() const;
+    Colour GetColour() const;
 
-    const std::vector<Move> & GetMoves() const;
     std::vector<Move> & GetMoves();
+    const std::vector<Move> & GetMoves() const;
 
 protected:
 

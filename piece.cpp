@@ -37,4 +37,14 @@ std::vector<Move> & Piece::GetMoves()
     return mLegalMoves;
 }
 
+PieceSet Piece::GetPieceType() const
+{
+    return mPieceType;
+}
+
+Colour Piece::GetColour() const
+{
+    return mColour;
+}
+
 }

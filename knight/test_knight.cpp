@@ -16,7 +16,7 @@ CHESS_DEFINE_TEST(Movement)
 {
     Board board;
     board.CreatePieceInLocation(PieceSet::KNIGHT, 0, 0, Colour::BLACK);
-    std::shared_ptr<Piece> piece = board(0,0);
+    Piece * piece = board.pGetSquareContent(0,0);
 
 
     std::vector<Move> expected_moves = {{0,0,2,1},

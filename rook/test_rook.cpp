@@ -8,8 +8,8 @@ namespace RookTests {
 CHESS_DEFINE_TEST(Movement)
 {
     Board board;
-    std::shared_ptr<Piece> rook = board.CreatePieceInLocation(PieceSet::ROOK, 3,3, Colour::WHITE);
-    std::shared_ptr<Piece> knight = board.CreatePieceInLocation(PieceSet::KNIGHT, 3, 6, Colour::WHITE); // Knight to obstruct
+    Piece * rook = board.CreatePieceInLocation(PieceSet::ROOK, 3,3, Colour::WHITE);
+    board.CreatePieceInLocation(PieceSet::KNIGHT, 3, 6, Colour::WHITE); // Knight to obstruct
 
     std::vector<Move> expected_moves = {{3,3,0,3},
                                         {3,3,1,3},

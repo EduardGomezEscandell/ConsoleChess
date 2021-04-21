@@ -13,11 +13,10 @@ class Board
 public:
     Board();
 
-    std::shared_ptr<Piece> & pGetSquareContent(const int & rank, const int & file);
-    const std::shared_ptr<Piece> & pGetSquareContent(const int & rank, const int & file) const;
-    std::shared_ptr<Piece> operator()(const int & rank, const int & file) {return pGetSquareContent(rank, file);};
+    Piece * pGetSquareContent(const int & rank, const int & file);
+    const Piece * pGetSquareContent(const int & rank, const int & file) const;
 
-    std::shared_ptr<Piece> CreatePieceInLocation(PieceSet piece_type, const int & rank, const int & file, const Colour & colour);
+    Piece * CreatePieceInLocation(PieceSet piece_type, const int & rank, const int & file, const Colour & colour);
 
     Colour GetColourOccupied(const int & rank, const int & file) const;
     bool SquareIsEmpty(const int & rank, const int & file);
@@ -30,8 +29,7 @@ public:
 
 
 protected:
-    std::shared_ptr<Piece> mSquares[NumberOfSquares];
-    std::vector<std::shared_ptr<Piece>> mPieces;
+    std::unique_ptr<Piece> mSquares[NumberOfSquares];
 };
 
 }

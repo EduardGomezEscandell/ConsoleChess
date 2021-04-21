@@ -9,7 +9,7 @@ namespace KingTests {
 CHESS_DEFINE_TEST(Movement)
 {
     Board board;
-    std::shared_ptr<Piece> king = board.CreatePieceInLocation(PieceSet::KING, 5, 5, Colour::WHITE);
+    Piece * king = board.CreatePieceInLocation(PieceSet::KING, 5, 5, Colour::WHITE);
     board.CreatePieceInLocation(PieceSet::KNIGHT, 6, 6, Colour::WHITE); // Knight to obstruct
 
     std::vector<Move> expected_moves = {{5,5,4,4},
