@@ -27,10 +27,16 @@ public:
     const static int NumberOfRanks = 8;
     const static int NumberOfSquares = NumberOfRanks * NumberOfFiles;
 
+    void SetUpInitialPieces();
+
+    std::string Display() const;
+
 
 protected:
     std::unique_ptr<Piece> mSquares[NumberOfSquares];
 };
+
+std::ostream& operator<<(std::ostream& os, const Board& b);
 
 }
 

@@ -6,6 +6,7 @@
 #include <iostream>
 #include <exception>
 #include <memory>
+#include <sstream>
 
 namespace ConsoleChess {
 
@@ -73,6 +74,62 @@ std::string Board::GetSquareName(unsigned int rank, unsigned int file)
     s.push_back('a' + file);
     s.push_back('1' + rank);
     return s;
+}
+
+void Board::SetUpInitialPieces()
+{
+    // Rooks
+    CreatePieceInLocation(PieceSet::ROOK, 0, 0, Colour::WHITE);
+    CreatePieceInLocation(PieceSet::ROOK, 0, 7, Colour::WHITE);
+    CreatePieceInLocation(PieceSet::ROOK, 7, 0, Colour::BLACK);
+    CreatePieceInLocation(PieceSet::ROOK, 7, 7, Colour::BLACK);
+
+    // Knights
+    CreatePieceInLocation(PieceSet::KNIGHT, 0, 1, Colour::WHITE);
+    CreatePieceInLocation(PieceSet::KNIGHT, 0, 6, Colour::WHITE);
+    CreatePieceInLocation(PieceSet::KNIGHT, 7, 1, Colour::BLACK);
+    CreatePieceInLocation(PieceSet::KNIGHT, 7, 6, Colour::BLACK);
+
+    // Bishops
+    //wip
+
+    // Queens
+    // wip
+
+    // Kings
+    CreatePieceInLocation(PieceSet::KING, 0, 4, Colour::WHITE);
+    CreatePieceInLocation(PieceSet::KING, 7, 4, Colour::BLACK);
+}
+
+std::string Board::Display() const
+{
+    std::stringstream ss;
+    ss<<"+---+---+---+---+---+---+---+---+\n";
+    for(int r=this->NumberOfRanks-1; r>=0; r--)
+    {
+        ss << "|";
+        for(int f=0; f < this->NumberOfFiles; f++)
+        {
+            const Piece * piece = this->pGetSquareContent(r,f);
+            if(piece)
+            {
+                ss << ' ' << piece->GetPieceCharacter() << ' ';
+            } else
+            {
+                ss <<"   ";
+            }
+
+            ss <<"|";
+        }
+        ss<<"\n+---+---+---+---+---+---+---+---+\n";
+    }
+    return ss.str();
+}
+
+std::ostream& operator<<(std::ostream& os, const Board& b)
+{
+    os << b.Display();
+    return os;
 }
 
 }

@@ -3,6 +3,7 @@
 
 #include<memory>
 #include "player.h"
+#include "board/board.h"
 
 namespace ConsoleChess   {
 
@@ -15,7 +16,7 @@ public:
 
 protected:
     std::unique_ptr<Player> mPlayers[2];
-
+    Board mBoard;
 };
 
 }

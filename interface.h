@@ -17,8 +17,7 @@ public:
 
     static int Intro();
 
-    void AskMove();
-    void DisplayBoard(const Board & rBoard) const;
+    static void DisplayBoard(const Board & rBoard);
 
 protected:
 
