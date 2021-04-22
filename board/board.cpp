@@ -5,6 +5,7 @@
 #include "../rook/rook.h"
 #include "../bishop/bishop.h"
 #include "../queen/queen.h"
+#include "../pawn/pawn.h"
 #include <iostream>
 #include <exception>
 #include <memory>
@@ -76,6 +77,9 @@ Piece * Board::CreatePieceInLocation(PieceSet piece_type, const int & rank, cons
     case PieceSet::QUEEN:
         square = std::unique_ptr<Piece>(new Queen(rank, file, this, colour));
         break;
+    case PieceSet::PAWN:
+        square = std::unique_ptr<Piece>(new Pawn(rank, file, this, colour));
+        break;
     default:
         throw std::invalid_argument("Unknown piece type.");
     }
@@ -116,14 +120,25 @@ void Board::SetUpInitialPieces()
     CreatePieceInLocation(PieceSet::KNIGHT, 7, 6, Colour::BLACK);
 
     // Bishops
-    //wip
+    CreatePieceInLocation(PieceSet::BISHOP, 0, 2, Colour::WHITE);
+    CreatePieceInLocation(PieceSet::BISHOP, 0, 5, Colour::WHITE);
+    CreatePieceInLocation(PieceSet::BISHOP, 7, 2, Colour::BLACK);
+    CreatePieceInLocation(PieceSet::BISHOP, 7, 5, Colour::BLACK);
 
     // Queens
-    // wip
+    CreatePieceInLocation(PieceSet::QUEEN, 0, 3, Colour::WHITE);
+    CreatePieceInLocation(PieceSet::QUEEN, 7, 3, Colour::BLACK);
 
     // Kings
     CreatePieceInLocation(PieceSet::KING, 0, 4, Colour::WHITE);
     CreatePieceInLocation(PieceSet::KING, 7, 4, Colour::BLACK);
+
+    // Pawns
+    for(unsigned int i=0; i<Board::NumberOfFiles; i++)
+    {
+        CreatePieceInLocation(PieceSet::PAWN, 1, i, Colour::WHITE);
+        CreatePieceInLocation(PieceSet::PAWN, 6, i, Colour::BLACK);
+    }
 }
 
 std::string Board::Display() const

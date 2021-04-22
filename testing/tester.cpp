@@ -6,6 +6,7 @@
 #include "../rook/test_rook.h"
 #include "../bishop/test_bishop.h"
 #include "../queen/test_queen.h"
+#include "../pawn/test_pawn.h"
 #include "../board/test_board.h"
 
 namespace ConsoleChess {
@@ -18,6 +19,7 @@ Tester::Tester(const Verbosity & verbosity) :
     mTestSuites.emplace_back(new RookTestSuite(mVerbosity));
     mTestSuites.emplace_back(new BishopTestSuite(mVerbosity));
     mTestSuites.emplace_back(new QueenTestSuite(mVerbosity));
+    mTestSuites.emplace_back(new PawnTestSuite(mVerbosity));
     mTestSuites.emplace_back(new BoardTestSuite(mVerbosity));
 }
 

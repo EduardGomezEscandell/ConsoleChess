@@ -16,7 +16,8 @@ add_executable(Chess main.cpp
                      king/king.cpp
                      rook/rook.cpp
                      bishop/bishop.cpp
-                     queen/queen.cpp)
+                     queen/queen.cpp
+                     pawn/pawn.cpp)
 
 add_executable(ChessTests testing/main_tests.cpp
                           testing/tester.cpp
@@ -38,4 +39,6 @@ add_executable(ChessTests testing/main_tests.cpp
                           bishop/bishop.cpp
                           bishop/test_bishop.cpp
                           queen/queen.cpp
-                          queen/test_queen.cpp)
+                          queen/test_queen.cpp
+                          pawn/pawn.cpp
+                          pawn/test_pawn.cpp)

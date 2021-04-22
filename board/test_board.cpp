@@ -51,6 +51,7 @@ CHESS_DEFINE_TEST(FullPieceSet)
     board.CreatePieceInLocation(PieceSet::ROOK,   0, 7, Colour::WHITE);
     board.CreatePieceInLocation(PieceSet::BISHOP, 0, 3, Colour::WHITE);
     board.CreatePieceInLocation(PieceSet::QUEEN,  0, 5, Colour::WHITE);
+    board.CreatePieceInLocation(PieceSet::PAWN,   1, 0, Colour::WHITE);
 }
 
 CHESS_DEFINE_TEST(CopyConstructor)
