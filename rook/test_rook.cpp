@@ -31,14 +31,14 @@ CHESS_DEFINE_TEST(Movement)
 CHESS_DEFINE_TEST(Notation)
 {
     Rook white_rook = Rook(1,1,nullptr, Colour::WHITE);
-    Rook black_rook = Rook(1,1,nullptr, Colour::BLACK); // dark knight
+    Rook black_rook = Rook(1,1,nullptr, Colour::BLACK);
     char c;
 
     c = white_rook.GetPieceCharacter();
-    this->AssertEqual(c, 'R', "Incorrect notation for white knight");
+    this->AssertEqual(c, 'R', "Incorrect notation for white rook");
 
     c = black_rook.GetPieceCharacter();
-    this->AssertEqual(c, 'r', "Incorrect notation for black knight");
+    this->AssertEqual(c, 'r', "Incorrect notation for black rook");
 }
 
 
