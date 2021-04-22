@@ -13,7 +13,8 @@ add_executable(Chess main.cpp
                      board/board.cpp
                      knight/knight.cpp
                      king/king.cpp
-                     rook/rook.cpp)
+                     rook/rook.cpp
+                     bishop/bishop.cpp)
 
 add_executable(ChessTests testing/main_tests.cpp
                           testing/tester.cpp
@@ -30,4 +31,6 @@ add_executable(ChessTests testing/main_tests.cpp
                           king/king.cpp
                           king/test_king.cpp
                           rook/rook.cpp
-                          rook/test_rook.cpp)
+                          rook/test_rook.cpp
+                          bishop/bishop.cpp
+                          bishop/test_bishop.cpp)

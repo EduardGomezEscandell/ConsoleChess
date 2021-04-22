@@ -27,6 +27,15 @@ bool Piece::CheckDestinationSquare(const int & rank, const int & file) const
     return true;
 }
 
+bool Piece::CheckIfCaptures(const int & rank, const int & file) const
+{
+    const Colour opposite_colour = this->mColour==Colour::WHITE ? Colour::BLACK : Colour::WHITE;
+
+    if(mParentBoard->GetColourOccupied(rank, file) == opposite_colour) return true;
+
+    return false;
+}
+
 const std::vector<Move> & Piece::GetMoves() const
 {
     return mLegalMoves;

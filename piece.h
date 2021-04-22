@@ -35,6 +35,7 @@ protected:
 
     Piece(const int & rank, const int & file, const Board * parent_board, const Colour & colour);
     bool CheckDestinationSquare(const int & rank, const int & file) const;
+    bool CheckIfCaptures(const int & rank, const int & file) const;
 };
 
 }

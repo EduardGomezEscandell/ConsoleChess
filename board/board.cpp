@@ -3,6 +3,7 @@
 #include "../knight/knight.h"
 #include "../king/king.h"
 #include "../rook/rook.h"
+#include "../bishop/bishop.h"
 #include <iostream>
 #include <exception>
 #include <memory>
@@ -50,6 +51,9 @@ Piece * Board::CreatePieceInLocation(PieceSet piece_type, const int & rank, cons
         break;
     case PieceSet::ROOK:
         square = std::unique_ptr<Piece>(new Rook(rank, file, this, colour));
+        break;
+    case PieceSet::BISHOP:
+        square = std::unique_ptr<Piece>(new Bishop(rank, file, this, colour));
         break;
     default:
         throw std::invalid_argument("Unknown piece type.");
