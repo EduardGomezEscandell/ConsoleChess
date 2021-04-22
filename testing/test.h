@@ -69,7 +69,22 @@ protected:
         if(t == u) return;
 
         std::stringstream ss;
-        ss << "Comparisson error: " << t << " is not equal to " << u;
+        ss << "AssertEqual error: " << t << " is not equal to " << u;
+        if(msg[0] != '\0')
+        {
+            ss << "\n" << msg;
+        }
+
+        throw TestFailure(ss.str());
+    }
+
+    template<typename T, typename U>
+    void AssertDifferent(const T & t, const U & u, const char * msg = "") const
+    {
+        if(!(t == u)) return;
+
+        std::stringstream ss;
+        ss << "AssertDifferent error: " << t << " is equal to " << u;
         if(msg[0] != '\0')
         {
             ss << "\n" << msg;
@@ -84,7 +99,7 @@ protected:
         if(t) return;
 
         std::stringstream ss;
-        ss << "Truth error: " << t << " is not true";
+        ss << "AssertTrue error: " << t << " is not true";
         if(msg[0] != '\0')
         {
             ss << "\n" << msg;
@@ -99,7 +114,7 @@ protected:
         if(c1.size() != c2.size())
         {
             std::stringstream ss;
-            ss << "Containers have different size: " << c1.size() << " versus " << c2.size() <<".";
+            ss << "AssertEqualContainers error: Containers have different size: " << c1.size() << " versus " << c2.size() <<".";
             if(msg[0] != '\0')
             {
                 ss << "\n" << msg;
@@ -114,7 +129,7 @@ protected:
             if(r == c2.end())
             {
                 std::stringstream ss;
-                ss << "Object " << e << " in container 1 not present in container 2.";
+                ss << "AssertEqualContainers error: Object " << e << " in container 1 not present in container 2.";
                 if(msg[0] != '\0')
                 {
                     ss << "\n" << msg;
@@ -130,7 +145,7 @@ protected:
             if(r == c1.end())
             {
                 std::stringstream ss;
-                ss << "Object " << e << " in container 2 not present in container 1.";
+                ss << "AssertEqualContainers error: Object " << e << " in container 2 not present in container 1.";
                 if(msg[0] != '\0')
                 {
                     ss << "\n" << msg;

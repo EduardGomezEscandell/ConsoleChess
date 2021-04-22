@@ -1,6 +1,8 @@
 #ifndef CHESS_DEFINES_H
 #define CHESS_DEFINES_H
 
+#include <ostream>
+
 namespace ConsoleChess {
 
 enum class Result
@@ -34,6 +36,8 @@ enum class Colour
     UNDEFINED
 };
 
+
+std::ostream& operator<<(std::ostream& os, const PieceSet& p);
 
 }
 

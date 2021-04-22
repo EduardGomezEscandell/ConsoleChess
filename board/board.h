@@ -13,6 +13,8 @@ class Board
 public:
     Board();
 
+    Board(const Board & rRHS);
+
     Piece * pGetSquareContent(const int & rank, const int & file);
     const Piece * pGetSquareContent(const int & rank, const int & file) const;
 

@@ -53,6 +53,22 @@ CHESS_DEFINE_TEST(FullPieceSet)
     board.CreatePieceInLocation(PieceSet::QUEEN,  0, 5, Colour::WHITE);
 }
 
+CHESS_DEFINE_TEST(CopyConstructor)
+{
+    Board board;
+    board.CreatePieceInLocation(PieceSet::KING, 5, 5, Colour::BLACK);
+    Piece * original = board.pGetSquareContent(5,5);
+
+    Board new_board = board;
+    Piece * new_king = new_board.pGetSquareContent(5,5);
+
+    this->AssertDifferent(new_king, static_cast<Piece *>(nullptr));     // Ensuring there is something
+    this->AssertEqual(new_king->GetPieceType(), PieceSet::KING);        // Ensuring there is a king
+
+    this->AssertDifferent(original, new_king);                          // Ensuring the new piece is different instance
+}
+
+
 }
 
 
@@ -62,6 +78,7 @@ CHESS_TEST_LIST(BoardTestSuite)
     CHESS_TEST_LIST_ITEM(BoardTests::Constructor)
     CHESS_TEST_LIST_ITEM(BoardTests::CreatePiece)
     CHESS_TEST_LIST_ITEM(BoardTests::FullPieceSet)
+    CHESS_TEST_LIST_ITEM(BoardTests::CopyConstructor)
 }
 
 

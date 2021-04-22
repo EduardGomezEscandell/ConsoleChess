@@ -21,6 +21,23 @@ Board::Board()
     }
 }
 
+Board::Board(const Board & rRHS)
+{
+    for(int i=0; i<NumberOfSquares; i++)
+    {
+        if(rRHS.mSquares[i])
+        {
+            mSquares[i] = std::unique_ptr<Piece>(rRHS.mSquares[i]->Clone(this));
+        }
+        else
+        {
+            mSquares[i] = nullptr;
+        }
+    }
+}
+
+
+
 Piece * Board::pGetSquareContent(const int & rank, const int & file)
 {
     return mSquares[rank * NumberOfFiles + file].get();
