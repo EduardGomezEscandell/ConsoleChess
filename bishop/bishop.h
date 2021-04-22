@@ -22,8 +22,6 @@ protected:
     static constexpr char mNotationCharacter = 'r';
 
     friend class Board;
-
-    void UpdateMovesInDirection(const int delta_r, const int delta_f);
 };
 
 }

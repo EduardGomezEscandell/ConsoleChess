@@ -56,4 +56,40 @@ Colour Piece::GetColour() const
     return mColour;
 }
 
+/**
+ * @brief Piece::StraightLineMoveUpdate adds moves that are in the same line (same rank, file or diagonal in one of the two directions).
+ * Stops at the end of the board, at same-colour piece and at oposite piece.
+ * @param delta_r
+ * @param delta_f
+ */
+void Piece::StraightLineMoveUpdate(const int delta_r, const int delta_f)
+{
+    const int initial_rank = mLocation[0];
+    const int initial_file = mLocation[1];
+
+    int r = initial_rank;
+    int f = initial_file;
+
+    for(int k=0; k < Board::NumberOfSquares; k++)
+    {
+        r += delta_r;
+        f += delta_f;
+
+        if(CheckDestinationSquare(r, f))
+        {
+            mLegalMoves.emplace_back(initial_rank, initial_file, r, f);
+
+            if(CheckIfCaptures(r,f))
+            {
+                break; // Cannot move beyond capture
+            }
+
+        } else
+        {
+            break; // Cannot move to square occupied by same-colour piece or beyond board's edge
+        }
+    }
+}
+
+
 }
