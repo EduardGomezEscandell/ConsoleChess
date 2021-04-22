@@ -13,14 +13,12 @@ class Queen : public Piece
 {
 public:
     Queen(const int & rank, const int & file, const Board * parent_board, const Colour & colour);
+    Piece * Clone(const Board * parent_board) const override;
 
     void UpdateLegalMoves() override;
     char GetPieceCharacter() const override;
 
 protected:
-    PieceSet mPieceType = PieceSet::QUEEN;
-    static constexpr char mNotationCharacter = 'r';
-
     friend class Board;
 };
 

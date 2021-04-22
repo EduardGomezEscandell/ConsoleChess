@@ -39,6 +39,12 @@ CHESS_DEFINE_TEST(Notation)
     this->AssertEqual(c, 'k', "Incorrect notation for black knight");
 }
 
+CHESS_DEFINE_TEST(PieceType)
+{
+    King k = King(1,1,nullptr, Colour::BLACK);
+    this->AssertEqual(k.GetPieceType(), PieceSet::KING);
+}
+
 
 }
 
@@ -46,6 +52,7 @@ CHESS_TEST_LIST(KingTestSuite)
 {
     CHESS_TEST_LIST_ITEM(KingTests::Movement);
     CHESS_TEST_LIST_ITEM(KingTests::Notation);
+    CHESS_TEST_LIST_ITEM(KingTests::PieceType);
 }
 
 

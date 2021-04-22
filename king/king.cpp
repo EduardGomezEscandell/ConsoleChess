@@ -3,17 +3,7 @@
 namespace ConsoleChess {
 
 
-King::King(const int & rank, const int & file, const Board * parent_board, const Colour & colour)
-    : Piece(rank, file, parent_board, colour)
-{
-
-}
-
-char King::GetPieceCharacter() const
-{
-    static constexpr char c = 'k';
-    return mColour==Colour::BLACK ? c : (c + 'A'-'a'); // Capitalizing white pieces
-}
+CHESS_DEFINE_PIECE_BOILERPLATE(King, KING, 'k');
 
 void King::UpdateLegalMoves()
 {

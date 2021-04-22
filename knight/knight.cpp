@@ -2,11 +2,7 @@
 
 namespace ConsoleChess {
 
-char Knight::GetPieceCharacter() const
-{
-    static constexpr char c = 'n';
-    return mColour==Colour::BLACK ? c : (c + 'A'-'a'); // Capitalizing white pieces
-}
+CHESS_DEFINE_PIECE_BOILERPLATE(Knight, KNIGHT, 'n');
 
 void Knight::UpdateLegalMoves()
 {

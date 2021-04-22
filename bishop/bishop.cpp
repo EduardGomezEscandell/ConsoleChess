@@ -2,19 +2,7 @@
 
 namespace ConsoleChess {
 
-
-Bishop::Bishop(const int & rank, const int & file, const Board * parent_board, const Colour & colour)
-    : Piece(rank, file, parent_board, colour)
-{
-
-}
-
-char Bishop::GetPieceCharacter() const
-{
-    static constexpr char c = 'b';
-    return mColour==Colour::BLACK ? c : (c + 'A'-'a'); // Capitalizing white pieces
-}
-
+CHESS_DEFINE_PIECE_BOILERPLATE(Bishop, BISHOP, 'b');
 
 void Bishop::UpdateLegalMoves()
 {

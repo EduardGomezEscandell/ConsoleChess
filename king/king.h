@@ -13,14 +13,12 @@ class King : public Piece
 {
 public:
     King(const int & rank, const int & file, const Board * parent_board, const Colour & colour);
+    Piece * Clone(const Board * parent_board) const override;
 
     void UpdateLegalMoves() override;
     char GetPieceCharacter() const override;
 
 protected:
-    PieceSet mPieceType = PieceSet::KING;
-    static constexpr char mNotationCharacter = 'k';
-
     friend class Board;
 
     bool mHasCastled = false;

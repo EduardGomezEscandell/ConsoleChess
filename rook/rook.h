@@ -13,14 +13,12 @@ class Rook : public Piece
 {
 public:
     Rook(const int & rank, const int & file, const Board * parent_board, const Colour & colour);
+    Piece * Clone(const Board * parent_board) const override;
 
     void UpdateLegalMoves() override;
     char GetPieceCharacter() const override;
 
 protected:
-    PieceSet mPieceType = PieceSet::ROOK;
-    static constexpr char mNotationCharacter = 'r';
-
     friend class Board;
 
     bool mHasMoved = false;

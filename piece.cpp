@@ -10,6 +10,12 @@ Piece::Piece(const int & rank, const int & file, const Board * parent_board, con
 {
     mLocation[0] = rank;
     mLocation[1] = file;
+    mPieceType = PieceSet::NONE;
+}
+
+void Piece::ChangeBoard(const Board * rNewBoard)
+{
+    this->mParentBoard = rNewBoard;
 }
 
 /**
