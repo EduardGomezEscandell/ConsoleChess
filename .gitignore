@@ -73,3 +73,10 @@ Thumbs.db
 
 # CMake files
 *CMakeLists.txt.user
+
+#Builds
+build/
+build-*/
+
+# Executable
+ConsoleChess

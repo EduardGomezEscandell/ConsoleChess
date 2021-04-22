@@ -5,7 +5,7 @@ project(Chess LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(Chess main.cpp
+add_executable(ConsoleChess main.cpp
                      defines.cpp
                      interface.cpp
                      game.cpp
@@ -19,7 +19,7 @@ add_executable(Chess main.cpp
                      queen/queen.cpp
                      pawn/pawn.cpp)
 
-add_executable(ChessTests testing/main_tests.cpp
+add_executable(ConsoleChessTests testing/main_tests.cpp
                           testing/tester.cpp
                           testing/test_suite.cpp
                           testing/test.cpp
