@@ -13,7 +13,3 @@ cmake --build .
 
 cd $PROJECT_DIR
 
-if test -f "$EXECUTABLE"; then
-	rm "$EXECUTABLE"
-fi
-ln -s "$BUILD_DIR/$EXECUTABLE" .
