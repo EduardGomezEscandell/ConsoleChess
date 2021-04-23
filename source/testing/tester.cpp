@@ -8,6 +8,7 @@
 #include "../queen/test_queen.h"
 #include "../pawn/test_pawn.h"
 #include "../board/test_board.h"
+#include "../interface/test_interface.h"
 
 namespace ConsoleChess {
 
@@ -21,6 +22,7 @@ Tester::Tester(const Verbosity & verbosity) :
     mTestSuites.emplace_back(new QueenTestSuite(mVerbosity));
     mTestSuites.emplace_back(new PawnTestSuite(mVerbosity));
     mTestSuites.emplace_back(new BoardTestSuite(mVerbosity));
+    mTestSuites.emplace_back(new InterfaceTestSuite(mVerbosity));
 }
 
 void Tester::Print(const Verbosity & minimum_verbosity, const char * message) const

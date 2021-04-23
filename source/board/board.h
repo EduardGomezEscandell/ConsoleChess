@@ -23,7 +23,7 @@ public:
     Colour GetColourOccupied(const int & rank, const int & file) const;
     bool SquareIsEmpty(const int & rank, const int & file);
 
-    static std::string GetSquareName(unsigned int rank, unsigned int file);
+    static std::string GetSquareName(int rank, int file);
 
     const static int NumberOfFiles = 8;
     const static int NumberOfRanks = 8;

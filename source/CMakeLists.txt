@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(ConsoleChess main.cpp
                      defines.cpp
-                     interface.cpp
+                     interface/interface.cpp
                      game.cpp
                      piece.cpp
                      move.cpp
@@ -24,7 +24,8 @@ add_executable(ConsoleChessTests testing/main_tests.cpp
                           testing/test_suite.cpp
                           testing/test.cpp
                           defines.cpp
-                          interface.cpp
+                          interface/interface.cpp
+                          interface/test_interface.cpp
                           game.cpp
                           piece.cpp
                           move.cpp
