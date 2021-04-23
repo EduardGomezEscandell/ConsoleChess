@@ -22,6 +22,83 @@ Board::Board()
     }
 }
 
+std::tuple<PieceSet, Colour> Board::GetPieceFromFEN(char c)
+{
+    Colour col = Colour::UNDEFINED;
+    if(c >= 'a' && c <= 'z')
+    {
+        col = Colour::BLACK;
+        c += 'A' - 'a'; // Capitalizing
+    } 
+    else if(c >= 'A' && c <= 'Z')
+    {
+        col = Colour::WHITE;
+    }
+
+    PieceSet piece;
+    switch (c)
+    {
+        case 'P':   piece = PieceSet::PAWN;     break;
+        case 'R':   piece = PieceSet::ROOK;     break;
+        case 'B':   piece = PieceSet::BISHOP;   break;
+        case 'Q':   piece = PieceSet::QUEEN;    break;
+        case 'K':   piece = PieceSet::KING;     break;
+        case 'N':   piece = PieceSet::KNIGHT;   break;
+        default:    piece = PieceSet::NONE;
+    }
+
+    return std::tie(piece, col);
+}
+
+
+/**
+ * FEN constructor. Initializes the board according to Forsyth–Edwards Notation
+ */
+Board::Board(const std::string & rFen)
+{
+    for(int i=0; i<NumberOfSquares; i++)
+    {
+        mSquares[i] = nullptr;
+    }
+    
+    // Reading position block
+    unsigned int file = 0;
+    unsigned int rank = 7;
+    for(const char& c: rFen)
+    {
+        if(c==' ') break; // End of block
+
+        if(c=='/') // End of rank
+        {
+            file = 0;
+            rank--;
+        }
+        else if(c >= '0' && c <= '9') // Empty squares
+        {
+            file += (c - '0');
+        }
+        else
+        {
+            Colour col;
+            PieceSet piece_type;
+            std::tie(piece_type, col) = GetPieceFromFEN(c);
+
+            if(piece_type == PieceSet::NONE)
+            {
+                std::stringstream ss;
+                ss << "Unexpected character when reading FEN : " << c << "\n";
+                throw std::runtime_error(ss.str());
+            }
+
+            this->CreatePieceInLocation(piece_type, rank, file, col);
+            file++;
+        }
+    }
+
+    // TODO: Read the rest of the blocks
+
+}
+
 Board::Board(const Board & rRHS)
 {
     for(int i=0; i<NumberOfSquares; i++)

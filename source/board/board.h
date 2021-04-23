@@ -12,7 +12,7 @@ class Board
 {
 public:
     Board();
-
+    Board(const std::string & rFen);
     Board(const Board & rRHS);
 
     Piece * pGetSquareContent(const int & rank, const int & file);
@@ -36,6 +36,7 @@ public:
 
 protected:
     std::unique_ptr<Piece> mSquares[NumberOfSquares];
+    static std::tuple<PieceSet, Colour> GetPieceFromFEN(char c);
 };
 
 std::ostream& operator<<(std::ostream& os, const Board& b);

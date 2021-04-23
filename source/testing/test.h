@@ -63,8 +63,23 @@ protected:
     virtual void RunTest() const = 0;
     Test() {}
 
-    template<typename T, typename U>
-    void AssertEqual(const T & t, const U & u, const char * msg = "") const
+    template<typename T, typename Tstring=const char *>
+    void AssertTrue(const T& t, const Tstring& msg = "")
+    {
+        if(t) return;
+
+        std::stringstream ss;
+        ss << "AssertTrue error: " << t << " does not evaluate to true";
+        if(msg[0] != '\0')
+        {
+            ss << "\n" << msg;
+        }
+
+        throw TestFailure(ss.str());
+    }
+
+    template<typename T, typename U, typename Tstring=const char *>
+    void AssertEqual(const T & t, const U & u, const Tstring& msg = "") const
     {
         if(t == u) return;
 
@@ -78,8 +93,8 @@ protected:
         throw TestFailure(ss.str());
     }
 
-    template<typename T, typename U>
-    void AssertDifferent(const T & t, const U & u, const char * msg = "") const
+    template<typename T, typename U, typename Tstring=const char *>
+    void AssertDifferent(const T & t, const U & u, const Tstring& msg = "") const
     {
         if(!(t == u)) return;
 
@@ -93,8 +108,8 @@ protected:
         throw TestFailure(ss.str());
     }
 
-    template<typename T>
-    void AssertTrue(const T & t, const char * msg = "") const
+    template<typename T, typename Tstring=const char *>
+    void AssertTrue(const T & t, const Tstring& msg = "") const
     {
         if(t) return;
 
@@ -108,8 +123,23 @@ protected:
         throw TestFailure(ss.str());
     }
 
-    template<typename T1, typename T2>
-    void AssertEqualContainers(const T1 & c1, const T2 & c2, const char * msg = "") const
+    template<typename T, typename Tstring=const char *>
+    void AssertFalse(const T & t, const Tstring& msg = "") const
+    {
+        if(!t) return;
+
+        std::stringstream ss;
+        ss << "AssertFalse error: " << t << " is not false";
+        if(msg[0] != '\0')
+        {
+            ss << "\n" << msg;
+        }
+
+        throw TestFailure(ss.str());
+    }
+
+    template<typename T1, typename T2, typename Tstring=const char *>
+    void AssertEqualContainers(const T1 & c1, const T2 & c2, const Tstring& msg = "") const
     {
         if(c1.size() != c2.size())
         {
