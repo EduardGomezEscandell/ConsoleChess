@@ -17,6 +17,8 @@ public:
 protected:
     std::unique_ptr<Player> mPlayers[2];
     Board mBoard;
+
+    bool PlayerTurn(const unsigned int turn_number);
 };
 
 }

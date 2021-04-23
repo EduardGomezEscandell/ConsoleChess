@@ -30,7 +30,6 @@ protected:
 
     static PieceSet GetPieceFromChar(const char c);
 
-
 };
 
 }
