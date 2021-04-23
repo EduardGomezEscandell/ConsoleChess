@@ -80,3 +80,6 @@ build-*/
 
 # Executable
 ConsoleChess
+
+# Visual studio files
+.vscode/
