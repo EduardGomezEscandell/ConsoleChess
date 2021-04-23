@@ -40,7 +40,7 @@ Long term goals:
 CMake can be used. Compilation script `build.sh` is provided for linux users. For other platforms you can use the file in `source/CMakeLists.txt`.
 
 ### Test
-If you build it, two executables are generated. `ConsoleChess` runs the game. `build/ChessTests <verbosity>` runs the unit tests. Call it with different levels of verbosity (0--2) to see more or fewer details.
+If you build it, two executables are generated. `build/Release/ConsoleChess` runs the game. `build/Release/ChessTests <verbosity>` runs the unit tests. Call it with different levels of verbosity (0--2) to see more or fewer details.
 
 ### Play
 Wait for a few weeks while I implement the features in my free time. Then build the project and run `ConsoleChess`. Pick a colour and input your moves as requested. Either find a friend to play with or wait for a while longer while I implement an AI.
