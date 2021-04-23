@@ -15,6 +15,13 @@ Short-term goals:
 - Implement castling rules
 - Implement en passant
 - Implement algebraic notation IO
+- Check for end-game conditions:
+  - Stalemate
+  - Checkmate
+  - Draw by repetition
+  - Draw via the 50 move rule
+  - Draw by agreement
+  - Resignation
 
 Mid-term goals:
 - Impement the gameflow
@@ -24,6 +31,7 @@ Mid-term goals:
 Long term goals:
 - Implement a rudimentary chess engine
 - Use stockfish as an oponent
+- Implement a rudimentary evaluation score
 - Implement a GUI
 
 ## How-to ...
