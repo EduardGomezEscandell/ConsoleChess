@@ -29,11 +29,22 @@ jobs:
     - name: Build
       # Build your program with the given configuration
       run: cmake --build .
+      
+    - name: 'Upload Artifact'
+      uses: actions/upload-artifact@v2
+      with:
+        name: test_binary
+        path: ConsoleChessTests
+        retention-days: 1
   
   test:
     runs-on: ubuntu-latest
     needs: build
     steps:
+    - name: Download a single artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: test_binary
     - name: Perform unit tests
       run: ./ConsoleChessTests
 
