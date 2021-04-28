@@ -11,7 +11,7 @@ env:
   BUILD_TYPE: Debug
 
 jobs:
-  build:
+  build_and_test:
     # The CMake configure and build commands are platform agnostic and should work equally
     # well on Windows or Mac.  You can convert this to a matrix build if you need
     # cross-platform coverage.
@@ -29,22 +29,6 @@ jobs:
     - name: Build
       # Build your program with the given configuration
       run: cmake --build .
-      
-    - name: 'Upload Artifact'
-      uses: actions/upload-artifact@v2
-      with:
-        name: test_binary
-        path: ConsoleChessTests
-        retention-days: 1
-  
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Download a single artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: test_binary
+
     - name: Perform unit tests
       run: ./ConsoleChessTests
-
