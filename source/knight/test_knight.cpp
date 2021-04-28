@@ -15,8 +15,7 @@ CHESS_DEFINE_TEST(Constructor)
 CHESS_DEFINE_TEST(Movement)
 {
     Board board;
-    board.CreatePieceInLocation(PieceSet::KNIGHT, 0, 0, Colour::BLACK);
-    Piece * piece = board.pGetSquareContent(0,0);
+    Piece * knight = board.CreatePieceInLocation(PieceSet::KNIGHT, 0, 0, Colour::BLACK);
 
 
     std::vector<Move> expected_moves = {{0,0,2,1},
@@ -24,16 +23,25 @@ CHESS_DEFINE_TEST(Movement)
                                        };
 
     // Making sure it does not move outside the board
-    piece->UpdateLegalMoves();
-    this->AssertEqualContainers(piece->GetMoves(), expected_moves, "Unconstrained movement incorrect");
+    knight->UpdateLegalMoves();
+    this->AssertEqualContainers(knight->GetMoves(), expected_moves, "Unconstrained movement incorrect");
 
     expected_moves.clear();
     expected_moves.emplace_back(0,0,2,1);
 
     board.CreatePieceInLocation(PieceSet::KNIGHT, 1,2, Colour::BLACK);
     // Making sure it does not land in an occupied square
-    piece->UpdateLegalMoves();
-    this->AssertEqualContainers(piece->GetMoves(), expected_moves, "Movement constrained by occupied squares incorrect");
+    knight->UpdateLegalMoves();
+    this->AssertEqualContainers(knight->GetMoves(), expected_moves, "Movement constrained by occupied squares incorrect");
+
+    for(const Move & m : knight->GetMoves())
+    {   
+        Square & s = board.GetSquare(m.landing_rank, m.landing_file);
+        bool is_attacked = s.IsAttackedBy(knight->GetColour());
+        std::stringstream ss;
+        ss << "Knight available square is not attacked (" << s.GetName() << ")" <<std::endl;
+        this->AssertTrue(is_attacked, ss.str());
+    }
 }
 
 CHESS_DEFINE_TEST(Notation)

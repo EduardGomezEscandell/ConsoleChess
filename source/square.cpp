@@ -13,8 +13,8 @@ Square::Square() :
 
 void Square::SetLocation(const unsigned int Rank, const unsigned int File, Board * pOwner)
 {
-    mFile = File;
     mRank = Rank;
+    mFile = File;
     mpOwner = pOwner;
 }
 
@@ -113,6 +113,11 @@ std::string Square::GetName(int rank, int file)
     }
 
     return s;
+}
+
+std::string Square::GetName() const
+{
+    return Square::GetName(mRank, mFile);
 }
 
 

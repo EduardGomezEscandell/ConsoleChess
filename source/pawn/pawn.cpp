@@ -19,12 +19,14 @@ void Pawn::UpdateLegalMoves()
     if(initial_file > 0 && CheckIfCaptures(target_rank, initial_file-1))
     {
         mLegalMoves.emplace_back(initial_rank, initial_file, target_rank, initial_file-1);
+        mParentBoard->SetAttack(target_rank, initial_file-1, mColour);
     }
 
     // Captures to the right
     if(initial_file < 7 && CheckIfCaptures(target_rank, initial_file+1))
     {
         mLegalMoves.emplace_back(initial_rank, initial_file, target_rank, initial_file+1);
+        mParentBoard->SetAttack(target_rank, initial_file+1, mColour);
     }
 
     // Advances

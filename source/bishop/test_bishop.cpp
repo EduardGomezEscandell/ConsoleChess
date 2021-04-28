@@ -26,6 +26,15 @@ CHESS_DEFINE_TEST(Movement)
     bishop->UpdateLegalMoves();
     const auto & moves = bishop->GetMoves();
     this->AssertEqualContainers(moves, expected_moves, "Bishop non-castling moves incorrect.");
+
+    for(const Move & m : moves)
+    {   
+        Square & s = board.GetSquare(m.landing_rank, m.landing_file);
+        bool is_attacked = s.IsAttackedBy(bishop->GetColour());
+        std::stringstream ss;
+        ss << "Bishop available square is not attacked (" << s.GetName() << ")" <<std::endl;
+        this->AssertTrue(is_attacked, ss.str());
+    }
 }
 
 CHESS_DEFINE_TEST(Notation)

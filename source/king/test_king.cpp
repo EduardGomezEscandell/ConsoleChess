@@ -24,6 +24,43 @@ CHESS_DEFINE_TEST(Movement)
     const auto & moves = king->GetMoves();
     this->AssertEqualContainers(moves, expected_moves, "King movement incorrect");
 
+    for(const Move & m : moves)
+    {   
+        Square & s = board.GetSquare(m.landing_rank, m.landing_file);
+        bool is_attacked = s.IsAttackedBy(king->GetColour());
+        std::stringstream ss;
+        ss << "King available square is not attacked (" << s.GetName() << ")" <<std::endl;
+        this->AssertTrue(is_attacked, ss.str());
+    }
+
+}
+
+CHESS_DEFINE_TEST(Checks)
+{
+    Board board;
+    Piece * king = board.CreatePieceInLocation(PieceSet::KING, 5, 5, Colour::WHITE);
+    Piece * rook = board.CreatePieceInLocation(PieceSet::ROOK, 6, 6, Colour::BLACK); // Rook to block
+
+    std::vector<Move> expected_moves = {{5,5,4,4},
+                                        {5,5,4,5},
+                                        {5,5,5,4},
+                                        {5,5,6,6}, // Rook capture
+                                       };
+
+    rook->UpdateLegalMoves();
+    king->UpdateLegalMoves();
+    const auto & moves = king->GetMoves();
+    this->AssertEqualContainers(moves, expected_moves, "King movement when checks exist incorrect");
+
+    for(const Move & m : moves)
+    {   
+        Square & s = board.GetSquare(m.landing_rank, m.landing_file);
+        bool is_attacked = s.IsAttackedBy(king->GetColour());
+        std::stringstream ss;
+        ss << "King available square is not attacked (" << s.GetName() << ")" <<std::endl;
+        this->AssertTrue(is_attacked, ss.str());
+    }
+
 }
 
 CHESS_DEFINE_TEST(Notation)
@@ -51,6 +88,7 @@ CHESS_DEFINE_TEST(PieceType)
 CHESS_TEST_LIST(KingTestSuite)
 {
     CHESS_TEST_LIST_ITEM(KingTests::Movement);
+    CHESS_TEST_LIST_ITEM(KingTests::Checks);
     CHESS_TEST_LIST_ITEM(KingTests::Notation);
     CHESS_TEST_LIST_ITEM(KingTests::PieceType);
 }

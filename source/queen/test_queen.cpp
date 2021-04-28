@@ -39,7 +39,16 @@ CHESS_DEFINE_TEST(Movement)
     Queen->UpdateLegalMoves();
     const auto & moves = Queen->GetMoves();
 
-    this->AssertEqualContainers(moves, expected_moves, "Queen non-castling moves incorrect.");
+    this->AssertEqualContainers(moves, expected_moves, "Queen moves incorrect.");
+
+    for(const Move & m : moves)
+    {   
+        Square & s = board.GetSquare(m.landing_rank, m.landing_file);
+        bool is_attacked = s.IsAttackedBy(Queen->GetColour());
+        std::stringstream ss;
+        ss << "Queen available square is not attacked (" << s.GetName() << ")" <<std::endl;
+        this->AssertTrue(is_attacked, ss.str());
+    }
 }
 
 CHESS_DEFINE_TEST(Notation)

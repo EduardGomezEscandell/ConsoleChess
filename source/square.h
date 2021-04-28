@@ -26,6 +26,7 @@ public:
     bool IsEmpty() const;
 
     static std::string GetName(int rank, int file);
+    std::string GetName() const;
 
     template<typename TPieceType, typename ... Types>
     Piece * NewPiece(Types ... args)
