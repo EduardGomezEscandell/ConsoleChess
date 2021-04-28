@@ -13,10 +13,14 @@ public:
     Tester(const Tester &) = delete;
 
     void Run();
+    
+    template<typename T>
+    T GetResult();
 
 protected:
     std::vector<std::unique_ptr<TestSuite>> mTestSuites;
     const Verbosity mVerbosity;
+    Result mResult;
 
 
     void Print(const Verbosity & minimum_verbosity, const char * message) const;

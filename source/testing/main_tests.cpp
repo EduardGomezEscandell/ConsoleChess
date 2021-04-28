@@ -22,5 +22,5 @@ int main(int argc, char *argv[])
     ConsoleChess::Tester tester(verb);
     tester.Run();
 
-    return 0;
+    return tester.GetResult<int>();
 }

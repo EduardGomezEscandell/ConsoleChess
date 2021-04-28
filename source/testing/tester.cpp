@@ -41,6 +41,8 @@ void Tester::Print(const Verbosity & minimum_verbosity, const std::string & mess
 
 void Tester::Run()
 {
+    mResult = Result::SUCCESS;
+
     this->Print(Verbosity::NONE, "Running tests\n");
 
     std::vector<TestReport> test_reports;
@@ -72,6 +74,7 @@ void Tester::Run()
             this->Print(Verbosity::NONE, " was erroneous. Exception message:\n");
             this->Print(Verbosity::NONE, report.mMessage);
             this->Print(Verbosity::NONE, "\n----------------------------------\n");
+            mResult = report.mResult==Result::SUCCESS ? Result::ERROR : mResult;
             break;
         case Result::FAILURE:
             this->Print(Verbosity::NONE, "\n----------------------------------\n");
@@ -82,9 +85,22 @@ void Tester::Run()
             this->Print(Verbosity::NONE, " failed. Exception message:\n");
             this->Print(Verbosity::NONE, report.mMessage);
             this->Print(Verbosity::NONE, "\n----------------------------------\n");
+            mResult = report.mResult;
             break;
         }
     }
+}
+
+template<>
+int Tester::GetResult<int>()
+{
+    return static_cast<int>(mResult);
+}
+
+template<>
+Result Tester::GetResult<Result>()
+{
+    return mResult;
 }
 
 }

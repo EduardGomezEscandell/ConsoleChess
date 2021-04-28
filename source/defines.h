@@ -5,9 +5,11 @@
 
 namespace ConsoleChess {
 
-enum class Result
+enum class Result : int
 {
-    FAILURE, ERROR, SUCCESS
+    FAILURE = 2,
+    ERROR = 1,
+    SUCCESS = 0
 };
 
 enum class PieceSet
