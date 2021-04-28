@@ -85,12 +85,12 @@ CHESS_DEFINE_TEST(FEN)
 
             // Asserting same full/emptyness
             std::stringstream ss;
-            ss << "Disagreement on whether " << Board::GetSquareName(rank, file) << " is full or empty \n";
+            ss << "Disagreement on whether " << Square::GetName(rank, file) << " is full or empty \n";
             this->AssertEqual<bool, bool, std::string>(piece_fen, piece_std, ss.str());
             if(piece_fen == nullptr) continue; // Both agree square is empty
 
             // Neither is empty
-            ss << "Standard board and FEN disagree on constents of square " << Board::GetSquareName(rank, file) << "\n";
+            ss << "Standard board and FEN disagree on constents of square " << Square::GetName(rank, file) << "\n";
             this->AssertEqual(piece_fen->GetPieceType(), piece_std->GetPieceType(), ss.str());
         }
     }

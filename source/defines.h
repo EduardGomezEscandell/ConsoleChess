@@ -33,7 +33,8 @@ enum class Colour
 {
     WHITE,
     BLACK,
-    UNDEFINED
+    UNDEFINED,
+    BOTH
 };
 
 

@@ -5,7 +5,7 @@
 
 namespace ConsoleChess {
 
-CHESS_DEFINE_TEST_SUITE(InterfaceTestSuite);
+CHESS_DEFINE_TEST_SUITE(InterfaceTestSuite)
 
 }
 

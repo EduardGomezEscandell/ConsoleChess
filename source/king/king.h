@@ -17,6 +17,7 @@ public:
 
     void UpdateLegalMoves() override;
     char GetPieceCharacter() const override;
+    bool IsInCheck() const override;
 
 protected:
     friend class Board;

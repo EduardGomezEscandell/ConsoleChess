@@ -105,7 +105,7 @@ Move Interface::AskMove(const Board & rBoard)
        std::cin >> answer;
 
 
-
+    return Move{-1,-1,-1, -1}; // WIP
 }
 
 bool IsALetter(const char & c)

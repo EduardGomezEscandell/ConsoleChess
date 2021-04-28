@@ -2,7 +2,7 @@
 
 namespace ConsoleChess {
 
-CHESS_DEFINE_PIECE_BOILERPLATE(Pawn, PAWN, 'o');
+CHESS_DEFINE_PIECE_BOILERPLATE(Pawn, PAWN, 'o')
 
 void Pawn::UpdateLegalMoves()
 {

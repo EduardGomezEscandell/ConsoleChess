@@ -13,12 +13,20 @@
 
 namespace ConsoleChess {
 
+unsigned int Board::CoordsToIndex(const unsigned int rank, const unsigned int file)
+{
+    return rank * NumberOfFiles + file;
+}
+
 
 Board::Board()
 {
-    for(int i=0; i<NumberOfSquares; i++)
+    for(unsigned int r=0; r<NumberOfRanks; r++)
     {
-        mSquares[i] = nullptr;
+        for(unsigned int f=0; f<NumberOfFiles; f++)
+        {
+            mSquares[CoordsToIndex(r,f)].SetLocation(r, f, this);
+        }
     }
 }
 
@@ -54,13 +62,8 @@ std::tuple<PieceSet, Colour> Board::GetPieceFromFEN(char c)
 /**
  * FEN constructor. Initializes the board according to Forsyth–Edwards Notation
  */
-Board::Board(const std::string & rFen)
-{
-    for(int i=0; i<NumberOfSquares; i++)
-    {
-        mSquares[i] = nullptr;
-    }
-    
+Board::Board(const std::string & rFen) : Board()
+{    
     // Reading position block
     unsigned int file = 0;
     unsigned int rank = 7;
@@ -103,14 +106,7 @@ Board::Board(const Board & rRHS)
 {
     for(int i=0; i<NumberOfSquares; i++)
     {
-        if(rRHS.mSquares[i])
-        {
-            mSquares[i] = std::unique_ptr<Piece>(rRHS.mSquares[i]->Clone(this));
-        }
-        else
-        {
-            mSquares[i] = nullptr;
-        }
+        mSquares[i].CloneContent(rRHS.mSquares[i]);
     }
 }
 
@@ -118,81 +114,70 @@ Board::Board(const Board & rRHS)
 
 Piece * Board::pGetSquareContent(const int & rank, const int & file)
 {
-    return mSquares[rank * NumberOfFiles + file].get();
+    return mSquares[CoordsToIndex(rank, file)].pGetContent();
+}
+
+Piece * Board::pGetSquareContent(const int & square)
+{
+    return mSquares[square].pGetContent();
+}
+
+const Piece * Board::pGetSquareContent(const int & square) const
+{
+    return mSquares[square].pGetContent();
 }
 
 const Piece * Board::pGetSquareContent(const int & rank, const int & file) const
 {
-    return mSquares[rank * NumberOfFiles + file].get();
+    return mSquares[CoordsToIndex(rank, file)].pGetContent();
 }
 
 bool Board::SquareIsEmpty(const int & rank, const int & file)
 {
-    return (mSquares[rank * NumberOfFiles + file] == nullptr);
+    return mSquares[CoordsToIndex(rank, file)].IsEmpty();
 }
 
 Piece * Board::CreatePieceInLocation(PieceSet piece_type, const int & rank, const int & file, const Colour & colour)
 {
-    std::unique_ptr<Piece> & square = mSquares[rank * NumberOfFiles + file];
-    square.reset();
+    Square & square = mSquares[CoordsToIndex(rank, file)];
+
+    square.Reset();
 
     switch (piece_type) {
     case PieceSet::NONE:
         break;
     case PieceSet::KNIGHT:
-        square = std::unique_ptr<Piece>(new Knight(rank, file, this, colour));
+        square.NewPiece<Knight>(rank, file, this, colour);
         break;
     case PieceSet::KING:
-        square = std::unique_ptr<Piece>(new King(rank, file, this, colour));
+        square.NewPiece<King>(rank, file, this, colour);
         break;
     case PieceSet::ROOK:
-        square = std::unique_ptr<Piece>(new Rook(rank, file, this, colour));
+        square.NewPiece<Rook>(rank, file, this, colour);
         break;
     case PieceSet::BISHOP:
-        square = std::unique_ptr<Piece>(new Bishop(rank, file, this, colour));
+        square.NewPiece<Bishop>(rank, file, this, colour);
         break;
     case PieceSet::QUEEN:
-        square = std::unique_ptr<Piece>(new Queen(rank, file, this, colour));
+        square.NewPiece<Queen>(rank, file, this, colour);
         break;
     case PieceSet::PAWN:
-        square = std::unique_ptr<Piece>(new Pawn(rank, file, this, colour));
+        square.NewPiece<Pawn>(rank, file, this, colour);
         break;
     default:
         throw std::invalid_argument("Unknown piece type.");
     }
 
-    return square.get();
+    return square.pGetContent();
 }
 
 Colour Board::GetColourOccupied(const int & rank, const int & file) const
 {
-    const Piece * p_square = pGetSquareContent(rank, file);
-
-    if(p_square == nullptr) return Colour::UNDEFINED;
-
-    return p_square->GetColour();
-
-}
-
-std::string Board::GetSquareName(int rank, int file)
-{
-    std::string s;
+    const Square & square = mSquares[CoordsToIndex(rank, file)];
     
-    if(rank <0 || rank>=Board::NumberOfRanks)
-    {
-        s.push_back('?');
-    } else {
-        s.push_back('a' + file);
-    }
+    if(square.IsEmpty()) return Colour::UNDEFINED;
 
-    if(file <0 || file>=Board::NumberOfFiles)
-    {
-        s.push_back('?');
-    } else {
-        s.push_back('1' + rank);
-    }
-
-    return s;
+    return square.pGetContent()->GetColour();
 }
 
 void Board::SetUpInitialPieces()
@@ -256,10 +241,21 @@ std::string Board::Display() const
     return ss.str();
 }
 
+/**
+ * @brief Evaulates the board to see if either player is in check
+ * @return Colour of the player in check
+ */
+Colour Board::IsInCheck() const
+{
+    return Colour::UNDEFINED;
+}
+
+
 std::ostream& operator<<(std::ostream& os, const Board& b)
 {
     os << b.Display();
     return os;
 }
+
 
 }

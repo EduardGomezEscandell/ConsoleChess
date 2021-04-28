@@ -1,13 +1,14 @@
 #include "move.h"
+#include "square.h"
 #include "board/board.h"
 
 namespace ConsoleChess {
 
 
-Move::Move(const unsigned int & departure_rank,
-           const unsigned int & departure_file,
-           const unsigned int & landing_rank,
-           const unsigned int & landing_file) :
+Move::Move(const int & departure_rank,
+           const int & departure_file,
+           const int & landing_rank,
+           const int & landing_file) :
     departure_rank(departure_rank),
     departure_file(departure_file),
     landing_rank(landing_rank),
@@ -17,9 +18,9 @@ Move::Move(const unsigned int & departure_rank,
 std::ostream& operator<<(std::ostream& os, const Move& m)
 {
     os << "Move[";
-    os << Board::GetSquareName(m.departure_file, m.departure_rank);
+    os << Square::GetName(m.departure_file, m.departure_rank);
     os << "->";
-    os << Board::GetSquareName(m.landing_file, m.landing_rank);
+    os << Square::GetName(m.landing_file, m.landing_rank);
     os << "]";
     return os;
 }

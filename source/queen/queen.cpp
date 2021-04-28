@@ -3,7 +3,7 @@
 namespace ConsoleChess {
 
 
-CHESS_DEFINE_PIECE_BOILERPLATE(Queen, QUEEN, 'q');
+CHESS_DEFINE_PIECE_BOILERPLATE(Queen, QUEEN, 'q')
 
 void Queen::UpdateLegalMoves()
 {

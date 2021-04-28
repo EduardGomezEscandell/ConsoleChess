@@ -97,5 +97,16 @@ void Piece::StraightLineMoveUpdate(const int delta_r, const int delta_f)
     }
 }
 
+/**
+ * @brief Defalt value for IsInCheck method. Only the king should override
+ * 
+ * @return true: It's a king and it's in check
+ * @return false: Either it's not a king or it's a king and not in check
+ */
+bool Piece::IsInCheck() const
+{
+    return false;
+}
+
 
 }

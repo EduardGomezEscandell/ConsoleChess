@@ -3,7 +3,7 @@
 namespace ConsoleChess {
 
 
-CHESS_DEFINE_PIECE_BOILERPLATE(King, KING, 'k');
+CHESS_DEFINE_PIECE_BOILERPLATE(King, KING, 'k')
 
 void King::UpdateLegalMoves()
 {
@@ -28,6 +28,12 @@ void King::UpdateLegalMoves()
         }
     }
 
+}
+
+bool King::IsInCheck() const
+{
+    // const Board& b = *(this->mParentBoard);
+    return false;
 }
 
 

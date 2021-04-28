@@ -22,9 +22,9 @@ void Game::Run()
 bool Game::PlayerTurn(const unsigned int turn_number)
 {
     Interface::DisplayBoard(mBoard);
-    Player * player = mPlayers[turn_number % 2].get();
+    //Player * player = mPlayers[turn_number % 2].get();
 
-    auto move = Interface::AskMove(mBoard);
+    //auto move = Interface::AskMove(mBoard);
 
     return false;
 

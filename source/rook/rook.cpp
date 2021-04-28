@@ -2,7 +2,7 @@
 
 namespace ConsoleChess {
 
-CHESS_DEFINE_PIECE_BOILERPLATE(Rook, ROOK, 'r');
+CHESS_DEFINE_PIECE_BOILERPLATE(Rook, ROOK, 'r')
 
 void Rook::UpdateLegalMoves()
 {

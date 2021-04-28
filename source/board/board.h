@@ -3,6 +3,7 @@
 
 #include "../piece.h"
 #include "../defines.h"
+#include "../square.h"
 #include <memory>
 #include <string>
 
@@ -15,6 +16,8 @@ public:
     Board(const std::string & rFen);
     Board(const Board & rRHS);
 
+    Piece * pGetSquareContent(const int & square);
+    const Piece * pGetSquareContent(const int & square) const;
     Piece * pGetSquareContent(const int & rank, const int & file);
     const Piece * pGetSquareContent(const int & rank, const int & file) const;
 
@@ -23,20 +26,21 @@ public:
     Colour GetColourOccupied(const int & rank, const int & file) const;
     bool SquareIsEmpty(const int & rank, const int & file);
 
-    static std::string GetSquareName(int rank, int file);
-
-    const static int NumberOfFiles = 8;
-    const static int NumberOfRanks = 8;
-    const static int NumberOfSquares = NumberOfRanks * NumberOfFiles;
+    static constexpr int NumberOfFiles = 8;
+    static constexpr int NumberOfRanks = 8;
+    static constexpr int NumberOfSquares = NumberOfRanks * NumberOfFiles;
 
     void SetUpInitialPieces();
 
     std::string Display() const;
 
+    Colour IsInCheck() const;
 
 protected:
-    std::unique_ptr<Piece> mSquares[NumberOfSquares];
+    Square mSquares[NumberOfSquares];
     static std::tuple<PieceSet, Colour> GetPieceFromFEN(char c);
+
+    static unsigned int CoordsToIndex(const unsigned int rank, const unsigned int file);
 };
 
 std::ostream& operator<<(std::ostream& os, const Board& b);

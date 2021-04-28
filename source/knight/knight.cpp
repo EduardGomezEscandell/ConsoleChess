@@ -2,7 +2,7 @@
 
 namespace ConsoleChess {
 
-CHESS_DEFINE_PIECE_BOILERPLATE(Knight, KNIGHT, 'n');
+CHESS_DEFINE_PIECE_BOILERPLATE(Knight, KNIGHT, 'n')
 
 void Knight::UpdateLegalMoves()
 {

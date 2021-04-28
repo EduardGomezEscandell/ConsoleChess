@@ -2,7 +2,7 @@
 
 namespace ConsoleChess {
 
-CHESS_DEFINE_PIECE_BOILERPLATE(Bishop, BISHOP, 'b');
+CHESS_DEFINE_PIECE_BOILERPLATE(Bishop, BISHOP, 'b')
 
 void Bishop::UpdateLegalMoves()
 {

@@ -53,6 +53,7 @@ public:
     const std::vector<Move> & GetMoves() const;
     virtual char GetPieceCharacter() const = 0;
     void ChangeBoard(const Board * rNewBoard);
+    virtual bool IsInCheck() const;
 
 protected:
 
