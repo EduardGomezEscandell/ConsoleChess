@@ -26,15 +26,17 @@ public:
     Colour GetColourOccupied(const int & rank, const int & file) const;
     bool SquareIsEmpty(const int & rank, const int & file);
 
-    static constexpr int NumberOfFiles = 8;
-    static constexpr int NumberOfRanks = 8;
-    static constexpr int NumberOfSquares = NumberOfRanks * NumberOfFiles;
-
     void SetUpInitialPieces();
 
     std::string Display() const;
-
     Colour IsInCheck() const;
+
+
+    static void CheckBoundsDebug(const int rank, const int file);
+
+    static constexpr int NumberOfFiles = 8;
+    static constexpr int NumberOfRanks = 8;
+    static constexpr int NumberOfSquares = NumberOfRanks * NumberOfFiles;
 
 protected:
     Square mSquares[NumberOfSquares];

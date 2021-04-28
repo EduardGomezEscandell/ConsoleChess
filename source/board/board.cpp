@@ -114,6 +114,7 @@ Board::Board(const Board & rRHS)
 
 Piece * Board::pGetSquareContent(const int & rank, const int & file)
 {
+    CheckBoundsDebug(rank, file);
     return mSquares[CoordsToIndex(rank, file)].pGetContent();
 }
 
@@ -129,16 +130,20 @@ const Piece * Board::pGetSquareContent(const int & square) const
 
 const Piece * Board::pGetSquareContent(const int & rank, const int & file) const
 {
+    CheckBoundsDebug(rank, file);
     return mSquares[CoordsToIndex(rank, file)].pGetContent();
 }
 
 bool Board::SquareIsEmpty(const int & rank, const int & file)
 {
+    CheckBoundsDebug(rank, file);
     return mSquares[CoordsToIndex(rank, file)].IsEmpty();
 }
 
 Piece * Board::CreatePieceInLocation(PieceSet piece_type, const int & rank, const int & file, const Colour & colour)
 {
+    CheckBoundsDebug(rank, file);
+
     Square & square = mSquares[CoordsToIndex(rank, file)];
 
     square.Reset();
@@ -257,5 +262,21 @@ std::ostream& operator<<(std::ostream& os, const Board& b)
     return os;
 }
 
+
+
+/**
+ * @brief Checks if the rank and file are valid, but only when debug mode is enabled.
+ */
+#ifndef NDEBUG
+void Board::CheckBoundsDebug(const int rank, const int file)
+{
+    if(rank >= 8 || rank < 0 || file < 0 || file >= 8)
+    {
+        throw std::logic_error("Index out of bounds");
+    }
+}
+#else
+void Board::CheckBoundsDebug(const int, const int) {}
+#endif
 
 }
