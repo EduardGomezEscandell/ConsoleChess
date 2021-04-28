@@ -4,7 +4,7 @@
 namespace ConsoleChess {
 
 
-Piece::Piece(const int & rank, const int & file, const Board * parent_board, const Colour & colour) :
+Piece::Piece(const int & rank, const int & file, Board * parent_board, const Colour & colour) :
      mParentBoard(parent_board),
      mColour(colour)
 {
@@ -13,7 +13,7 @@ Piece::Piece(const int & rank, const int & file, const Board * parent_board, con
     mPieceType = PieceSet::NONE;
 }
 
-void Piece::ChangeBoard(const Board * rNewBoard)
+void Piece::ChangeBoard(Board * rNewBoard)
 {
     this->mParentBoard = rNewBoard;
 }
@@ -84,6 +84,7 @@ void Piece::StraightLineMoveUpdate(const int delta_r, const int delta_f)
         if(CheckDestinationSquare(r, f))
         {
             mLegalMoves.emplace_back(initial_rank, initial_file, r, f);
+            mParentBoard->SetAttack(r,f, mColour);
 
             if(CheckIfCaptures(r,f))
             {

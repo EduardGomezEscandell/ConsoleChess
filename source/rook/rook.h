@@ -12,8 +12,8 @@ class Board;
 class Rook : public Piece
 {
 public:
-    Rook(const int & rank, const int & file, const Board * parent_board, const Colour & colour);
-    Piece * Clone(const Board * parent_board) const override;
+    Rook(const int & rank, const int & file, Board * parent_board, const Colour & colour);
+    Piece * Clone(Board * parent_board) const override;
 
     void UpdateLegalMoves() override;
     char GetPieceCharacter() const override;

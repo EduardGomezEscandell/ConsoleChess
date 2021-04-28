@@ -2,6 +2,12 @@
 
 namespace ConsoleChess {
 
+Colour OppositeColour(const Colour c)
+{
+    return static_cast<Colour>(- static_cast<int>(c)); // Exploiting the fact that WHITE == - BLACK
+}
+
+
 std::ostream& operator<<(std::ostream& os, const PieceSet& p)
 {
     switch(p)
@@ -30,5 +36,7 @@ std::ostream& operator<<(std::ostream& os, const PieceSet& p)
     }
     return os;
 }
+
+
 
 }

@@ -44,21 +44,44 @@ Piece * Square::CloneContent(const Square & rRHS)
 }
 
 
-bool & Square::GetWhiteAttack()
+bool Square::IsAttackedBy(Colour attacker)
 {
-    return mWhiteAttacks;
+    switch(attacker)
+    {
+        case Colour::WHITE: return mWhiteAttacks;
+        case Colour::BLACK: return mBlackAttacks;
+        default: return false;
+    }
 }
 
-bool & Square::GetBlackAttack()
+void Square::SetAttack(Colour attacker)
 {
-    return mBlackAttacks;
+    switch(attacker)
+    {
+        case Colour::WHITE: mWhiteAttacks = true;  break;
+        case Colour::BLACK: mBlackAttacks = true;  break;
+        default: break;
+    }
 }
+
+
+void Square::UnsetAttack(Colour attacker)
+{
+    switch(attacker)
+    {
+        case Colour::WHITE: mWhiteAttacks = false;  break;
+        case Colour::BLACK: mBlackAttacks = false;  break;
+        default: break;
+    }
+}
+
 
 void Square::ResetAttack()
 {
-    mBlackAttacks = false;
     mWhiteAttacks = false;
+    mBlackAttacks = false;
 }
+
 
 void Square::Reset()
 {

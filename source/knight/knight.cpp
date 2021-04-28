@@ -28,6 +28,7 @@ void Knight::UpdateLegalMoves()
         if(CheckDestinationSquare(destination_rank, destination_file))
         {
             mLegalMoves.emplace_back(initial_rank, initial_file, destination_rank, destination_file);
+            mParentBoard->SetAttack(destination_rank, destination_file, mColour);
         }
 
     }

@@ -23,7 +23,13 @@ void King::UpdateLegalMoves()
 
             if(CheckDestinationSquare(destination_rank, destination_file))
             {
-                mLegalMoves.emplace_back(initial_rank, initial_file, destination_rank, destination_file);
+                Square & target_square = mParentBoard->GetSquare(destination_rank, destination_file);
+                
+                if(!target_square.IsAttackedBy(OppositeColour(mColour))) // King cannot walk into check
+                {
+                    mLegalMoves.emplace_back(initial_rank, initial_file, destination_rank, destination_file);
+                    target_square.SetAttack(mColour);
+                }
             }
         }
     }

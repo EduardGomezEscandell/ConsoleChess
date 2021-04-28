@@ -16,6 +16,9 @@ public:
     Board(const std::string & rFen);
     Board(const Board & rRHS);
 
+    Square & GetSquare(const int & rank, const int & file);
+    const Square & GetSquare(const int & rank, const int & file) const;
+
     Piece * pGetSquareContent(const int & square);
     const Piece * pGetSquareContent(const int & square) const;
     Piece * pGetSquareContent(const int & rank, const int & file);
@@ -31,6 +34,10 @@ public:
     std::string Display() const;
     Colour IsInCheck() const;
 
+    bool IsAttackedBy(const unsigned int rank, const unsigned int file, const Colour attacker);
+    void SetAttack(const unsigned int rank, const unsigned int file, const Colour attacker);
+    void UnSetAttack(const unsigned int rank, const unsigned int file, const Colour attacker);
+    void ResetAttack(const unsigned int rank, const unsigned int file);
 
     static void CheckBoundsDebug(const int rank, const int file);
 
@@ -40,6 +47,7 @@ public:
 
 protected:
     Square mSquares[NumberOfSquares];
+    std::vector<Piece *> kings = {};
     static std::tuple<PieceSet, Colour> GetPieceFromFEN(char c);
 
     static unsigned int CoordsToIndex(const unsigned int rank, const unsigned int file);

@@ -15,6 +15,7 @@ namespace ConsoleChess {
 
 unsigned int Board::CoordsToIndex(const unsigned int rank, const unsigned int file)
 {
+    CheckBoundsDebug(rank, file);
     return rank * NumberOfFiles + file;
 }
 
@@ -110,11 +111,18 @@ Board::Board(const Board & rRHS)
     }
 }
 
+Square & Board::GetSquare(const int & rank, const int & file)
+{
+    return mSquares[CoordsToIndex(rank, file)];
+}
 
+const Square & Board::GetSquare(const int & rank, const int & file) const
+{
+    return mSquares[CoordsToIndex(rank, file)];
+}
 
 Piece * Board::pGetSquareContent(const int & rank, const int & file)
 {
-    CheckBoundsDebug(rank, file);
     return mSquares[CoordsToIndex(rank, file)].pGetContent();
 }
 
@@ -130,20 +138,16 @@ const Piece * Board::pGetSquareContent(const int & square) const
 
 const Piece * Board::pGetSquareContent(const int & rank, const int & file) const
 {
-    CheckBoundsDebug(rank, file);
     return mSquares[CoordsToIndex(rank, file)].pGetContent();
 }
 
 bool Board::SquareIsEmpty(const int & rank, const int & file)
 {
-    CheckBoundsDebug(rank, file);
     return mSquares[CoordsToIndex(rank, file)].IsEmpty();
 }
 
 Piece * Board::CreatePieceInLocation(PieceSet piece_type, const int & rank, const int & file, const Colour & colour)
 {
-    CheckBoundsDebug(rank, file);
-
     Square & square = mSquares[CoordsToIndex(rank, file)];
 
     square.Reset();
@@ -156,6 +160,7 @@ Piece * Board::CreatePieceInLocation(PieceSet piece_type, const int & rank, cons
         break;
     case PieceSet::KING:
         square.NewPiece<King>(rank, file, this, colour);
+        kings.push_back(square.pGetContent());
         break;
     case PieceSet::ROOK:
         square.NewPiece<Rook>(rank, file, this, colour);
@@ -263,6 +268,28 @@ std::ostream& operator<<(std::ostream& os, const Board& b)
 }
 
 
+bool Board::IsAttackedBy(const unsigned int rank, const unsigned int file, const Colour attacker)
+{
+    mSquares[CoordsToIndex(rank, file)].IsAttackedBy(attacker);
+}
+
+
+void Board::SetAttack(const unsigned int rank, const unsigned int file, const Colour attacker)
+{
+    mSquares[CoordsToIndex(rank, file)].SetAttack(attacker);
+}
+
+
+void Board::UnSetAttack(const unsigned int rank, const unsigned int file, const Colour attacker)
+{
+    mSquares[CoordsToIndex(rank, file)].UnsetAttack(attacker);
+}
+
+
+void Board::ResetAttack(const unsigned int rank, const unsigned int file)
+{
+    mSquares[CoordsToIndex(rank, file)].ResetAttack();
+}
 
 /**
  * @brief Checks if the rank and file are valid, but only when debug mode is enabled.

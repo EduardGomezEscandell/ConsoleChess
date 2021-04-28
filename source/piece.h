@@ -10,14 +10,14 @@
                                                         \
 Name::Name(const int & rank,                            \
            const int & file,                            \
-           const Board * parent_board,                  \
+           Board * parent_board,                        \
            const Colour & colour)                       \
     : Piece(rank, file, parent_board, colour)           \
 {                                                       \
         mPieceType = PieceSet::NameCapitalized;         \
 }                                                       \
                                                         \
-Piece * Name::Clone(const Board * parent_board) const   \
+Piece * Name::Clone(Board * parent_board) const   \
 {                                                       \
     Piece * ptr = new Name(*this);                      \
     ptr->ChangeBoard(parent_board);                     \
@@ -42,9 +42,9 @@ class Piece
 public:
     virtual void UpdateLegalMoves() = 0;
 
-    Piece(const int & rank, const int & file, const Board * parent_board, const Colour & colour);
+    Piece(const int & rank, const int & file, Board * parent_board, const Colour & colour);
 
-    virtual Piece * Clone(const Board * parent_board) const = 0;
+    virtual Piece * Clone(Board * parent_board) const = 0;
 
     PieceSet GetPieceType() const;
     Colour GetColour() const;
@@ -52,13 +52,13 @@ public:
     std::vector<Move> & GetMoves();
     const std::vector<Move> & GetMoves() const;
     virtual char GetPieceCharacter() const = 0;
-    void ChangeBoard(const Board * rNewBoard);
+    void ChangeBoard(Board * rNewBoard);
     virtual bool IsInCheck() const;
 
 protected:
 
     int mLocation[2];
-    const Board * mParentBoard;
+    Board * mParentBoard;
     std::vector<Move> mLegalMoves;
     PieceSet mPieceType;
     const Colour mColour = Colour::UNDEFINED;

@@ -12,9 +12,9 @@ class Board;
 class Knight : public Piece
 {
 public:
-    Knight(const int & rank, const int & file, const Board * parent_board, const Colour & colour);
+    Knight(const int & rank, const int & file, Board * parent_board, const Colour & colour);
 
-    Piece * Clone(const Board * parent_board) const override;
+    Piece * Clone(Board * parent_board) const override;
 
     void UpdateLegalMoves() override;
     char GetPieceCharacter() const override;

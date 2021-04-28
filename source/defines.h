@@ -28,15 +28,16 @@ enum class Verbosity
     FULL = 2
 };
 
-
-enum class Colour
+// Note that white=-black. This is important for quick colour flipping.
+enum class Colour : short
 {
-    WHITE,
-    BLACK,
-    UNDEFINED,
-    BOTH
+    WHITE = -1,
+    BLACK = 1,
+    UNDEFINED = -2,
+    BOTH = 2
 };
 
+Colour OppositeColour(const Colour c);
 
 std::ostream& operator<<(std::ostream& os, const PieceSet& p);
 

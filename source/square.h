@@ -18,9 +18,11 @@ public:
     const Piece * pGetContent() const;
     Piece * CloneContent(const Square & rRHS);
 
-    bool & GetWhiteAttack();
-    bool & GetBlackAttack();
+    bool IsAttackedBy(Colour attacker);
+    void SetAttack(Colour attacker);
+    void UnsetAttack(Colour attacker);
     void ResetAttack();
+
     bool IsEmpty() const;
 
     static std::string GetName(int rank, int file);
