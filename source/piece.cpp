@@ -110,4 +110,19 @@ bool Piece::IsInCheck() const
 }
 
 
+bool Piece::CanMoveTo(const int rank, const int file) const
+{
+    for(const auto & valid_move : GetMoves())
+    {
+        if(file == valid_move.landing_file
+            && rank == valid_move.landing_rank)
+        {
+            return true;   
+        }
+    }
+
+    return false;
+}
+
+
 }

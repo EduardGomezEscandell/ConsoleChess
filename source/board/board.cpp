@@ -291,6 +291,36 @@ void Board::ResetAttack(const unsigned int rank, const unsigned int file)
     mSquares[CoordsToIndex(rank, file)].ResetAttack();
 }
 
+bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type, const PieceSet promotion) const
+{
+    if(piece_type != PieceSet::PAWN && promotion != PieceSet::NONE) return false; // Only pawns can promote
+
+    if(piece_type == PieceSet::PAWN && promotion == PieceSet::NONE) return false; // Pawns have to promote to something
+    if(promotion == PieceSet::PAWN) return false;                                 // Pawns cannot promote to pawns
+
+    if(rMove.departure_file < 0 || rMove.departure_rank < 0) // Departure quare is not specified
+    {
+        for(const auto & square : mSquares)
+        {
+            if(square.ValidateMove(piece_type, rMove.landing_file, rMove.landing_rank))
+            {
+                rMove.departure_rank = square.GetRank();
+                rMove.departure_file = square.GetFile();
+                return true;
+            }
+        }
+
+        return false;
+    }
+    else // Departure square is specified
+    {
+        const Square & square = mSquares[CoordsToIndex(rMove.departure_file, rMove.departure_rank)];
+        
+        return square.ValidateMove(piece_type, rMove.landing_file, rMove.landing_rank);
+        
+    }
+}
+
 /**
  * @brief Checks if the rank and file are valid, but only when debug mode is enabled.
  */

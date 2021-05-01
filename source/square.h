@@ -14,6 +14,9 @@ public:
     void SwapContent(Square & rOther);
     void SwapContent(std::unique_ptr<Piece> & rpPiece);
 
+    unsigned int GetRank() const;
+    unsigned int GetFile() const;
+
     Piece * pGetContent();
     const Piece * pGetContent() const;
     Piece * CloneContent(const Square & rRHS);
@@ -35,6 +38,8 @@ public:
         mContent = std::make_unique<TPieceType>(args...);
         return mContent.get();
     }
+
+    bool ValidateMove(PieceSet piece_type, const int rank, const int file) const;
 
 protected:
     std::unique_ptr<Piece> mContent;

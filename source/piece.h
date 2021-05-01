@@ -54,6 +54,7 @@ public:
     virtual char GetPieceCharacter() const = 0;
     void ChangeBoard(Board * rNewBoard);
     virtual bool IsInCheck() const;
+    bool CanMoveTo(const int rank, const int file) const;
 
 protected:
 

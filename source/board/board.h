@@ -39,6 +39,8 @@ public:
     void UnSetAttack(const unsigned int rank, const unsigned int file, const Colour attacker);
     void ResetAttack(const unsigned int rank, const unsigned int file);
 
+    bool ValidateAndCompleteMove(Move & rMove, const PieceSet piece, const PieceSet promotion) const;
+    
     static void CheckBoundsDebug(const int rank, const int file);
 
     static constexpr int NumberOfFiles = 8;

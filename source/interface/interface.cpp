@@ -100,12 +100,21 @@ void Interface::DisplayBoard(const Board & rBoard)
 
 Move Interface::AskMove(const Board & rBoard)
 {
-       std::cout << "Enter your move: ";
-       std::string answer;
-       std::cin >> answer;
+    Move move;
+    bool is_valid = false;
 
+    while(!is_valid)
+    {
+        std::cout << "Enter your move: ";
+        std::string answer;
+        std::cin >> answer;
 
-    return Move{-1,-1,-1, -1}; // WIP
+        std::tie(move, is_valid) = Interface::ParseAndValidateMove(answer, rBoard);
+
+        if(!is_valid) std::cout << "Invalid move.\n";
+    }
+
+    return move;
 }
 
 bool IsALetter(const char & c)
@@ -142,7 +151,7 @@ PieceSet Interface::GetPieceFromChar(const char c)
 /**
  * Parses the move specified as a string and returns the gathered info. Unknown values are set as -1
  */
-bool Interface::ParseMove(PieceSet & piece, PieceSet & promotion, int& departure_rank, int& departure_file, int& landing_rank, int& landing_file, std::string input)
+bool Interface::ParseMove(PieceSet & piece, PieceSet & promotion, Move& rMove, std::string input)
 {
     /* Move notation:
      *
@@ -188,18 +197,15 @@ bool Interface::ParseMove(PieceSet & piece, PieceSet & promotion, int& departure
         }
 
         piece = PieceSet::PAWN; // default value
-        departure_rank = -1;
-        departure_file = -1;
-        landing_rank = -1;
-        landing_file = -1;
+        rMove = {-1,-1,-1,-1};
 
         // Getting Landing rank
-        landing_rank = *it - '1';
+        rMove.landing_rank = *it - '1';
         
         NEXT_CHARACTER_OR_THROW(it, input);
 
         // Gettings Landing file
-        landing_file = *it - 'a';
+        rMove.landing_file = *it - 'a';
 
         NEXT_CHARACTER_OR_RETURN_TRUE(it, input);
 
@@ -214,18 +220,18 @@ bool Interface::ParseMove(PieceSet & piece, PieceSet & promotion, int& departure
         switch(std::distance(it, input.rend())) {
         case 3:
             // [Piece][departure file][Departure rank]
-            departure_rank = *it - '0';
+            rMove.departure_rank = *it - '0';
             it++;
-            departure_file = *it - 'a';
+            rMove.departure_file = *it - 'a';
             it++;
             break;
         case 2:
             // [Piece][departure file] OR [Piece][Departure rank]. --- [Departure file][Departure rank] is impossible: two pawns cannot attack the same square from the same file.
             if(*it >= 'a' && *it <= 'h') // It's a file
             {
-                departure_file = *it - 'a';
+                rMove.departure_file = *it - 'a';
             } else if(*it >= '0' && *it <= '9') { // It's a rank
-                departure_rank = *it - '0';
+                rMove.departure_rank = *it - '0';
             } else {
                 throw std::runtime_error("Wrong input");
             }
@@ -239,9 +245,9 @@ bool Interface::ParseMove(PieceSet & piece, PieceSet & promotion, int& departure
             }
             if(*it >= 'a' && *it <= 'h') // It's a file
             {
-                departure_file = *it - 'a';
+                rMove.departure_file = *it - 'a';
             } else if(*it >= '0' && *it <= '9') { // It's a rank
-                departure_rank = *it - '0';
+                rMove.departure_rank = *it - '0';
             } else {
                 throw std::runtime_error("Wrong input");
             }
@@ -265,28 +271,26 @@ bool Interface::ParseMove(PieceSet & piece, PieceSet & promotion, int& departure
         // Cleaning up
         piece     = PieceSet::NONE;
         promotion = PieceSet::NONE;
-        departure_rank = -1;
-        departure_file = -1;
-        landing_rank   = -1;
-        landing_file   = -1;
+        rMove = {-1,-1,-1,-1};
         return false;
     }
 }
 
 
 
-Move Interface::ParseAndValidateMove(const std::string & input)
+std::tuple<Move, bool> Interface::ParseAndValidateMove(const std::string & input, const Board & rBoard)
 {
 
 
     PieceSet piece, promotion;
-    int departure_rank, departure_file , landing_rank, landing_file;
+    Move candidate_move;
 
-    ParseMove(piece, promotion, departure_rank, departure_file, landing_rank, landing_file, input);
-    // TODO: validate move
-    
-    
-    return {-1,-1,-1,-1};
+    ParseMove(piece, promotion, candidate_move, input);
+
+
+    bool is_valid = rBoard.ValidateAndCompleteMove(candidate_move, piece, promotion);
+
+    return std::tie(candidate_move, is_valid);
 }
 
 }

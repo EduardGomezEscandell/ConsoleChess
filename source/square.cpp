@@ -11,6 +11,18 @@ Square::Square() :
       mFile(0)
 {}
 
+unsigned int Square::GetRank() const
+{
+    return mRank;
+}
+
+unsigned int Square::GetFile() const
+{
+    return mFile;
+}
+
+
+
 void Square::SetLocation(const unsigned int Rank, const unsigned int File, Board * pOwner)
 {
     mRank = Rank;
@@ -130,6 +142,24 @@ Piece * Square::pGetContent()
 const Piece * Square::pGetContent() const
 {
     return mContent.get();
+}
+
+
+bool Square::ValidateMove(PieceSet piece_type, const int rank, const int file) const
+{
+    if(IsEmpty()) return false;                      // Validating square not empty
+
+    const Piece * piece = this->pGetContent();  
+    if(piece->GetPieceType() != piece_type) return false;   // Validating is right piece
+
+    if(piece->CanMoveTo(rank, file))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 } // namespace ConsoleChess

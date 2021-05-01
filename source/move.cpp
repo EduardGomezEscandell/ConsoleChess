@@ -15,6 +15,11 @@ Move::Move(const int & departure_rank,
     landing_file(landing_file)
 {}
 
+Move::Move() :
+    Move(-1,-1,-1,-1) 
+{
+}
+
 std::ostream& operator<<(std::ostream& os, const Move& m)
 {
     os << "Move[";

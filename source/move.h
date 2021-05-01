@@ -14,6 +14,8 @@ public:
          const int & landing_rank,
          const int & landing_file);
 
+    Move();
+
     int departure_rank;
     int departure_file;
     int landing_rank;

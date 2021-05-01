@@ -20,8 +20,8 @@ public:
     static void DisplayBoard(const Board & rBoard);
     static Move AskMove(const Board & rBoard);
 
-    static bool ParseMove(PieceSet & piece, PieceSet & promotion, int& departure_rank, int& departure_file, int& landing_rank, int& landing_file, std::string input);
-    static Move ParseAndValidateMove(const std::string & input);
+    static bool ParseMove(PieceSet & piece, PieceSet & promotion, Move & rMove, std::string input);
+    static std::tuple<Move, bool> ParseAndValidateMove(const std::string & input, const Board & rBoard);
 protected:
 
     static int Question(char const* querry, char const* options);
