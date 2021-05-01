@@ -270,7 +270,7 @@ std::ostream& operator<<(std::ostream& os, const Board& b)
 
 bool Board::IsAttackedBy(const unsigned int rank, const unsigned int file, const Colour attacker)
 {
-    mSquares[CoordsToIndex(rank, file)].IsAttackedBy(attacker);
+    return mSquares[CoordsToIndex(rank, file)].IsAttackedBy(attacker);
 }
 
 
