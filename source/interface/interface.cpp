@@ -106,7 +106,7 @@ PieceSet Interface::GetPieceFromChar(const char c)
 /**
  * Parses the move specified as a string and returns the gathered info. Unknown values are set as -1
  */
-bool Interface::ParseMove(PieceSet & piece, PieceSet & promotion, Move& rMove, std::string input)
+bool Interface::ParseMove(PieceSet & rPiece, PieceSet & rPromotion, Move& rMove, std::string rInput)
 {
     /* Move notation:
      *
@@ -115,64 +115,64 @@ bool Interface::ParseMove(PieceSet & piece, PieceSet & promotion, Move& rMove, s
      * {} is compulsory
      * It is simpler to parse from the back towards the front
      */
-    std::string::reverse_iterator it = input.rbegin();
+    std::string::reverse_iterator it = rInput.rbegin();
 
     try 
     {
         if(*it == '=') // Draw offers are ignored for now
         {
-            NEXT_CHARACTER_OR_THROW(it, input);
+            NEXT_CHARACTER_OR_THROW(it, rInput);
         }
 
         if(*it == '+') // Check is ignored
         {
-            NEXT_CHARACTER_OR_THROW(it, input);
+            NEXT_CHARACTER_OR_THROW(it, rInput);
         }
 
         if(*it == '#') // Checkmate is ignored
         {
-            NEXT_CHARACTER_OR_THROW(it, input);
+            NEXT_CHARACTER_OR_THROW(it, rInput);
         }
 
-        const auto last_item = input.end()-1; // Distinguishing between draw offer and promotion marker
-        auto tmp = std::find(input.begin(), last_item, '='); // Finding promotion marker
+        const auto last_item = rInput.end()-1; // Distinguishing between draw offer and promotion marker
+        auto tmp = std::find(rInput.begin(), last_item, '='); // Finding promotion marker
 
         // Dealing with promotion
         if(tmp != last_item)
         {
             tmp++;
-            promotion = GetPieceFromChar(*tmp);
+            rPromotion = GetPieceFromChar(*tmp);
             
             // Advancing past = sign
-            NEXT_CHARACTER_OR_THROW(it, input);
-            NEXT_CHARACTER_OR_THROW(it, input);
+            NEXT_CHARACTER_OR_THROW(it, rInput);
+            NEXT_CHARACTER_OR_THROW(it, rInput);
 
         } else {
-            promotion = PieceSet::NONE;
+            rPromotion = PieceSet::NONE;
         }
 
-        piece = PieceSet::PAWN; // default value
+        rPiece = PieceSet::PAWN; // default value
         rMove = {-1,-1,-1,-1};
 
         // Getting Landing rank
         rMove.landing_rank = *it - '1';
         
-        NEXT_CHARACTER_OR_THROW(it, input);
+        NEXT_CHARACTER_OR_THROW(it, rInput);
 
         // Gettings Landing file
         rMove.landing_file = *it - 'a';
 
-        NEXT_CHARACTER_OR_RETURN_TRUE(it, input);
+        NEXT_CHARACTER_OR_RETURN_TRUE(it, rInput);
 
         // Ignoring capture
         if(*it == 'x')
         {
-            NEXT_CHARACTER_OR_RETURN_TRUE(it, input);
+            NEXT_CHARACTER_OR_RETURN_TRUE(it, rInput);
         }
 
         // Getting [departure file][Departure rank]
 
-        switch(std::distance(it, input.rend())) {
+        switch(std::distance(it, rInput.rend())) {
         case 3:
             // [Piece][departure file][Departure rank]
             rMove.departure_rank = *it - '0';
@@ -212,9 +212,9 @@ bool Interface::ParseMove(PieceSet & piece, PieceSet & promotion, Move& rMove, s
         }
 
         // Getting [Piece]
-        piece = GetPieceFromChar(*it);
+        rPiece = GetPieceFromChar(*it);
         
-        if(piece == PieceSet::NONE)
+        if(rPiece == PieceSet::NONE)
         {
             throw std::runtime_error("Unrecognized piece type");
         }
@@ -224,8 +224,8 @@ bool Interface::ParseMove(PieceSet & piece, PieceSet & promotion, Move& rMove, s
     catch (...)
     {
         // Cleaning up
-        piece     = PieceSet::NONE;
-        promotion = PieceSet::NONE;
+        rPiece     = PieceSet::NONE;
+        rPromotion = PieceSet::NONE;
         rMove = {-1,-1,-1,-1};
         return false;
     }
