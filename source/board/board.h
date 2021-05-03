@@ -12,10 +12,12 @@ namespace ConsoleChess {
 class Board
 {
 public:
+    // Constructors
     Board();
     Board(const std::string & rFen);
     Board(const Board & rRHS);
 
+    // Access
     Square & GetSquare(const int & rank, const int & file);
     const Square & GetSquare(const int & rank, const int & file) const;
 
@@ -24,24 +26,32 @@ public:
     Piece * pGetSquareContent(const int & rank, const int & file);
     const Piece * pGetSquareContent(const int & rank, const int & file) const;
 
+    // Editors
+    void DoMove(const Move & Move);
+
     Piece * CreatePieceInLocation(PieceSet piece_type, const int & rank, const int & file, const Colour & colour);
-
-    Colour GetColourOccupied(const int & rank, const int & file) const;
-    bool SquareIsEmpty(const int & rank, const int & file);
-
     void SetUpInitialPieces();
 
-    std::string Display() const;
-    Colour IsInCheck() const;
-
-    bool IsAttackedBy(const unsigned int rank, const unsigned int file, const Colour attacker);
     void SetAttack(const unsigned int rank, const unsigned int file, const Colour attacker);
     void UnSetAttack(const unsigned int rank, const unsigned int file, const Colour attacker);
     void ResetAttack(const unsigned int rank, const unsigned int file);
 
-    bool ValidateAndCompleteMove(Move & rMove, const PieceSet piece, const PieceSet promotion) const;
-    
+    void UpdateLegalMoves();
+
+    // Querries
+    bool SquareIsEmpty(const int & rank, const int & file);
+    Colour GetColourOccupied(const int & rank, const int & file) const;
+    Colour IsInCheck() const;
+
+    bool IsAttackedBy(const unsigned int rank, const unsigned int file, const Colour attacker);
+
     static void CheckBoundsDebug(const int rank, const int file);
+
+    // Output
+    std::string Display() const;
+
+    // Others
+    bool ValidateAndCompleteMove(Move & rMove, const PieceSet piece, const PieceSet promotion) const;
 
     static constexpr int NumberOfFiles = 8;
     static constexpr int NumberOfRanks = 8;

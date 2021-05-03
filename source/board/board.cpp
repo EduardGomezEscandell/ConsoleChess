@@ -291,18 +291,28 @@ void Board::ResetAttack(const unsigned int rank, const unsigned int file)
     mSquares[CoordsToIndex(rank, file)].ResetAttack();
 }
 
+void Board::UpdateLegalMoves()
+{
+    for(auto & square : mSquares)
+    {
+        if(!square.IsEmpty())
+        {
+            square.pGetContent()->UpdateLegalMoves();
+        }
+    }
+}
+
 bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type, const PieceSet promotion) const
 {
     if(piece_type != PieceSet::PAWN && promotion != PieceSet::NONE) return false; // Only pawns can promote
 
-    if(piece_type == PieceSet::PAWN && promotion == PieceSet::NONE) return false; // Pawns have to promote to something
     if(promotion == PieceSet::PAWN) return false;                                 // Pawns cannot promote to pawns
 
     if(rMove.departure_file < 0 || rMove.departure_rank < 0) // Departure quare is not specified
     {
         for(const auto & square : mSquares)
         {
-            if(square.ValidateMove(piece_type, rMove.landing_file, rMove.landing_rank))
+            if(square.ValidateMove(piece_type, rMove.landing_rank, rMove.landing_file))
             {
                 rMove.departure_rank = square.GetRank();
                 rMove.departure_file = square.GetFile();
@@ -319,6 +329,21 @@ bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type, con
         return square.ValidateMove(piece_type, rMove.landing_file, rMove.landing_rank);
         
     }
+}
+
+/**
+ * @brief DoMove performs the move indicated in Move.
+ * This move will not be validated, so run it through ValidateAndCompleteMove before attempting to perform it, else the behaviour is undefined.
+ * 
+ * @param Move: The move to perform
+ */
+void Board::DoMove(const Move & rMove)
+{
+    Square & departure = mSquares[CoordsToIndex(rMove.departure_rank, rMove.departure_file)];
+    Square & landing = mSquares[CoordsToIndex(rMove.landing_rank, rMove.landing_file)];
+
+    landing.ResetContent();
+    landing.SwapContent(departure);
 }
 
 /**

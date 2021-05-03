@@ -11,7 +11,14 @@ Game::Game()
 
 void Game::Run()
 {
-    Interface::Intro();
+    Colour c = Interface::Intro();
+
+    bool game_is_over = false;
+
+    for(unsigned int i = 0; !game_is_over; i++)
+    {
+        PlayerTurn(i);
+    }
 }
 
 /**
@@ -22,12 +29,12 @@ void Game::Run()
 bool Game::PlayerTurn(const unsigned int turn_number)
 {
     Interface::DisplayBoard(mBoard);
-    //Player * player = mPlayers[turn_number % 2].get();
-
-    //auto move = Interface::AskMove(mBoard);
+    
+    mBoard.UpdateLegalMoves();
+    auto move = Interface::AskMove(mBoard);
+    mBoard.DoMove(move);
 
     return false;
-
 }
 
 }

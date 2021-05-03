@@ -30,6 +30,11 @@ void Square::SetLocation(const unsigned int Rank, const unsigned int File, Board
     mpOwner = pOwner;
 }
 
+void Square::ResetContent()
+{
+    this->mContent.reset();
+}
+
 void Square::SwapContent(Square & rOther)
 {
     this->mContent.swap(rOther.mContent);

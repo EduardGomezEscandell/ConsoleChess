@@ -11,6 +11,7 @@ namespace ConsoleChess
 class Square
 {
 public:
+    void ResetContent();
     void SwapContent(Square & rOther);
     void SwapContent(std::unique_ptr<Piece> & rpPiece);
 
