@@ -14,7 +14,6 @@ Name::Name(const int & rank,                            \
            const Colour & colour)                       \
     : Piece(rank, file, parent_board, colour)           \
 {                                                       \
-        mPieceType = PieceSet::NameCapitalized;         \
 }                                                       \
                                                         \
 Piece * Name::Clone(Board * parent_board) const   \
@@ -29,6 +28,11 @@ char Name::GetPieceCharacter() const                    \
     static constexpr char c = Symbol;                   \
     return mColour==Colour::BLACK ? c : (c + 'A'-'a');  \
 }                                                       \
+                                                        \
+PieceSet Name::GetPieceType() const                     \
+{                                                       \
+    return PieceSet::NameCapitalized;                   \
+}                                                       \
 
 
 
@@ -40,20 +44,23 @@ class Board;
 class Piece
 {
 public:
-    virtual void UpdateLegalMoves() = 0;
-
+    // Constructors
     Piece(const int & rank, const int & file, Board * parent_board, const Colour & colour);
-
     virtual Piece * Clone(Board * parent_board) const = 0;
+    
+    // Editors
+    virtual void UpdateLegalMoves() = 0;
     void SetLocation(const int & rank, const int & file);
+    void ChangeBoard(Board * rNewBoard);
 
-    PieceSet GetPieceType() const;
-    Colour GetColour() const;
-
+    // Getters
+    virtual PieceSet GetPieceType() const = 0;
+    virtual char GetPieceCharacter() const = 0;
     std::vector<Move> & GetMoves();
     const std::vector<Move> & GetMoves() const;
-    virtual char GetPieceCharacter() const = 0;
-    void ChangeBoard(Board * rNewBoard);
+    Colour GetColour() const;
+    
+    // Queries
     virtual bool IsInCheck() const;
     bool CanMoveTo(const int rank, const int file) const;
 
@@ -67,9 +74,12 @@ protected:
 
     friend class Board;
 
+    // Editors
+    void StraightLineMoveUpdate(const int delta_r, const int delta_f);
+    
+    // Querries
     bool CheckDestinationSquare(const int & rank, const int & file) const;
     bool CheckIfCaptures(const int & rank, const int & file) const;
-    void StraightLineMoveUpdate(const int delta_r, const int delta_f);
 };
 
 }

@@ -17,6 +17,7 @@ public:
 
     void UpdateLegalMoves() override;
     char GetPieceCharacter() const override;
+    PieceSet GetPieceType() const override;
     bool IsInCheck() const override;
 
 protected:
