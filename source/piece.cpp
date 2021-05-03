@@ -124,5 +124,10 @@ bool Piece::CanMoveTo(const int rank, const int file) const
     return false;
 }
 
+void Piece::SetLocation(const int & rank, const int & file)
+{
+    mLocation[0] = rank;
+    mLocation[1] = file;
+}
 
 }

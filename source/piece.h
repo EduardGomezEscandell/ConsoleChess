@@ -45,6 +45,7 @@ public:
     Piece(const int & rank, const int & file, Board * parent_board, const Colour & colour);
 
     virtual Piece * Clone(Board * parent_board) const = 0;
+    void SetLocation(const int & rank, const int & file);
 
     PieceSet GetPieceType() const;
     Colour GetColour() const;

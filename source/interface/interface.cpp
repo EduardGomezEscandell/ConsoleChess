@@ -113,6 +113,7 @@ bool Interface::ParseMove(PieceSet & rPiece, PieceSet & rPromotion, Move& rMove,
      * [Piece] [departure file][Departure rank] [x] {Landing file}{Landing Rank} [= Promotion][+|=|#]
      * [] is optional
      * {} is compulsory
+     *  | means XOR
      * It is simpler to parse from the back towards the front
      */
     std::string::reverse_iterator it = rInput.rbegin();
