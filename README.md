@@ -6,15 +6,20 @@ This project aims to create a console application to play chess. In the future I
 This project is a work in progress.
 
 So far the program can:
-- Compute simple moves for all pieces
+- Compute generic moves
+- Disallow moving the king into check
 - Display the board on console
+- Parse a move in algebraic input notation
+- Validate if a player is in check
+
 
 Short-term goals:
-- Validate if a player is in check
-- Invalidate moves that put a player in check (pins)
-- Implement castling rules
-- Implement en passant
-- Implement algebraic notation IO
+- Implement missing movement rules:
+  - Invalidate moves that put a player in check (pins)
+  - Castling
+  - En passant
+  - Double square move for pawns
+- Output a move in algebraic notation
 - Check for end-game conditions:
   - Stalemate
   - Checkmate
@@ -25,8 +30,9 @@ Short-term goals:
 
 Mid-term goals:
 - Impement the gameflow
-- Import and output with FEN and PGN formats
-- Showing stats during the game (captured pieces, etc)
+- Import and export of gamestate in FEN format.
+- Import and export of games in PGN format.
+- Show stats during the game (captured pieces, etc)
 
 Long term goals:
 - Implement a rudimentary chess engine
