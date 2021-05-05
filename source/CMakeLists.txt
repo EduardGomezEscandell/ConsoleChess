@@ -28,6 +28,7 @@ add_executable(ConsoleChess main.cpp
                             bishop/bishop.cpp
                             queen/queen.cpp
                             pawn/pawn.cpp
+                            algebraic_notation/algebraic_notation.cpp
 )
 
 # Compiling unit tests
@@ -56,4 +57,6 @@ add_executable(ConsoleChessTests testing/main_tests.cpp
                                  queen/test_queen.cpp
                                  pawn/pawn.cpp
                                  pawn/test_pawn.cpp
+                                 algebraic_notation/algebraic_notation.cpp
+                                 algebraic_notation/test_algebraic.cpp
 )

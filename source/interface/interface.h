@@ -22,7 +22,6 @@ public:
     static void DisplayBoard(const Board & rBoard);
     static Move AskMove(const Board & rBoard);
 
-    static bool ParseMove(PieceSet & piece, PieceSet & promotion, Move & rMove, std::string input);
     static std::tuple<Move, bool> ParseAndValidateMove(const std::string & input, const Board & rBoard);
 protected:
 

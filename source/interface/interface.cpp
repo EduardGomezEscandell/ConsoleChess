@@ -1,4 +1,6 @@
 #include "interface.h"
+#include "../algebraic_notation/algebraic_notation.h"
+
 #include <sstream>
 #include <vector>
 #include <algorithm>
@@ -72,167 +74,6 @@ Move Interface::AskMove(const Board & rBoard)
     return move;
 }
 
-bool IsALetter(const char & c)
-{
-    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
-}
-
-#define NEXT_CHARACTER_OR_RETURN_TRUE(it, str)  \
-it++;                                           \
-if(it == str.rend()){                           \
-    return true;                                \
-}                                               \
-
-#define NEXT_CHARACTER_OR_THROW(it, str)        \
-it++;                                           \
-if(it == str.rend()){                           \
-    throw std::runtime_error("Wrong input");    \
-}                                               \
-
-
-PieceSet Interface::GetPieceFromChar(const char c)
-{
-    switch (c) {
-        case 'R':   return PieceSet::ROOK;
-        case 'B':   return PieceSet::BISHOP;
-        case 'Q':   return PieceSet::QUEEN;
-        case 'K':   return PieceSet::KING;
-        case 'N':   return PieceSet::KNIGHT;
-        default:    return PieceSet::NONE;
-    }
-}
-
-
-/**
- * Parses the move specified as a string and returns the gathered info. Unknown values are set as -1
- */
-bool Interface::ParseMove(PieceSet & rPiece, PieceSet & rPromotion, Move& rMove, std::string rInput)
-{
-    /* Move notation:
-     *
-     * [Piece] [departure file][Departure rank] [x] {Landing file}{Landing Rank} [= Promotion][+|=|#]
-     * [] is optional
-     * {} is compulsory
-     *  | means XOR
-     * It is simpler to parse from the back towards the front
-     */
-    std::string::reverse_iterator it = rInput.rbegin();
-
-    try 
-    {
-        if(*it == '=') // Draw offers are ignored for now
-        {
-            NEXT_CHARACTER_OR_THROW(it, rInput);
-        }
-
-        if(*it == '+') // Check is ignored
-        {
-            NEXT_CHARACTER_OR_THROW(it, rInput);
-        }
-
-        if(*it == '#') // Checkmate is ignored
-        {
-            NEXT_CHARACTER_OR_THROW(it, rInput);
-        }
-
-        const auto last_item = rInput.end()-1; // Distinguishing between draw offer and promotion marker
-        auto tmp = std::find(rInput.begin(), last_item, '='); // Finding promotion marker
-
-        // Dealing with promotion
-        if(tmp != last_item)
-        {
-            tmp++;
-            rPromotion = GetPieceFromChar(*tmp);
-            
-            // Advancing past = sign
-            NEXT_CHARACTER_OR_THROW(it, rInput);
-            NEXT_CHARACTER_OR_THROW(it, rInput);
-
-        } else {
-            rPromotion = PieceSet::NONE;
-        }
-
-        rPiece = PieceSet::PAWN; // default value
-        rMove = {-1,-1,-1,-1};
-
-        // Getting Landing rank
-        rMove.landing_rank = *it - '1';
-        
-        NEXT_CHARACTER_OR_THROW(it, rInput);
-
-        // Gettings Landing file
-        rMove.landing_file = *it - 'a';
-
-        NEXT_CHARACTER_OR_RETURN_TRUE(it, rInput);
-
-        // Ignoring capture
-        if(*it == 'x')
-        {
-            NEXT_CHARACTER_OR_RETURN_TRUE(it, rInput);
-        }
-
-        // Getting [departure file][Departure rank]
-
-        switch(std::distance(it, rInput.rend())) {
-        case 3:
-            // [Piece][departure file][Departure rank]
-            rMove.departure_rank = *it - '0';
-            it++;
-            rMove.departure_file = *it - 'a';
-            it++;
-            break;
-        case 2:
-            // [Piece][departure file] OR [Piece][Departure rank]. --- [Departure file][Departure rank] is impossible: two pawns cannot attack the same square from the same file.
-            if(*it >= 'a' && *it <= 'h') // It's a file
-            {
-                rMove.departure_file = *it - 'a';
-            } else if(*it >= '0' && *it <= '9') { // It's a rank
-                rMove.departure_rank = *it - '0';
-            } else {
-                throw std::runtime_error("Wrong input");
-            }
-            it++;
-            break;
-        case 1:
-            // [Piece] OR [departure file] OR [departure rank]
-            if(*it >= 'A' && *it <= 'Z') // It's potentially a piece
-            {
-                break;
-            }
-            if(*it >= 'a' && *it <= 'h') // It's a file
-            {
-                rMove.departure_file = *it - 'a';
-            } else if(*it >= '0' && *it <= '9') { // It's a rank
-                rMove.departure_rank = *it - '0';
-            } else {
-                throw std::runtime_error("Wrong input");
-            }
-            return true;
-        default:
-            throw std::runtime_error("Wrong input");
-        }
-
-        // Getting [Piece]
-        rPiece = GetPieceFromChar(*it);
-        
-        if(rPiece == PieceSet::NONE)
-        {
-            throw std::runtime_error("Unrecognized piece type");
-        }
-        
-        return true;
-    }
-    catch (...)
-    {
-        // Cleaning up
-        rPiece     = PieceSet::NONE;
-        rPromotion = PieceSet::NONE;
-        rMove = {-1,-1,-1,-1};
-        return false;
-    }
-}
-
-
 
 std::tuple<Move, bool> Interface::ParseAndValidateMove(const std::string & input, const Board & rBoard)
 {
@@ -241,7 +82,7 @@ std::tuple<Move, bool> Interface::ParseAndValidateMove(const std::string & input
     PieceSet piece, promotion;
     Move candidate_move;
 
-    bool is_valid =  ParseMove(piece, promotion, candidate_move, input);
+    bool is_valid =  AlgebraicReader::ParseMove(piece, promotion, candidate_move, input);
 
     if(!is_valid) return std::tie(candidate_move, is_valid);
 
