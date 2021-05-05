@@ -174,7 +174,7 @@ protected:
     }
 
     template<typename TExceptionType, typename TLambdaType, typename Tstring=const char *>
-    static TExceptionType AssertRaises(TLambdaType && f, Tstring msg = "")
+    const static TExceptionType & AssertRaises(TLambdaType && f, Tstring msg = "")
     {
         try
         {
@@ -188,7 +188,7 @@ protected:
             }
             throw TestFailure(ss.str());
         }
-        catch(TExceptionType e)
+        catch(const TExceptionType & e)
         {
             return e;
         }
@@ -202,7 +202,7 @@ protected:
         {
             regex = std::make_unique<std::regex>(regex_str);
         }
-        catch(std::runtime_error e)
+        catch(const std::runtime_error & e)
         {
             CHESS_THROW << "Runtime error while parsing regex {" << regex_str << "}:\n    " << e.what();
         }
