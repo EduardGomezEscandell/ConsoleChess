@@ -94,7 +94,7 @@ CHESS_DEFINE_TEST(RookPromotion)
 {
     PieceSet piece, promotion;
     Move move;
-    const std::string input = "O-O"; // this move is a typo, should be Qh8
+    const std::string input = "Ra5=Q"; // this move is nonsense
     const bool valid_move = AlgebraicReader::ParseMove(piece, promotion, move, input);
     
     this->AssertEqual(valid_move, false, "Failed to recognize the non-validity of example 6");
@@ -104,6 +104,21 @@ CHESS_DEFINE_TEST(RookPromotion)
     this->AssertEqual(move.departure_rank, -1, "Failed to clean up the departure_rank in example 6");
     this->AssertEqual(move.landing_rank, -1, "Failed to clean up the landing_rank in example 6");
     this->AssertEqual(move.landing_file, -1, "Failed to clean up the landing_file in example 6");
+
+}
+
+CHESS_DEFINE_TEST(ShortCastles)
+{
+    PieceSet piece, promotion;
+    Move move;
+    const std::string input = "O-O";
+
+    auto e = this->AssertRaises<ChessError>([&]()
+    {
+        AlgebraicReader::ParseMove(piece, promotion, move, input);
+    });
+
+    this->AssertRegex(e.what(), "[^]*Castling is not yet implemented[^]*", "Failed to throw castling not implemented exception");
 }
 
 
@@ -118,6 +133,7 @@ CHESS_TEST_LIST(AlgebraicNotationTestSuite)
     CHESS_TEST_LIST_ITEM(AlgebraicTests::PawnCapturePromoteMate);
     CHESS_TEST_LIST_ITEM(AlgebraicTests::RookPromotion);
     CHESS_TEST_LIST_ITEM(AlgebraicTests::Typo);
+    CHESS_TEST_LIST_ITEM(AlgebraicTests::ShortCastles);
 }
 
 

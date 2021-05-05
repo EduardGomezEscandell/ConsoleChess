@@ -6,6 +6,8 @@
 #include <exception>
 #include <sstream>
 #include <algorithm>
+#include <regex>
+
 #include "../defines.h"
 
 namespace ConsoleChess {
@@ -184,6 +186,53 @@ protected:
             }
         }
 
+    }
+
+    template<typename TExceptionType, typename TLambdaType, typename Tstring=const char *>
+    TExceptionType AssertRaises(TLambdaType && f, Tstring msg = "") const
+    {
+        try
+        {
+            f();
+
+
+            std::stringstream ss;
+            ss << "AssertRaises error: Expected exception was not thrown.";
+            if(msg[0] != '\0')
+            {
+                ss << "\n" << msg;
+            }
+            throw TestFailure(ss.str());
+        }
+        catch(TExceptionType e)
+        {
+            return e;
+        }
+    }
+
+    template<typename Tstring=const char *>
+    void AssertRegex(const std::string & str, const std::string & regex_str, const Tstring& msg = "") const
+    {
+        std::unique_ptr<std::regex> regex;
+        try
+        {
+            regex = std::make_unique<std::regex>(regex_str);
+        }
+        catch(std::runtime_error e)
+        {
+            CHESS_THROW << "Runtime error while parsing regex {" << regex_str << "}:\n    " << e.what();
+        }
+        
+        if(std::regex_match(str, *regex)) return;
+
+        std::stringstream ss;
+        ss << "AssertRegex error: {" << str << "} does not match { " << regex_str << " }";
+        if(msg[0] != '\0')
+        {
+            ss << "\n" << msg;
+        }
+
+        throw TestFailure(ss.str());
     }
 
 };
