@@ -89,9 +89,7 @@ Board::Board(const std::string & rFen) : Board()
 
             if(piece_type == PieceSet::NONE)
             {
-                std::stringstream ss;
-                ss << "Unexpected character when reading FEN : " << c << "\n";
-                throw std::runtime_error(ss.str());
+                CHESS_THROW << "Unexpected character when reading FEN : " << c;
             }
 
             this->CreatePieceInLocation(piece_type, rank, file, col);
@@ -175,7 +173,7 @@ Piece * Board::CreatePieceInLocation(PieceSet piece_type, const int & rank, cons
         square.NewPiece<Pawn>(rank, file, this, colour);
         break;
     default:
-        throw std::invalid_argument("Unknown piece type.");
+        CHESS_THROW << "Unknown piece type";
     }
 
     return square.pGetContent();
@@ -354,7 +352,7 @@ void Board::CheckBoundsDebug(const int rank, const int file)
 {
     if(rank >= 8 || rank < 0 || file < 0 || file >= 8)
     {
-        throw std::logic_error("Index out of bounds");
+        CHESS_THROW << "Index out of bounds (" << rank <<", " << file << ")";
     }
 }
 #else

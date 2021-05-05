@@ -38,8 +38,7 @@ Colour Interface::Intro()
         std::cout << "white." << std::endl;
         break;
     default:
-        std::cerr <<"\nUnreachable code reached in " << __FILE__ <<":"<<__LINE__<<std::endl;
-        throw;
+        CHESS_THROW <<"\nUnreachable code reached.";
     }
     return colour;
 }

@@ -94,7 +94,7 @@ CHESS_DEFINE_TEST(RookPromotion)
 {
     PieceSet piece, promotion;
     Move move;
-    const std::string input = "Rh8=Q"; // this move is a typo, should be Qh8
+    const std::string input = "O-O"; // this move is a typo, should be Qh8
     const bool valid_move = AlgebraicReader::ParseMove(piece, promotion, move, input);
     
     this->AssertEqual(valid_move, false, "Failed to recognize the non-validity of example 6");
@@ -116,6 +116,7 @@ CHESS_TEST_LIST(AlgebraicNotationTestSuite)
     CHESS_TEST_LIST_ITEM(AlgebraicTests::RookCapture);
     CHESS_TEST_LIST_ITEM(AlgebraicTests::RookCaptureDraw);
     CHESS_TEST_LIST_ITEM(AlgebraicTests::PawnCapturePromoteMate);
+    CHESS_TEST_LIST_ITEM(AlgebraicTests::RookPromotion);
     CHESS_TEST_LIST_ITEM(AlgebraicTests::Typo);
 }
 

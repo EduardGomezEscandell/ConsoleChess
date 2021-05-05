@@ -87,8 +87,7 @@ protected:
             }
         }
 
-        std::cerr <<"Unreachable code reached in " << __FILE__ <<":"<<__LINE__<<std::endl;
-        throw std::logic_error("Unreachable code reached.");
+        CHESS_THROW << "Unreachable code reached.";
     }
 
 };

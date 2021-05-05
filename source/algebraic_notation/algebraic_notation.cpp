@@ -53,6 +53,7 @@ bool AlgebraicReader::ParseMove(PieceSet & rPiece, PieceSet & rPromotion, Move& 
     if(std::regex_match(Input, castling))
     {
         rPiece = PieceSet::KING;
+        CHESS_THROW << "Castling is not yet implemented";
         return true;
     }
     

@@ -22,6 +22,10 @@ TestReport Test::Run() const
         {
             return TestReport(Result::ERROR, this->GetName(), e.what());
         }
+        catch(const ChessError e)
+        {
+            return TestReport(Result::ERROR, this->GetName(), e.what());
+        }
         catch(const std::exception e)
         {
             return TestReport(Result::ERROR, this->GetName(), "No message");
