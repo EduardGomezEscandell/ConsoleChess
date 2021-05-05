@@ -174,7 +174,7 @@ protected:
     }
 
     template<typename TExceptionType, typename TLambdaType, typename Tstring=const char *>
-    const static TExceptionType & AssertRaises(TLambdaType && f, Tstring msg = "")
+    const static TExceptionType AssertRaises(TLambdaType && f, Tstring msg = "")
     {
         try
         {
