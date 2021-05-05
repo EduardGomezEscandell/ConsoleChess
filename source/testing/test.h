@@ -66,7 +66,7 @@ protected:
     Test() {}
 
     template<typename T, typename Tstring=const char *>
-    void AssertTrue(const T& t, const Tstring& msg = "")
+    static void AssertTrue(const T& t, const Tstring& msg = "")
     {
         if(t) return;
 
@@ -81,7 +81,7 @@ protected:
     }
 
     template<typename T, typename U, typename Tstring=const char *>
-    void AssertEqual(const T & t, const U & u, const Tstring& msg = "") const
+    static void AssertEqual(const T & t, const U & u, const Tstring& msg = "")
     {
         if(t == u) return;
 
@@ -96,7 +96,7 @@ protected:
     }
 
     template<typename T, typename U, typename Tstring=const char *>
-    void AssertDifferent(const T & t, const U & u, const Tstring& msg = "") const
+    static void AssertDifferent(const T & t, const U & u, const Tstring& msg = "")
     {
         if(!(t == u)) return;
 
@@ -111,22 +111,7 @@ protected:
     }
 
     template<typename T, typename Tstring=const char *>
-    void AssertTrue(const T & t, const Tstring& msg = "") const
-    {
-        if(t) return;
-
-        std::stringstream ss;
-        ss << "AssertTrue error: " << t << " is not true";
-        if(msg[0] != '\0')
-        {
-            ss << "\n" << msg;
-        }
-
-        throw TestFailure(ss.str());
-    }
-
-    template<typename T, typename Tstring=const char *>
-    void AssertFalse(const T & t, const Tstring& msg = "") const
+    static void AssertFalse(const T & t, const Tstring& msg = "")
     {
         if(!t) return;
 
@@ -141,7 +126,7 @@ protected:
     }
 
     template<typename T1, typename T2, typename Tstring=const char *>
-    void AssertEqualContainers(const T1 & c1, const T2 & c2, const Tstring& msg = "") const
+    static void AssertEqualContainers(const T1 & c1, const T2 & c2, const Tstring& msg = "")
     {
         if(c1.size() != c2.size())
         {
@@ -189,12 +174,11 @@ protected:
     }
 
     template<typename TExceptionType, typename TLambdaType, typename Tstring=const char *>
-    TExceptionType AssertRaises(TLambdaType && f, Tstring msg = "") const
+    static TExceptionType AssertRaises(TLambdaType && f, Tstring msg = "")
     {
         try
         {
             f();
-
 
             std::stringstream ss;
             ss << "AssertRaises error: Expected exception was not thrown.";
@@ -211,7 +195,7 @@ protected:
     }
 
     template<typename Tstring=const char *>
-    void AssertRegex(const std::string & str, const std::string & regex_str, const Tstring& msg = "") const
+    static void AssertRegex(const std::string & str, const std::string & regex_str, const Tstring& msg = "")
     {
         std::unique_ptr<std::regex> regex;
         try

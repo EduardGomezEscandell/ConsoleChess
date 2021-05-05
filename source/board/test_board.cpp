@@ -11,13 +11,13 @@ CHESS_DEFINE_TEST(Constructor)
     Board board;
 
     const int nfiles = board.NumberOfFiles;
-    this->AssertEqual<const int, int>(nfiles, 8);
+    AssertEqual<const int, int>(nfiles, 8);
 
     const int nranks = board.NumberOfRanks;
-    this->AssertEqual<const int, int>(nranks, 8);
+    AssertEqual<const int, int>(nranks, 8);
 
     const int nsquares = board.NumberOfSquares;
-    this->AssertEqual<const int, int>(nsquares, 64);
+    AssertEqual<const int, int>(nsquares, 64);
 
     for(int i=0; i<8; i++)
     {
@@ -26,7 +26,7 @@ CHESS_DEFINE_TEST(Constructor)
             bool isempty = board.SquareIsEmpty(i,j);
             char buffer[256];
             sprintf(buffer, "Square %d, %d is not empty at the begining", i, j);
-            this->AssertTrue(isempty, buffer);
+            AssertTrue(isempty, buffer);
         }
     }
 }
@@ -37,10 +37,10 @@ CHESS_DEFINE_TEST(CreatePiece)
     board.CreatePieceInLocation(PieceSet::KNIGHT, 0,0, Colour::WHITE);
 
     Colour c = board.GetColourOccupied(0,0);
-    this->AssertEqual((int) c, (int) Colour::WHITE, "Square colour should have been white but it was not");
+    AssertEqual((int) c, (int) Colour::WHITE, "Square colour should have been white but it was not");
 
     c = board.GetColourOccupied(0,1);
-    this->AssertEqual((int) c, (int) Colour::UNDEFINED, "Square colour should have been undefined but it was not");
+    AssertEqual((int) c, (int) Colour::UNDEFINED, "Square colour should have been undefined but it was not");
 }
 
 CHESS_DEFINE_TEST(FullPieceSet)
@@ -63,10 +63,10 @@ CHESS_DEFINE_TEST(CopyConstructor)
     Board new_board = board;
     Piece * new_king = new_board.pGetSquareContent(5,5);
 
-    this->AssertDifferent(new_king, static_cast<Piece *>(nullptr));     // Ensuring there is something
-    this->AssertEqual(new_king->GetPieceType(), PieceSet::KING);        // Ensuring there is a king
+    AssertDifferent(new_king, static_cast<Piece *>(nullptr));     // Ensuring there is something
+    AssertEqual(new_king->GetPieceType(), PieceSet::KING);        // Ensuring there is a king
 
-    this->AssertDifferent(original, new_king);                          // Ensuring the new piece is different instance
+    AssertDifferent(original, new_king);                          // Ensuring the new piece is different instance
 }
 
 CHESS_DEFINE_TEST(FEN)
@@ -86,12 +86,12 @@ CHESS_DEFINE_TEST(FEN)
             // Asserting same full/emptyness
             std::stringstream ss;
             ss << "Disagreement on whether " << Square::GetName(rank, file) << " is full or empty \n";
-            this->AssertEqual<bool, bool, std::string>(piece_fen, piece_std, ss.str());
+            AssertEqual<bool, bool, std::string>(piece_fen, piece_std, ss.str());
             if(piece_fen == nullptr) continue; // Both agree square is empty
 
             // Neither is empty
             ss << "Standard board and FEN disagree on constents of square " << Square::GetName(rank, file) << "\n";
-            this->AssertEqual(piece_fen->GetPieceType(), piece_std->GetPieceType(), ss.str());
+            AssertEqual(piece_fen->GetPieceType(), piece_std->GetPieceType(), ss.str());
         }
     }
 

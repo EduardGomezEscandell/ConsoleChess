@@ -25,7 +25,7 @@ CHESS_DEFINE_TEST(Movement)
                                        };
     bishop->UpdateLegalMoves();
     const auto & moves = bishop->GetMoves();
-    this->AssertEqualContainers(moves, expected_moves, "Bishop non-castling moves incorrect.");
+    AssertEqualContainers(moves, expected_moves, "Bishop non-castling moves incorrect.");
 
     for(const Move & m : moves)
     {   
@@ -33,7 +33,7 @@ CHESS_DEFINE_TEST(Movement)
         bool is_attacked = s.IsAttackedBy(bishop->GetColour());
         std::stringstream ss;
         ss << "Bishop available square is not attacked (" << s.GetName() << ")" <<std::endl;
-        this->AssertTrue(is_attacked, ss.str());
+        AssertTrue(is_attacked, ss.str());
     }
 }
 
@@ -44,10 +44,10 @@ CHESS_DEFINE_TEST(Notation)
     char c;
 
     c = white_bishop.GetPieceCharacter();
-    this->AssertEqual(c, 'B', "Incorrect notation for white bishop");
+    AssertEqual(c, 'B', "Incorrect notation for white bishop");
 
     c = black_bishop.GetPieceCharacter();
-    this->AssertEqual(c, 'b', "Incorrect notation for black bishop");
+    AssertEqual(c, 'b', "Incorrect notation for black bishop");
 }
 
 

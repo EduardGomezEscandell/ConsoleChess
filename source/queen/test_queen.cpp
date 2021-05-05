@@ -39,7 +39,7 @@ CHESS_DEFINE_TEST(Movement)
     Queen->UpdateLegalMoves();
     const auto & moves = Queen->GetMoves();
 
-    this->AssertEqualContainers(moves, expected_moves, "Queen moves incorrect.");
+    AssertEqualContainers(moves, expected_moves, "Queen moves incorrect.");
 
     for(const Move & m : moves)
     {   
@@ -47,7 +47,7 @@ CHESS_DEFINE_TEST(Movement)
         bool is_attacked = s.IsAttackedBy(Queen->GetColour());
         std::stringstream ss;
         ss << "Queen available square is not attacked (" << s.GetName() << ")" <<std::endl;
-        this->AssertTrue(is_attacked, ss.str());
+        AssertTrue(is_attacked, ss.str());
     }
 }
 
@@ -58,10 +58,10 @@ CHESS_DEFINE_TEST(Notation)
     char c;
 
     c = white_queen.GetPieceCharacter();
-    this->AssertEqual(c, 'Q', "Incorrect notation for white queen");
+    AssertEqual(c, 'Q', "Incorrect notation for white queen");
 
     c = black_queen.GetPieceCharacter();
-    this->AssertEqual(c, 'q', "Incorrect notation for black queen");
+    AssertEqual(c, 'q', "Incorrect notation for black queen");
 }
 
 

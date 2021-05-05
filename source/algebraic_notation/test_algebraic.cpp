@@ -14,13 +14,13 @@ CHESS_DEFINE_TEST(PawnCheck)
     std::string input = "e5+";
     bool valid_move = AlgebraicReader::ParseMove(piece, promotion, move, input);
     
-    this->AssertEqual(valid_move, true, "Failed to recognize the validity of example 1");
-    this->AssertEqual(piece, PieceSet::PAWN, "Failed to read the piece in example 1");
-    this->AssertEqual(promotion, PieceSet::NONE, "Failed to read the promotion in example 1");
-    this->AssertEqual(move.departure_file, -1, "Failed to read the departure_file in example 1");
-    this->AssertEqual(move.departure_rank, -1, "Failed to read the departure_rank in example 1");
-    this->AssertEqual(move.landing_rank, 4, "Failed to read the landing_rank in example 1");
-    this->AssertEqual(move.landing_file, 4, "Failed to read the landing_file in example 1");
+    AssertEqual(valid_move, true, "Failed to recognize the validity of example 1");
+    AssertEqual(piece, PieceSet::PAWN, "Failed to read the piece in example 1");
+    AssertEqual(promotion, PieceSet::NONE, "Failed to read the promotion in example 1");
+    AssertEqual(move.departure_file, -1, "Failed to read the departure_file in example 1");
+    AssertEqual(move.departure_rank, -1, "Failed to read the departure_rank in example 1");
+    AssertEqual(move.landing_rank, 4, "Failed to read the landing_rank in example 1");
+    AssertEqual(move.landing_file, 4, "Failed to read the landing_file in example 1");
 }
 
 CHESS_DEFINE_TEST(RookCapture)
@@ -31,13 +31,13 @@ CHESS_DEFINE_TEST(RookCapture)
     const std::string input = "Rxc6";
     const bool valid_move = AlgebraicReader::ParseMove(piece, promotion, move, input);
     
-    this->AssertEqual(valid_move, true, "Failed to recognize the validity of example 2");
-    this->AssertEqual(piece, PieceSet::ROOK, "Failed to read the piece in example 2");
-    this->AssertEqual(promotion, PieceSet::NONE, "Failed to read the promotion in example 2");
-    this->AssertEqual(move.departure_file, -1, "Failed to read the departure_file in example 2");
-    this->AssertEqual(move.departure_rank, -1, "Failed to read the departure_rank in example 2");
-    this->AssertEqual(move.landing_rank, 5, "Failed to read the landing_rank in example 2");
-    this->AssertEqual(move.landing_file, 2, "Failed to read the landing_file in example 2");
+    AssertEqual(valid_move, true, "Failed to recognize the validity of example 2");
+    AssertEqual(piece, PieceSet::ROOK, "Failed to read the piece in example 2");
+    AssertEqual(promotion, PieceSet::NONE, "Failed to read the promotion in example 2");
+    AssertEqual(move.departure_file, -1, "Failed to read the departure_file in example 2");
+    AssertEqual(move.departure_rank, -1, "Failed to read the departure_rank in example 2");
+    AssertEqual(move.landing_rank, 5, "Failed to read the landing_rank in example 2");
+    AssertEqual(move.landing_file, 2, "Failed to read the landing_file in example 2");
 }
 
 CHESS_DEFINE_TEST(RookCaptureDraw)
@@ -48,13 +48,13 @@ CHESS_DEFINE_TEST(RookCaptureDraw)
     const std::string input = "Rexc6=";
     const bool valid_move = AlgebraicReader::ParseMove(piece, promotion, move, input);
     
-    this->AssertEqual(valid_move, true, "Failed to recognize the validity of example 3");
-    this->AssertEqual(piece, PieceSet::ROOK, "Failed to read the piece in example 3");
-    this->AssertEqual(promotion, PieceSet::NONE, "Failed to read the promotion in example 3");
-    this->AssertEqual(move.departure_file, 4, "Failed to read the departure_file in example 3");
-    this->AssertEqual(move.departure_rank, -1, "Failed to read the departure_rank in example 3");
-    this->AssertEqual(move.landing_rank, 5, "Failed to read the landing_rank in example 3");
-    this->AssertEqual(move.landing_file, 2, "Failed to read the landing_file in example 3");
+    AssertEqual(valid_move, true, "Failed to recognize the validity of example 3");
+    AssertEqual(piece, PieceSet::ROOK, "Failed to read the piece in example 3");
+    AssertEqual(promotion, PieceSet::NONE, "Failed to read the promotion in example 3");
+    AssertEqual(move.departure_file, 4, "Failed to read the departure_file in example 3");
+    AssertEqual(move.departure_rank, -1, "Failed to read the departure_rank in example 3");
+    AssertEqual(move.landing_rank, 5, "Failed to read the landing_rank in example 3");
+    AssertEqual(move.landing_file, 2, "Failed to read the landing_file in example 3");
 }
 
 CHESS_DEFINE_TEST(PawnCapturePromoteMate)
@@ -65,13 +65,13 @@ CHESS_DEFINE_TEST(PawnCapturePromoteMate)
     const std::string input = "gxh8=Q#";
     const bool valid_move = AlgebraicReader::ParseMove(piece, promotion, move, input);
     
-    this->AssertEqual(valid_move, true, "Failed to recognize the validity of example 4");
-    this->AssertEqual(piece, PieceSet::PAWN, "Failed to read the piece in example 4");
-    this->AssertEqual(promotion, PieceSet::QUEEN, "Failed to read the promotion in example 4");
-    this->AssertEqual(move.departure_file, 6, "Failed to read the departure_file in example 4");
-    this->AssertEqual(move.departure_rank, -1, "Failed to read the departure_rank in example 4");
-    this->AssertEqual(move.landing_rank, 7, "Failed to read the landing_rank in example 4");
-    this->AssertEqual(move.landing_file, 7, "Failed to read the landing_file in example 4");
+    AssertEqual(valid_move, true, "Failed to recognize the validity of example 4");
+    AssertEqual(piece, PieceSet::PAWN, "Failed to read the piece in example 4");
+    AssertEqual(promotion, PieceSet::QUEEN, "Failed to read the promotion in example 4");
+    AssertEqual(move.departure_file, 6, "Failed to read the departure_file in example 4");
+    AssertEqual(move.departure_rank, -1, "Failed to read the departure_rank in example 4");
+    AssertEqual(move.landing_rank, 7, "Failed to read the landing_rank in example 4");
+    AssertEqual(move.landing_file, 7, "Failed to read the landing_file in example 4");
 }
 
 CHESS_DEFINE_TEST(Typo)
@@ -81,13 +81,13 @@ CHESS_DEFINE_TEST(Typo)
     const std::string input = "qh8"; // this move is a typo, should be Qh8
     const bool valid_move = AlgebraicReader::ParseMove(piece, promotion, move, input);
     
-    this->AssertEqual(valid_move, false, "Failed to recognize the non-validity of example 5");
-    this->AssertEqual(piece, PieceSet::NONE, "Failed to read the piece in example 5");
-    this->AssertEqual(promotion, PieceSet::NONE, "Failed to clean up the promotion in example 5");
-    this->AssertEqual(move.departure_file, -1, "Failed to clean up the departure_file in example 5");
-    this->AssertEqual(move.departure_rank, -1, "Failed to clean up the departure_rank in example 5");
-    this->AssertEqual(move.landing_rank, -1, "Failed to clean up the landing_rank in example 5");
-    this->AssertEqual(move.landing_file, -1, "Failed to clean up the landing_file in example 5");
+    AssertEqual(valid_move, false, "Failed to recognize the non-validity of example 5");
+    AssertEqual(piece, PieceSet::NONE, "Failed to read the piece in example 5");
+    AssertEqual(promotion, PieceSet::NONE, "Failed to clean up the promotion in example 5");
+    AssertEqual(move.departure_file, -1, "Failed to clean up the departure_file in example 5");
+    AssertEqual(move.departure_rank, -1, "Failed to clean up the departure_rank in example 5");
+    AssertEqual(move.landing_rank, -1, "Failed to clean up the landing_rank in example 5");
+    AssertEqual(move.landing_file, -1, "Failed to clean up the landing_file in example 5");
 }
 
 CHESS_DEFINE_TEST(RookPromotion)
@@ -97,13 +97,13 @@ CHESS_DEFINE_TEST(RookPromotion)
     const std::string input = "Ra5=Q"; // this move is nonsense
     const bool valid_move = AlgebraicReader::ParseMove(piece, promotion, move, input);
     
-    this->AssertEqual(valid_move, false, "Failed to recognize the non-validity of example 6");
-    this->AssertEqual(piece, PieceSet::NONE, "Failed to read the piece in example 6");
-    this->AssertEqual(promotion, PieceSet::NONE, "Failed to clean up the promotion in example 6");
-    this->AssertEqual(move.departure_file, -1, "Failed to clean up the departure_file in example 6");
-    this->AssertEqual(move.departure_rank, -1, "Failed to clean up the departure_rank in example 6");
-    this->AssertEqual(move.landing_rank, -1, "Failed to clean up the landing_rank in example 6");
-    this->AssertEqual(move.landing_file, -1, "Failed to clean up the landing_file in example 6");
+    AssertEqual(valid_move, false, "Failed to recognize the non-validity of example 6");
+    AssertEqual(piece, PieceSet::NONE, "Failed to read the piece in example 6");
+    AssertEqual(promotion, PieceSet::NONE, "Failed to clean up the promotion in example 6");
+    AssertEqual(move.departure_file, -1, "Failed to clean up the departure_file in example 6");
+    AssertEqual(move.departure_rank, -1, "Failed to clean up the departure_rank in example 6");
+    AssertEqual(move.landing_rank, -1, "Failed to clean up the landing_rank in example 6");
+    AssertEqual(move.landing_file, -1, "Failed to clean up the landing_file in example 6");
 
 }
 
@@ -113,12 +113,12 @@ CHESS_DEFINE_TEST(ShortCastles)
     Move move;
     const std::string input = "O-O";
 
-    auto e = this->AssertRaises<ChessError>([&]()
+    auto e = AssertRaises<ChessError>([&]()
     {
         AlgebraicReader::ParseMove(piece, promotion, move, input);
     });
 
-    this->AssertRegex(e.what(), "[^]*Castling is not yet implemented[^]*", "Failed to throw castling not implemented exception");
+    AssertRegex(e.what(), "[^]*Castling is not yet implemented[^]*", "Failed to throw castling not implemented exception");
 }
 
 

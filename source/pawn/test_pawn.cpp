@@ -21,7 +21,7 @@ CHESS_DEFINE_TEST(Movement)
                                        };
     white_pawn->UpdateLegalMoves();
     const auto & white_moves = white_pawn->GetMoves();
-    this->AssertEqualContainers(white_moves, expected_moves, "White pawn moves are incorrect.");
+    AssertEqualContainers(white_moves, expected_moves, "White pawn moves are incorrect.");
 
 
     // Testing black
@@ -29,7 +29,7 @@ CHESS_DEFINE_TEST(Movement)
 
     black_pawn->UpdateLegalMoves();
     const auto & black_moves = black_pawn->GetMoves();
-    this->AssertEqualContainers(black_moves, expected_moves, "Black pawn moves are incorrect.");
+    AssertEqualContainers(black_moves, expected_moves, "Black pawn moves are incorrect.");
 
     for(const Move & m : white_pawn->GetMoves())
     {   
@@ -40,13 +40,13 @@ CHESS_DEFINE_TEST(Movement)
         {
             std::stringstream ss;
             ss << "Pawn available forward square is attacked (" << s.GetName() << ")" <<std::endl;
-            this->AssertFalse(is_attacked, ss.str());
+            AssertFalse(is_attacked, ss.str());
         }
         else // Pawns can attack diagonaly
         {
             std::stringstream ss;
             ss << "Pawn available diagonal square is not attacked (" << s.GetName() << ")" <<std::endl;
-            this->AssertTrue(is_attacked, ss.str());
+            AssertTrue(is_attacked, ss.str());
         }
     }
 }
@@ -58,10 +58,10 @@ CHESS_DEFINE_TEST(Notation)
     char c;
 
     c = white_pawn.GetPieceCharacter();
-    this->AssertEqual(c, 'O', "Incorrect notation for white pawn");
+    AssertEqual(c, 'O', "Incorrect notation for white pawn");
 
     c = black_pawn.GetPieceCharacter();
-    this->AssertEqual(c, 'o', "Incorrect notation for black pawn");
+    AssertEqual(c, 'o', "Incorrect notation for black pawn");
 }
 
 

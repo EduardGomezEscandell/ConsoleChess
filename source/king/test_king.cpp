@@ -22,7 +22,7 @@ CHESS_DEFINE_TEST(Movement)
                                        };
     king->UpdateLegalMoves();
     const auto & moves = king->GetMoves();
-    this->AssertEqualContainers(moves, expected_moves, "King movement incorrect");
+    AssertEqualContainers(moves, expected_moves, "King movement incorrect");
 
     for(const Move & m : moves)
     {   
@@ -30,7 +30,7 @@ CHESS_DEFINE_TEST(Movement)
         bool is_attacked = s.IsAttackedBy(king->GetColour());
         std::stringstream ss;
         ss << "King available square is not attacked (" << s.GetName() << ")" <<std::endl;
-        this->AssertTrue(is_attacked, ss.str());
+        AssertTrue(is_attacked, ss.str());
     }
 
 }
@@ -50,7 +50,7 @@ CHESS_DEFINE_TEST(Checks)
     rook->UpdateLegalMoves();
     king->UpdateLegalMoves();
     const auto & moves = king->GetMoves();
-    this->AssertEqualContainers(moves, expected_moves, "King movement when checks exist incorrect");
+    AssertEqualContainers(moves, expected_moves, "King movement when checks exist incorrect");
 
     for(const Move & m : moves)
     {   
@@ -58,7 +58,7 @@ CHESS_DEFINE_TEST(Checks)
         bool is_attacked = s.IsAttackedBy(king->GetColour());
         std::stringstream ss;
         ss << "King available square is not attacked (" << s.GetName() << ")" <<std::endl;
-        this->AssertTrue(is_attacked, ss.str());
+        AssertTrue(is_attacked, ss.str());
     }
 
 }
@@ -70,16 +70,16 @@ CHESS_DEFINE_TEST(Notation)
     char c;
 
     c = white_king.GetPieceCharacter();
-    this->AssertEqual(c, 'K', "Incorrect notation for white knight");
+    AssertEqual(c, 'K', "Incorrect notation for white knight");
 
     c = black_king.GetPieceCharacter();
-    this->AssertEqual(c, 'k', "Incorrect notation for black knight");
+    AssertEqual(c, 'k', "Incorrect notation for black knight");
 }
 
 CHESS_DEFINE_TEST(PieceType)
 {
     King k = King(1,1,nullptr, Colour::BLACK);
-    this->AssertEqual(k.GetPieceType(), PieceSet::KING);
+    AssertEqual(k.GetPieceType(), PieceSet::KING);
 }
 
 

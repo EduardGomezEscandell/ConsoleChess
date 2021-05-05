@@ -25,7 +25,7 @@ CHESS_DEFINE_TEST(Movement)
                                        };
     rook->UpdateLegalMoves();
     const auto & moves = rook->GetMoves();
-    this->AssertEqualContainers(moves, expected_moves, "Rook non-castling moves incorrect.");
+    AssertEqualContainers(moves, expected_moves, "Rook non-castling moves incorrect.");
 
     for(const Move & m : moves)
     {   
@@ -33,7 +33,7 @@ CHESS_DEFINE_TEST(Movement)
         bool is_attacked = s.IsAttackedBy(rook->GetColour());
         std::stringstream ss;
         ss << "Rook available square is not attacked (" << s.GetName() << ")" <<std::endl;
-        this->AssertTrue(is_attacked, ss.str());
+        AssertTrue(is_attacked, ss.str());
     }
 }
 
@@ -44,10 +44,10 @@ CHESS_DEFINE_TEST(Notation)
     char c;
 
     c = white_rook.GetPieceCharacter();
-    this->AssertEqual(c, 'R', "Incorrect notation for white rook");
+    AssertEqual(c, 'R', "Incorrect notation for white rook");
 
     c = black_rook.GetPieceCharacter();
-    this->AssertEqual(c, 'r', "Incorrect notation for black rook");
+    AssertEqual(c, 'r', "Incorrect notation for black rook");
 }
 
 
