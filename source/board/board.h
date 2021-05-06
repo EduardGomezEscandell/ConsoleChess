@@ -36,6 +36,7 @@ public:
     void UnSetAttack(const unsigned int rank, const unsigned int file, const Colour attacker);
     void ResetAttack(const unsigned int rank, const unsigned int file);
 
+    void ResetAttacks();
     void UpdateLegalMoves();
 
     // Querries

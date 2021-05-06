@@ -82,6 +82,25 @@ CHESS_DEFINE_TEST(PieceType)
     AssertEqual(k.GetPieceType(), PieceSet::KING);
 }
 
+CHESS_DEFINE_TEST(KingInCheck)
+{
+    Board board;
+    Piece * king = board.CreatePieceInLocation(PieceSet::KING, 5,5, Colour::WHITE);
+    
+    // Checking positive test
+    board.CreatePieceInLocation(PieceSet::ROOK, 5, 0, Colour::BLACK);
+    board.UpdateLegalMoves();
+
+    AssertTrue(king->IsInCheck());
+    
+    // Checking negative test
+    board.GetSquare(5,0).ResetContent();
+    board.ResetAttacks();
+    board.UpdateLegalMoves();
+
+    AssertFalse(king->IsInCheck());
+}
+
 
 }
 
@@ -91,6 +110,7 @@ CHESS_TEST_LIST(KingTestSuite)
     CHESS_TEST_LIST_ITEM(KingTests::Checks);
     CHESS_TEST_LIST_ITEM(KingTests::Notation);
     CHESS_TEST_LIST_ITEM(KingTests::PieceType);
+    CHESS_TEST_LIST_ITEM(KingTests::KingInCheck);
 }
 
 

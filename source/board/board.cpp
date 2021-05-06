@@ -300,6 +300,14 @@ void Board::UpdateLegalMoves()
     }
 }
 
+void Board::ResetAttacks()
+{
+    for(auto & square : mSquares)
+    {
+        square.ResetAttack();
+    }
+}
+
 bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type, const PieceSet promotion) const
 {
     if(piece_type != PieceSet::PAWN && promotion != PieceSet::NONE) return false; // Only pawns can promote

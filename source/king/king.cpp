@@ -38,7 +38,7 @@ void King::UpdateLegalMoves()
 
 bool King::IsInCheck() const
 {
-    // const Board& b = *(this->mParentBoard);
+    return mParentBoard->GetSquare(mLocation[0], mLocation[1]).IsAttackedBy(OppositeColour(mColour));
     return false;
 }
 
