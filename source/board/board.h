@@ -4,6 +4,8 @@
 #include "../piece.h"
 #include "../defines.h"
 #include "../square.h"
+
+#include <list>
 #include <memory>
 #include <string>
 
@@ -25,6 +27,9 @@ public:
     const Piece * pGetSquareContent(const int & square) const;
     Piece * pGetSquareContent(const int & rank, const int & file);
     const Piece * pGetSquareContent(const int & rank, const int & file) const;
+
+    Piece * GetKing(Colour colour);
+    const Piece * GetKing(Colour colour) const;
 
     // Editors
     void DoMove(const Move & Move);
@@ -61,7 +66,9 @@ public:
 
 protected:
     Square mSquares[NumberOfSquares];
-    std::vector<Piece *> kings = {};
+    std::list<std::unique_ptr<Piece>> mPieces;
+    Piece * mWhiteKing = nullptr;
+    Piece * mBlackKing = nullptr;
     static std::tuple<PieceSet, Colour> GetPieceFromFEN(char c);
     Colour mColourToMove = Colour::WHITE;
 

@@ -30,34 +30,21 @@ void Square::SetLocation(const unsigned int Rank, const unsigned int File, Board
     mpOwner = pOwner;
 }
 
-void Square::ResetContent()
+void Square::Vacate()
 {
-    this->mContent.reset();
+    mContent = nullptr;
 }
 
 void Square::SwapContent(Square & rOther)
 {
-    this->mContent.swap(rOther.mContent);
+    Piece * tmp = rOther.mContent;
+    rOther.mContent = this->mContent;
+    this->mContent = tmp;
 }
 
-void Square::SwapContent(std::unique_ptr<Piece> & rpPiece)
+void Square::OverwriteContent(Piece * rPiece)
 {
-    this->mContent.swap(rpPiece);
-}
-
-Piece * Square::CloneContent(const Square & rRHS)
-{
-    if(rRHS.IsEmpty())
-    {
-        mContent.reset();
-    }
-    else
-    {
-        auto p_copy = std::unique_ptr<Piece>(rRHS.mContent->Clone(mpOwner));
-        SwapContent(p_copy);
-    }
-
-    return mContent.get();
+    this->mContent = rPiece;
 }
 
 
@@ -102,7 +89,7 @@ void Square::ResetAttack()
 
 void Square::Reset()
 {
-    mContent.reset();
+    Vacate();
     ResetAttack();
 }
 
@@ -140,13 +127,13 @@ std::string Square::GetName() const
 
 Piece * Square::pGetContent()
 {
-    return mContent.get();
+    return mContent;
 }
 
 
 const Piece * Square::pGetContent() const
 {
-    return mContent.get();
+    return mContent;
 }
 
 

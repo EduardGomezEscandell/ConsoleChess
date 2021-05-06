@@ -40,13 +40,13 @@ Move::Move()
 
 Move Move::ShortCastle()
 {
-    return Move(ShortCastle_mask, 0);
+    return MoveFromBits(ShortCastle_mask, 0);
 }
 
 
 Move Move::LongCastle()
 {
-    return Move(LongCastle_mask, 0);
+    return MoveFromBits(LongCastle_mask, 0);
 }
 
 
@@ -109,7 +109,7 @@ void Move::SetShortCastle(bool set)
 {
     if(set)
     {
-        mData16 = mData16 & ShortCastle_mask;
+        mData16 = mData16 | ShortCastle_mask;
     } 
     else 
     {
@@ -121,7 +121,7 @@ void Move::SetLongCastle(bool set)
 {
     if(set)
     {
-        mData16 = mData16 & LongCastle_mask;
+        mData16 = mData16 | LongCastle_mask;
     } 
     else 
     {

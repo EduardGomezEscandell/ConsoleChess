@@ -96,20 +96,31 @@ CHESS_DEFINE_TEST(RookPromotion)
     AssertFalse(valid_move, "Failed to recognize the non-validity of example 6");
 }
 
-CHESS_DEFINE_TEST(ShortCastles)
+CHESS_DEFINE_TEST(ShortCastle)
 {
     PieceSet piece;
     Move move;
     const std::string input = "O-O";
 
-    auto e = AssertRaises<ChessError>([&]()
-    {
-        AlgebraicReader::ParseMove(piece, move, input);
-    });
+    const bool valid_move = AlgebraicReader::ParseMove(piece, move, input);
 
-    AssertRegex(e.what(), "[^]*Castling is not yet implemented[^]*", "Failed to throw castling not implemented exception");
+    AssertTrue(valid_move, "Short castling unrecognized");
+    Move expected_move = Move::ShortCastle();
+    AssertEqual(move, expected_move, "Failed to parse short caste");
 }
 
+CHESS_DEFINE_TEST(LongCastle)
+{
+    PieceSet piece;
+    Move move;
+    const std::string input = "O-O-O";
+
+    const bool valid_move = AlgebraicReader::ParseMove(piece, move, input);
+
+    AssertTrue(valid_move, "Long castling unrecognized");
+    Move expected_move = Move::LongCastle();
+    AssertEqual(move, expected_move, "Failed to parse long caste");
+}
 
 }
 
@@ -122,7 +133,8 @@ CHESS_TEST_LIST(AlgebraicNotationTestSuite)
     CHESS_TEST_LIST_ITEM(AlgebraicTests::PawnCapturePromoteMate);
     CHESS_TEST_LIST_ITEM(AlgebraicTests::RookPromotion);
     CHESS_TEST_LIST_ITEM(AlgebraicTests::Typo);
-    CHESS_TEST_LIST_ITEM(AlgebraicTests::ShortCastles);
+    CHESS_TEST_LIST_ITEM(AlgebraicTests::ShortCastle);
+    CHESS_TEST_LIST_ITEM(AlgebraicTests::LongCastle);
 }
 
 

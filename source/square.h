@@ -11,16 +11,15 @@ namespace ConsoleChess
 class Square
 {
 public:
-    void ResetContent();
+    void Vacate();
     void SwapContent(Square & rOther);
-    void SwapContent(std::unique_ptr<Piece> & rpPiece);
+    void OverwriteContent(Piece * rpPiece);
 
     unsigned int GetRank() const;
     unsigned int GetFile() const;
 
     Piece * pGetContent();
     const Piece * pGetContent() const;
-    Piece * CloneContent(const Square & rRHS);
 
     bool IsAttackedBy(Colour attacker);
     void SetAttack(Colour attacker);
@@ -32,18 +31,10 @@ public:
     static std::string GetName(int rank, int file);
     std::string GetName() const;
 
-    template<typename TPieceType, typename ... Types>
-    Piece * NewPiece(Types ... args)
-    {
-        mContent.reset();
-        mContent = std::make_unique<TPieceType>(args...);
-        return mContent.get();
-    }
-
     bool ValidateMove(PieceSet piece_type, const int rank, const int file, Colour colour) const;
 
 protected:
-    std::unique_ptr<Piece> mContent;
+    Piece * mContent = nullptr;
     bool mWhiteAttacks;
     bool mBlackAttacks;
 

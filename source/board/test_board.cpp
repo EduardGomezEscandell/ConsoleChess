@@ -111,7 +111,7 @@ CHESS_DEFINE_TEST(KingInCheck)
     AssertTrue(board.IsInCheck(Colour::BLACK));
     
     // Checking negative test
-    board.GetSquare(5,0).ResetContent();
+    board.GetSquare(5,0).Vacate();
     board.ResetAttacks();
     board.UpdateLegalMoves();
 

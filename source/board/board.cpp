@@ -105,7 +105,10 @@ Board::Board(const Board & rRHS)
 {
     for(int i=0; i<NumberOfSquares; i++)
     {
-        mSquares[i].CloneContent(rRHS.mSquares[i]);
+        if(rRHS.mSquares[i].IsEmpty()) continue;
+
+        mPieces.emplace_back(rRHS.mSquares[i].pGetContent()->Clone(this));
+        mSquares[i].OverwriteContent(mPieces.back().get());
     }
 }
 
@@ -152,31 +155,69 @@ Piece * Board::CreatePieceInLocation(PieceSet piece_type, const int & rank, cons
 
     switch (piece_type) {
     case PieceSet::NONE:
-        break;
+        return nullptr;
     case PieceSet::KNIGHT:
-        square.NewPiece<Knight>(rank, file, this, colour);
-        break;
-    case PieceSet::KING:
-        square.NewPiece<King>(rank, file, this, colour);
-        kings.push_back(square.pGetContent());
+        mPieces.emplace_back(std::make_unique<Knight>(rank, file, this, colour));
         break;
     case PieceSet::ROOK:
-        square.NewPiece<Rook>(rank, file, this, colour);
+        mPieces.emplace_back(std::make_unique<Rook>(rank, file, this, colour));
         break;
     case PieceSet::BISHOP:
-        square.NewPiece<Bishop>(rank, file, this, colour);
+        mPieces.emplace_back(std::make_unique<Bishop>(rank, file, this, colour));
         break;
     case PieceSet::QUEEN:
-        square.NewPiece<Queen>(rank, file, this, colour);
+        mPieces.emplace_back(std::make_unique<Queen>(rank, file, this, colour));
         break;
     case PieceSet::PAWN:
-        square.NewPiece<Pawn>(rank, file, this, colour);
+        mPieces.emplace_back(std::make_unique<Pawn>(rank, file, this, colour));
+        break;
+    case PieceSet::KING:
+        mPieces.emplace_back(std::make_unique<King>(rank, file, this, colour));
+        
+        if(colour==Colour::WHITE)
+        {
+            if(mWhiteKing) CHESS_THROW << "Attempted to put two white kings on the board";
+            mWhiteKing = mPieces.back().get();
+        } 
+        else if(colour==Colour::BLACK)
+        {
+            if(mBlackKing) CHESS_THROW << "Attempted to put two black kings on the board";
+            mBlackKing = mPieces.back().get();
+        }
         break;
     default:
         CHESS_THROW << "Unknown piece type";
     }
 
+    square.OverwriteContent(mPieces.back().get());
+
     return square.pGetContent();
+}
+
+Piece * Board::GetKing(Colour colour)
+{
+    Piece * king;
+    switch(colour)
+    {
+        case Colour::WHITE:     king = mWhiteKing;  break;
+        case Colour::BLACK:     king = mBlackKing;  break;
+        default: CHESS_THROW << "Attempted to fetch undetermined-coloured king";
+    }
+
+    return king;
+}
+
+const Piece * Board::GetKing(Colour colour) const
+{
+    Piece * king;
+    switch(colour)
+    {
+        case Colour::WHITE:     king = mWhiteKing;  break;
+        case Colour::BLACK:     king = mBlackKing;  break;
+        default: CHESS_THROW << "Attempted to fetch undetermined-coloured king";
+    }
+
+    return king;
 }
 
 Colour Board::GetColourOccupied(const int & rank, const int & file) const
@@ -301,35 +342,17 @@ void Board::ResetAttack(const unsigned int rank, const unsigned int file)
 
 void Board::UpdateLegalMoves()
 {
-    std::vector<Piece *> kings;
-
     for(auto & square : mSquares)
     {
         if(!square.IsEmpty())
         {
-            Piece *p = square.pGetContent();
-            if(p->GetPieceType() != PieceSet::KING)
-            {
-                p->UpdateLegalMoves();
-            }
-            else
-            {
-                kings.push_back(p);
-            }
+            square.pGetContent()->UpdateLegalMoves();
         }
     }
 
     // Updating kings
-    for(auto p: kings)
-    {
-        p->UpdateLegalMoves();
-    }
-
-    // Updating again to consider each other's attack
-    for(auto p: kings)
-    {
-        p->UpdateLegalMoves();
-    }
+    if(mBlackKing) mBlackKing->UpdateLegalMoves();
+    if(mWhiteKing) mWhiteKing->UpdateLegalMoves();
 }
 
 void Board::ResetAttacks()
@@ -346,6 +369,19 @@ bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type) con
     const bool departure_file_known = rMove.IsDepartureFileKnown();
     const unsigned int departure_rank = rMove.GetDepartureRank();
     const unsigned int departure_file = rMove.GetDepartureFile();
+
+    if(rMove.GetShortCastle() || rMove.GetLongCastle())
+    {
+        const Piece * king = GetKing(mColourToMove);
+        
+        if(!king) return false;
+        
+        for(auto & king_move : king->GetMoves())
+        {
+            if(king_move == rMove) return true;
+        }
+        return false;
+    }
 
 
     if(departure_rank_known && departure_file_known) // Departure square is specified
@@ -414,7 +450,7 @@ void Board::DoMove(const Move & rMove)
     {
         // Promoting pawn
         Square & departure = mSquares[CoordsToIndex(rMove.GetDepartureRank(), rMove.GetDepartureFile())];
-        departure.ResetContent();
+        departure.Vacate();
 
         Piece * newpiece = CreatePieceInLocation(rMove.GetPromotion(), rMove.GetLandingRank(), rMove.GetLandingFile(), mColourToMove);
         newpiece->RemoveCastlingRights();        
@@ -446,7 +482,7 @@ void Board::MovePiece(Square & rDeparture, Square & rLanding)
     rDeparture.pGetContent()->RemoveCastlingRights();
     rDeparture.pGetContent()->SetLocation(rLanding.GetRank(), rLanding.GetFile());
 
-    rLanding.ResetContent();
+    rLanding.Vacate();
     rLanding.SwapContent(rDeparture);
 
 }
