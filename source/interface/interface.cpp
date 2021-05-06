@@ -61,6 +61,13 @@ Move Interface::AskMove(const Board & rBoard)
 
     while(!is_valid)
     {
+        switch (rBoard.WhoMoves())
+        {
+            case Colour::WHITE: std::cout << "White to move. ";     break;
+            case Colour::BLACK: std::cout << "Black to move. ";     break;
+            default:    CHESS_THROW << "Unreachable code reached";
+        }
+
         std::cout << "Enter your move: ";
         std::string answer;
         std::cin >> answer;
@@ -78,15 +85,14 @@ std::tuple<Move, bool> Interface::ParseAndValidateMove(const std::string & input
 {
 
 
-    PieceSet piece, promotion;
+    PieceSet piece;
     Move candidate_move;
 
-    bool is_valid =  AlgebraicReader::ParseMove(piece, promotion, candidate_move, input);
+    bool is_valid =  AlgebraicReader::ParseMove(piece, candidate_move, input);
 
     if(!is_valid) return std::tie(candidate_move, is_valid);
-
-
-    is_valid = rBoard.ValidateAndCompleteMove(candidate_move, piece, promotion);
+    
+    is_valid = rBoard.ValidateAndCompleteMove(candidate_move, piece);
 
     return std::tie(candidate_move, is_valid);
 }

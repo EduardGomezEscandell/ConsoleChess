@@ -14,19 +14,17 @@ void Game::Run()
     Colour c = Interface::Intro();
 
     bool game_is_over = false;
-
-    for(unsigned int i = 0; !game_is_over; i++)
+    while(!game_is_over)
     {
-        PlayerTurn(i);
+        game_is_over = PlayerTurn();
     }
 }
 
 /**
  * @brief Game::PlayerTurn
- * @param turn_number: The current turn.
  * @return Whether the game is over
  */
-bool Game::PlayerTurn(const unsigned int turn_number)
+bool Game::PlayerTurn()
 {
     Interface::DisplayBoard(mBoard);
     

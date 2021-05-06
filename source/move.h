@@ -2,46 +2,69 @@
 #define CHESS_MOVE_H
 
 #include <ostream>
+#include "defines.h"
 
 namespace ConsoleChess {
 
 /**
  * @brief Class Move
- * Contains information to make a move. It does not contain the player who moves,
- * so it can be ambiguous if both players can make that move (e.g: O-O, O-O-O, e5).
+ * Contains information to make a move.
  * Indicates if the departure file and or rank are unknown (useful to parse algebraic notation that only indicates destination).
- * It's a wrapper around a uint16_t, so it's very lightweight.
+ * 
+ * It's a wrapper around a uint16_t+uint8_t, so it's very lightweight. It may seem needlessly convoluted but this'll
+ * allow it to be used in chess engines (which are notoriously memory-hungry).
  */
 class Move
 {
-    typedef uint16_t DataType;
-    DataType mData = 0;
+    uint16_t mData16 = 0;
+    uint8_t  mData8 = 0;
 
-    /* Data:
+
+    /*
+
+    *** mData16 ***
+
     000 000 000 000 00 00
     |   |   |   |   |  |
-    |   |   |   |   |  |
     |   |   |   |   |  Known DR, DF
-    |   |   |   |   Castling*
-    |   |   |   | Landing file
+    |   |   |   |   Castling
+    |   |   |   Landing file
     |   |   Landing rank
     |   Departure file
     Departure rank
+
+    
+    *** mData8 ***
+
+    00000 000
+    |     |
+    |     Promotion*
+    Unused
+
+    >Promotion:
+        0xx None
+        100 Queen
+        101 Rook
+        110 Bishop
+        111 Knight
+
     */
 
-    static constexpr DataType DepRank_mask     = 0b1110000000000000;
-    static constexpr DataType DepFile_mask     = 0b0001110000000000;
-    static constexpr DataType LanRank_mask     = 0b0000001110000000;
-    static constexpr DataType LanFile_mask     = 0b0000000001110000;
-    static constexpr DataType ShortCastle_mask = 0b0000000000001000;
-    static constexpr DataType LongCastle_mask  = 0b0000000000000100;
-    static constexpr DataType KnownDR_mask     = 0b0000000000000010;
-    static constexpr DataType KnownDF_mask     = 0b0000000000000001;
-    static constexpr DataType ThreeDigit_mask  = 0b0000000000000111;
+    static constexpr uint16_t DepRank_mask     = 0b1110000000000000;
+    static constexpr uint16_t DepFile_mask     = 0b0001110000000000;
+    static constexpr uint16_t LanRank_mask     = 0b0000001110000000;
+    static constexpr uint16_t LanFile_mask     = 0b0000000001110000;
+    static constexpr uint16_t ShortCastle_mask = 0b0000000000001000;
+    static constexpr uint16_t LongCastle_mask  = 0b0000000000000100;
+    static constexpr uint16_t KnownDR_mask     = 0b0000000000000010;
+    static constexpr uint16_t KnownDF_mask     = 0b0000000000000001;
+    static constexpr uint16_t ThreeDigit_mask  = 0b0000000000000111;
+
+    static constexpr uint16_t Promotion_mask   =         0b00000111;
 
     friend bool operator==(const Move & rLHS, const Move & rRHS);
 
-    Move(DataType data);
+    static Move MoveFromBits(uint16_t data16, uint8_t data8);
 
 public:
     Move(const int & departure_rank,
@@ -65,6 +88,7 @@ public:
     void UnsetDepartureFile();
     void SetShortCastle(bool set=true);
     void SetLongCastle(bool set=true);
+    void SetPromotion(PieceSet piece);
 
     int GetDepartureRank() const;
     int GetDepartureFile() const;
@@ -74,6 +98,7 @@ public:
     bool IsDepartureFileKnown() const;
     bool GetShortCastle() const;
     bool GetLongCastle() const;
+    PieceSet GetPromotion() const;
 };
 
 std::ostream& operator<<(std::ostream& os, const Move& m);

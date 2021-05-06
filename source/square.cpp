@@ -150,12 +150,14 @@ const Piece * Square::pGetContent() const
 }
 
 
-bool Square::ValidateMove(PieceSet piece_type, const int rank, const int file) const
+bool Square::ValidateMove(PieceSet piece_type, const int rank, const int file, Colour colour) const
 {
-    if(IsEmpty()) return false;                      // Validating square not empty
+    if(IsEmpty()) return false;                             // The square is empty
 
     const Piece * piece = this->pGetContent();  
-    if(piece->GetPieceType() != piece_type) return false;   // Validating is right piece
+
+    if(piece->GetColour() != colour) return false;          // It's an enemy piece
+    if(piece->GetPieceType() != piece_type) return false;   // It's the wrong piece
 
     if(piece->CanMoveTo(rank, file))
     {

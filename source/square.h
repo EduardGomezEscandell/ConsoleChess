@@ -40,7 +40,7 @@ public:
         return mContent.get();
     }
 
-    bool ValidateMove(PieceSet piece_type, const int rank, const int file) const;
+    bool ValidateMove(PieceSet piece_type, const int rank, const int file, Colour colour) const;
 
 protected:
     std::unique_ptr<Piece> mContent;

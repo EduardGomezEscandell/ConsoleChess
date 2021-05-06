@@ -17,15 +17,13 @@ PieceSet AlgebraicReader::CharToPiece(const char c)
 }
 
 /**
- * Parses the move specified as a string and returns the gathered info. Unknown values are set as -1.
+ * Parses the move specified as a string and returns the gathered info. Does not validate its legality.
  * @return Whether the move is valid
  */
-bool AlgebraicReader::ParseMove(PieceSet & rPiece, PieceSet & rPromotion, Move& rMove, std::string Input)
+bool AlgebraicReader::ParseMove(PieceSet & rPiece, Move& rMove, std::string Input)
 {
     // Default values
-    rPromotion = PieceSet::NONE;
     rPiece = PieceSet::NONE;
-    rMove = Move();
 
     static const std::regex pawn_move(R"(([a-h]x)?[a-h](([1-7])|(8=[QRBN]))[+#=]?)");
     static const std::regex piece_move(R"(([QKRBN][a-h]?[1-8]?x?[a-h][1-8])([=\+#])?)");
@@ -35,7 +33,7 @@ bool AlgebraicReader::ParseMove(PieceSet & rPiece, PieceSet & rPromotion, Move& 
     {
         rPiece = PieceSet::PAWN;
         ProcessTrailingCharacters(Input);
-        ProcessPawnPromotion(rPromotion, Input);
+        ProcessPawnPromotion(rMove, Input);
         ReadDestination(rMove, Input);
         ReadLeadingCharacters(rMove, Input);
         return true;
@@ -77,15 +75,15 @@ void AlgebraicReader::ProcessTrailingCharacters(std::string & rInput)
 
 /**
  * @brief Reads the trailing promotion (=[QRBN]) and removes them
- * @param rPromotion: A reference to the promotion field, to be overwritten
+ * @param rMove: A reference to the move, to be overwritten
  * @param rInput: The string containing the move
  */
-void AlgebraicReader::ProcessPawnPromotion(PieceSet & rPromotion, std::string & rInput)
+void AlgebraicReader::ProcessPawnPromotion(Move & rMove, std::string & rInput)
 {
     std::size_t size = rInput.size();
     if(rInput[size - 2] == '=')
     {
-        rPromotion = CharToPiece(rInput[size-1]);
+        rMove.SetPromotion(CharToPiece(rInput[size-1]));
         rInput.pop_back();
         rInput.pop_back();
     }   

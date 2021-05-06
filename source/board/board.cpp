@@ -340,22 +340,28 @@ void Board::ResetAttacks()
     }
 }
 
-bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type, const PieceSet promotion) const
+bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type) const
 {
-    if(piece_type != PieceSet::PAWN && promotion != PieceSet::NONE) return false; // Only pawns can promote
+    const bool departure_rank_known = rMove.IsDepartureRankKnown();
+    const bool departure_file_known = rMove.IsDepartureFileKnown();
+    const unsigned int departure_rank = rMove.GetDepartureRank();
+    const unsigned int departure_file = rMove.GetDepartureFile();
 
-    if(promotion == PieceSet::PAWN) return false;                                 // Pawns cannot promote to pawns
 
-    if(rMove.IsDepartureRankKnown() && rMove.IsDepartureFileKnown()) // Departure quare is not specified
+    if(departure_rank_known && departure_file_known) // Departure square is specified
     {
-        const Square & square = mSquares[CoordsToIndex(rMove.GetDepartureRank(), rMove.GetDepartureFile())];
-        return square.ValidateMove(piece_type, rMove.GetLandingRank(), rMove.GetLandingFile());
+        const Square & square = mSquares[CoordsToIndex(departure_rank, departure_file)];
+        return square.ValidateMove(piece_type, rMove.GetLandingRank(), rMove.GetLandingFile(), mColourToMove);
     }
-    else // Departure square is specified
+    else // Departure square is not fully specified
     {
+
         for(const auto & square : mSquares)
         {
-            if(square.ValidateMove(piece_type, rMove.GetLandingRank(), rMove.GetLandingFile()))
+            if(departure_rank_known && departure_rank != square.GetRank()) continue;
+            if(departure_file_known && departure_file != square.GetFile()) continue;
+
+            if(square.ValidateMove(piece_type, rMove.GetLandingRank(), rMove.GetLandingFile(), mColourToMove))
             {
                 rMove.SetDepartureRank(square.GetRank());
                 rMove.SetDepartureFile(square.GetFile());
@@ -375,13 +381,74 @@ bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type, con
  */
 void Board::DoMove(const Move & rMove)
 {
-    Square & departure = mSquares[CoordsToIndex(rMove.GetDepartureRank(), rMove.GetDepartureFile())];
-    Square & landing = mSquares[CoordsToIndex(rMove.GetLandingRank(), rMove.GetLandingFile())];
+    if(rMove.GetShortCastle()==true)
+    {
+        const unsigned int backrank = mColourToMove == Colour::WHITE ? 0 : 7;
 
-    departure.pGetContent()->RemoveCastlingRights();
+        // Moving king
+        Square * departure = &mSquares[CoordsToIndex(backrank,4)];
+        Square * landing = &mSquares[CoordsToIndex(backrank,6)];
+        MovePiece(*departure, *landing);
 
-    landing.ResetContent();
-    landing.SwapContent(departure);
+        // Moving rook
+        departure = &mSquares[CoordsToIndex(backrank,7)];
+        landing = &mSquares[CoordsToIndex(backrank,5)];
+        MovePiece(*departure, *landing);
+
+    }
+    else if(rMove.GetLongCastle()==true)
+    {
+        const unsigned int backrank = mColourToMove == Colour::WHITE ? 0 : 7;
+
+        // Moving king
+        Square * departure = &mSquares[CoordsToIndex(backrank,4)];
+        Square * landing = &mSquares[CoordsToIndex(backrank,2)];
+        MovePiece(*departure, *landing);
+
+        // Moving rook
+        departure = &mSquares[CoordsToIndex(backrank,0)];
+        landing = &mSquares[CoordsToIndex(backrank,3)];
+        MovePiece(*departure, *landing);
+    }
+    else if(rMove.GetPromotion() != PieceSet::NONE)
+    {
+        // Promoting pawn
+        Square & departure = mSquares[CoordsToIndex(rMove.GetDepartureRank(), rMove.GetDepartureFile())];
+        departure.ResetContent();
+
+        Piece * newpiece = CreatePieceInLocation(rMove.GetPromotion(), rMove.GetLandingRank(), rMove.GetLandingFile(), mColourToMove);
+        newpiece->RemoveCastlingRights();        
+    }
+    else
+    {
+        // Moving piece
+        Square & departure = mSquares[CoordsToIndex(rMove.GetDepartureRank(), rMove.GetDepartureFile())];
+        Square & landing = mSquares[CoordsToIndex(rMove.GetLandingRank(), rMove.GetLandingFile())];
+        MovePiece(departure, landing);
+    }
+
+    mColourToMove = OppositeColour(mColourToMove);
+}
+
+Colour Board::WhoMoves() const
+{
+    return mColourToMove;
+}
+
+
+void Board::MovePiece(Square & rDeparture, Square & rLanding)
+{
+#ifndef NDEBUG
+    // Avoiding SEGFAULT in debug mode
+    if(rDeparture.IsEmpty()) CHESS_THROW << "Attempted to move from an empty square";
+#endif
+
+    rDeparture.pGetContent()->RemoveCastlingRights();
+    rDeparture.pGetContent()->SetLocation(rLanding.GetRank(), rLanding.GetFile());
+
+    rLanding.ResetContent();
+    rLanding.SwapContent(rDeparture);
+
 }
 
 /**

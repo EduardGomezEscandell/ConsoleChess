@@ -1,7 +1,7 @@
 #ifndef CHESS_GAME_H
 #define CHESS_GAME_H
 
-#include<memory>
+#include <memory>
 #include "player.h"
 #include "board/board.h"
 
@@ -18,7 +18,7 @@ protected:
     std::unique_ptr<Player> mPlayers[2];
     Board mBoard;
 
-    bool PlayerTurn(const unsigned int turn_number);
+    bool PlayerTurn();
 };
 
 }

@@ -39,7 +39,8 @@ public:
     void ResetAttacks();
     void UpdateLegalMoves();
 
-    // Querries
+    // Queries
+    Colour WhoMoves() const;
     bool SquareIsEmpty(const int & rank, const int & file);
     Colour GetColourOccupied(const int & rank, const int & file) const;
     bool IsInCheck(Colour colour) const;
@@ -52,7 +53,7 @@ public:
     std::string Display() const;
 
     // Others
-    bool ValidateAndCompleteMove(Move & rMove, const PieceSet piece, const PieceSet promotion) const;
+    bool ValidateAndCompleteMove(Move & rMove, const PieceSet piece) const;
 
     static constexpr int NumberOfFiles = 8;
     static constexpr int NumberOfRanks = 8;
@@ -62,8 +63,10 @@ protected:
     Square mSquares[NumberOfSquares];
     std::vector<Piece *> kings = {};
     static std::tuple<PieceSet, Colour> GetPieceFromFEN(char c);
+    Colour mColourToMove = Colour::WHITE;
 
     static unsigned int CoordsToIndex(const unsigned int rank, const unsigned int file);
+    static void MovePiece(Square & rDeparture, Square & rLanding);
 };
 
 std::ostream& operator<<(std::ostream& os, const Board& b);
