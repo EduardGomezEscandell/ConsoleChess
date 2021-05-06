@@ -324,26 +324,24 @@ bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type, con
 
     if(promotion == PieceSet::PAWN) return false;                                 // Pawns cannot promote to pawns
 
-    if(rMove.departure_file < 0 || rMove.departure_rank < 0) // Departure quare is not specified
+    if(rMove.IsDepartureRankKnown() && rMove.IsDepartureFileKnown()) // Departure quare is not specified
+    {
+        const Square & square = mSquares[CoordsToIndex(rMove.GetDepartureRank(), rMove.GetDepartureFile())];
+        return square.ValidateMove(piece_type, rMove.GetLandingRank(), rMove.GetLandingFile());
+    }
+    else // Departure square is specified
     {
         for(const auto & square : mSquares)
         {
-            if(square.ValidateMove(piece_type, rMove.landing_rank, rMove.landing_file))
+            if(square.ValidateMove(piece_type, rMove.GetLandingRank(), rMove.GetLandingFile()))
             {
-                rMove.departure_rank = square.GetRank();
-                rMove.departure_file = square.GetFile();
+                rMove.SetDepartureRank(square.GetRank());
+                rMove.SetDepartureFile(square.GetFile());
                 return true;
             }
         }
 
         return false;
-    }
-    else // Departure square is specified
-    {
-        const Square & square = mSquares[CoordsToIndex(rMove.departure_file, rMove.departure_rank)];
-        
-        return square.ValidateMove(piece_type, rMove.landing_file, rMove.landing_rank);
-        
     }
 }
 
@@ -355,8 +353,10 @@ bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type, con
  */
 void Board::DoMove(const Move & rMove)
 {
-    Square & departure = mSquares[CoordsToIndex(rMove.departure_rank, rMove.departure_file)];
-    Square & landing = mSquares[CoordsToIndex(rMove.landing_rank, rMove.landing_file)];
+    Square & departure = mSquares[CoordsToIndex(rMove.GetDepartureRank(), rMove.GetDepartureFile())];
+    Square & landing = mSquares[CoordsToIndex(rMove.GetLandingRank(), rMove.GetLandingFile())];
+
+    departure.pGetContent()->RemoveCastlingRights();
 
     landing.ResetContent();
     landing.SwapContent(departure);

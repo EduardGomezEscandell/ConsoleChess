@@ -26,7 +26,7 @@ CHESS_DEFINE_TEST(Movement)
 
     for(const Move & m : moves)
     {   
-        Square & s = board.GetSquare(m.landing_rank, m.landing_file);
+        Square & s = board.GetSquare(m.GetLandingRank(), m.GetLandingFile());
         bool is_attacked = s.IsAttackedBy(king->GetColour());
         std::stringstream ss;
         ss << "King available square is not attacked (" << s.GetName() << ")" <<std::endl;
@@ -54,7 +54,7 @@ CHESS_DEFINE_TEST(Checks)
 
     for(const Move & m : moves)
     {   
-        Square & s = board.GetSquare(m.landing_rank, m.landing_file);
+        Square & s = board.GetSquare(m.GetLandingRank(), m.GetLandingFile());
         bool is_attacked = s.IsAttackedBy(king->GetColour());
         std::stringstream ss;
         ss << "King available square is not attacked (" << s.GetName() << ")" <<std::endl;

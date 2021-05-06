@@ -25,7 +25,7 @@ bool AlgebraicReader::ParseMove(PieceSet & rPiece, PieceSet & rPromotion, Move& 
     // Default values
     rPromotion = PieceSet::NONE;
     rPiece = PieceSet::NONE;
-    rMove = {-1,-1,-1,-1};
+    rMove = Move();
 
     static const std::regex pawn_move(R"(([a-h]x)?[a-h](([1-7])|(8=[QRBN]))[+#=]?)");
     static const std::regex piece_move(R"(([QKRBN][a-h]?[1-8]?x?[a-h][1-8])([=\+#])?)");
@@ -100,9 +100,9 @@ void AlgebraicReader::ProcessPawnPromotion(PieceSet & rPromotion, std::string & 
  */
 void AlgebraicReader::ReadDestination(Move & rMove, std::string & rInput)
 {
-    rMove.landing_rank = (rInput.back() - '1');
+    rMove.SetLandingRank(rInput.back() - '1');
     rInput.pop_back();
-    rMove.landing_file = (rInput.back() - 'a');
+    rMove.SetLandingFile(rInput.back() - 'a');
     rInput.pop_back();
 }
 
@@ -125,13 +125,13 @@ void AlgebraicReader::ReadLeadingCharacters(Move & rMove, const std::string & rI
     
     if(*it > '0' && *it <= '8')
     {
-        rMove.departure_rank = static_cast<int>(*it - '1');
+        rMove.SetDepartureRank(*it - '1');
         if(++it == rInput.rend()) return;
     }
 
     if(*it >= 'a' && *it <= 'h')
     {
-        rMove.departure_file = static_cast<int>(*it - 'a');
+        rMove.SetDepartureFile(*it - 'a');
     }  
 }
 

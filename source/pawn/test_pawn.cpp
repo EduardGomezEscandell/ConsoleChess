@@ -33,10 +33,10 @@ CHESS_DEFINE_TEST(Movement)
 
     for(const Move & m : white_pawn->GetMoves())
     {   
-        Square & s = board.GetSquare(m.landing_rank, m.landing_file);
+        Square & s = board.GetSquare(m.GetLandingRank(), m.GetLandingFile());
         bool is_attacked = s.IsAttackedBy(white_pawn->GetColour());
         
-        if(m.departure_file == m.landing_file) // Pawns cannot attack forwards
+        if(m.GetDepartureFile() == m.GetLandingFile()) // Pawns cannot attack forwards
         {
             std::stringstream ss;
             ss << "Pawn available forward square is attacked (" << s.GetName() << ")" <<std::endl;

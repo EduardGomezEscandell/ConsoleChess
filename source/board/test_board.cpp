@@ -102,7 +102,7 @@ CHESS_DEFINE_TEST(FEN)
 CHESS_DEFINE_TEST(KingInCheck)
 {
     Board board;
-    Piece * king = board.CreatePieceInLocation(PieceSet::KING, 5,5, Colour::BLACK);
+    board.CreatePieceInLocation(PieceSet::KING, 5,5, Colour::BLACK);
     
     // Checking positive test
     board.CreatePieceInLocation(PieceSet::ROOK, 5, 0, Colour::WHITE);

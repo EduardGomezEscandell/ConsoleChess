@@ -20,10 +20,13 @@ public:
     PieceSet GetPieceType() const override;
     bool IsInCheck() const override;
 
+    bool HasCastlingRights() const override;
+    void RemoveCastlingRights() override;
+
 protected:
     friend class Board;
 
-    bool mHasCastled = false;
+    bool mHasMoved = false;
 
 };
 

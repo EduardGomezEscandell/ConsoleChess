@@ -59,10 +59,12 @@ public:
     std::vector<Move> & GetMoves();
     const std::vector<Move> & GetMoves() const;
     Colour GetColour() const;
+    virtual void RemoveCastlingRights();
     
     // Queries
     virtual bool IsInCheck() const;
     bool CanMoveTo(const int rank, const int file) const;
+    virtual bool HasCastlingRights() const;
 
 protected:
 

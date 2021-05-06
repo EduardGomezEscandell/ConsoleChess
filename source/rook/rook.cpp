@@ -15,4 +15,16 @@ void Rook::UpdateLegalMoves()
 }
 
 
+bool Rook::HasCastlingRights() const
+{
+    return !mHasMoved;
+}
+
+
+void Rook::RemoveCastlingRights()
+{
+    mHasMoved = true;
+}
+
+
 }

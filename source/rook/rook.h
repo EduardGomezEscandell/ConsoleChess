@@ -19,6 +19,9 @@ public:
     char GetPieceCharacter() const override;
     PieceSet GetPieceType() const override;
 
+    bool HasCastlingRights() const override;
+    void RemoveCastlingRights() override;
+
 protected:
     friend class Board;
 

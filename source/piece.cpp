@@ -114,10 +114,10 @@ bool Piece::CanMoveTo(const int rank, const int file) const
 {
     for(const auto & valid_move : GetMoves())
     {
-        if(file == valid_move.landing_file
-            && rank == valid_move.landing_rank)
+        if(file == valid_move.GetLandingFile()
+            && rank == valid_move.GetLandingRank())
         {
-            return true;   
+            return true;
         }
     }
 
@@ -128,6 +128,16 @@ void Piece::SetLocation(const int & rank, const int & file)
 {
     mLocation[0] = rank;
     mLocation[1] = file;
+}
+
+void Piece::RemoveCastlingRights()
+{
+    return;
+}
+
+bool Piece::HasCastlingRights() const
+{
+    return false;
 }
 
 }
