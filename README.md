@@ -6,7 +6,10 @@ This project aims to create a console application to play chess. In the future I
 This project is a work in progress.
 
 So far the program can:
-- Compute generic moves
+- Most moves:
+  - Pieces
+  - Pawn capture an one-square advance
+  - Castling (both sides)
 - Disallow moving the king into check
 - Display the board on console
 - Parse a move in algebraic input notation
@@ -16,7 +19,6 @@ So far the program can:
 Short-term goals:
 - Implement missing movement rules:
   - Invalidate moves that put a player in check (pins)
-  - Castling
   - En passant
   - Double square move for pawns
 - Output a move in algebraic notation
