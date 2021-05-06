@@ -8,7 +8,7 @@ This project is a work in progress.
 So far the program can:
 - Most moves:
   - Pieces
-  - Pawn capture an one-square advance
+  - Pawn capture and one-square advance
   - Castling (both sides)
 - Disallow moving the king into check
 - Display the board on console
