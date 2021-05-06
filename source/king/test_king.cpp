@@ -101,6 +101,48 @@ CHESS_DEFINE_TEST(KingInCheck)
     AssertFalse(king->IsInCheck());
 }
 
+CHESS_DEFINE_TEST(ShortCastle)
+{
+    Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQK2R"); // Initial configuration without kingside bishop & rook
+    board.UpdateLegalMoves();
+    
+    Piece * king = board.pGetSquareContent(0, 4);
+
+    std::vector<Move> expected_moves = {{0,4,0,5},
+                                         Move::ShortCastle()
+    };
+
+    AssertEqualContainers(king->GetMoves(), expected_moves);
+}
+
+CHESS_DEFINE_TEST(LongCastle)
+{
+    Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R3KBNR"); // Initial configuration without kingside bishop & rook
+    board.UpdateLegalMoves();
+    
+    Piece * king = board.pGetSquareContent(0, 4);
+
+    std::vector<Move> expected_moves = {{0,4,0,3},
+                                         Move::LongCastle()
+    };
+
+    AssertEqualContainers(king->GetMoves(), expected_moves);
+}
+
+CHESS_DEFINE_TEST(CastleObstructedByAttack)
+{
+    Board board("rnbqkbnr/ppp1pppp/8/8/8/8/PPP1PPPP/R3KBNR"); // Initial configuration without kingside bishop & rook
+    board.UpdateLegalMoves();
+    
+    Piece * king = board.pGetSquareContent(0, 4);
+    std::vector<Move> expected_moves = {};
+
+
+    AssertEqualContainers(king->GetMoves(), expected_moves);
+}
+
+
+
 
 }
 
@@ -111,6 +153,9 @@ CHESS_TEST_LIST(KingTestSuite)
     CHESS_TEST_LIST_ITEM(KingTests::Notation);
     CHESS_TEST_LIST_ITEM(KingTests::PieceType);
     CHESS_TEST_LIST_ITEM(KingTests::KingInCheck);
+    CHESS_TEST_LIST_ITEM(KingTests::ShortCastle);
+    CHESS_TEST_LIST_ITEM(KingTests::LongCastle);
+    CHESS_TEST_LIST_ITEM(KingTests::CastleObstructedByAttack);
 }
 
 

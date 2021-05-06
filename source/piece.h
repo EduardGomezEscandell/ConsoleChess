@@ -78,7 +78,7 @@ protected:
     // Editors
     void StraightLineMoveUpdate(const int delta_r, const int delta_f);
     
-    // Querries
+    // Queries
     bool CheckDestinationSquare(const int & rank, const int & file) const;
     bool CheckIfCaptures(const int & rank, const int & file) const;
 };

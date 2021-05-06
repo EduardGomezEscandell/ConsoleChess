@@ -301,12 +301,34 @@ void Board::ResetAttack(const unsigned int rank, const unsigned int file)
 
 void Board::UpdateLegalMoves()
 {
+    std::vector<Piece *> kings;
+
     for(auto & square : mSquares)
     {
         if(!square.IsEmpty())
         {
-            square.pGetContent()->UpdateLegalMoves();
+            Piece *p = square.pGetContent();
+            if(p->GetPieceType() != PieceSet::KING)
+            {
+                p->UpdateLegalMoves();
+            }
+            else
+            {
+                kings.push_back(p);
+            }
         }
+    }
+
+    // Updating kings
+    for(auto p: kings)
+    {
+        p->UpdateLegalMoves();
+    }
+
+    // Updating again to consider each other's attack
+    for(auto p: kings)
+    {
+        p->UpdateLegalMoves();
     }
 }
 

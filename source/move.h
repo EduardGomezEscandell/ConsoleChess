@@ -5,7 +5,13 @@
 
 namespace ConsoleChess {
 
-
+/**
+ * @brief Class Move
+ * Contains information to make a move. It does not contain the player who moves,
+ * so it can be ambiguous if both players can make that move (e.g: O-O, O-O-O, e5).
+ * Indicates if the departure file and or rank are unknown (useful to parse algebraic notation that only indicates destination).
+ * It's a wrapper around a uint16_t, so it's very lightweight.
+ */
 class Move
 {
     typedef uint16_t DataType;
@@ -13,11 +19,10 @@ class Move
 
     /* Data:
     000 000 000 000 00 00
-    |   |   |   |   || |
-    |   |   |   |   || |
-    |   |   |   |   || Known DR, DF
-    |   |   |   |   |Long castle
-    |   |   |   |   Short castle
+    |   |   |   |   |  |
+    |   |   |   |   |  |
+    |   |   |   |   |  Known DR, DF
+    |   |   |   |   Castling*
     |   |   |   | Landing file
     |   |   Landing rank
     |   Departure file
