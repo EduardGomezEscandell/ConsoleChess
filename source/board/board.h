@@ -42,7 +42,7 @@ public:
     // Querries
     bool SquareIsEmpty(const int & rank, const int & file);
     Colour GetColourOccupied(const int & rank, const int & file) const;
-    Colour IsInCheck() const;
+    bool IsInCheck(Colour colour) const;
 
     bool IsAttackedBy(const unsigned int rank, const unsigned int file, const Colour attacker);
 

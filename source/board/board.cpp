@@ -253,9 +253,19 @@ std::string Board::Display() const
  * @brief Evaulates the board to see if either player is in check
  * @return Colour of the player in check
  */
-Colour Board::IsInCheck() const
+bool Board::IsInCheck(Colour colour) const
 {
-    return Colour::UNDEFINED;
+    for(const Square & square : mSquares)
+    {
+        if(square.IsEmpty())         continue;
+        
+        const Piece * p = square.pGetContent();
+        
+        if(p->GetColour() != colour) continue;
+        if(p->IsInCheck())           return true;
+    }
+
+    return false;
 }
 
 
