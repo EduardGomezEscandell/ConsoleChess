@@ -71,7 +71,6 @@ protected:
     int mLocation[2];
     Board * mParentBoard;
     std::vector<Move> mLegalMoves;
-    PieceSet mPieceType;
     const Colour mColour = Colour::UNDEFINED;
 
     friend class Board;

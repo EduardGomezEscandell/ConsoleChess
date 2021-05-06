@@ -10,7 +10,6 @@ Piece::Piece(const int & rank, const int & file, Board * parent_board, const Col
 {
     mLocation[0] = rank;
     mLocation[1] = file;
-    mPieceType = PieceSet::NONE;
 }
 
 void Piece::ChangeBoard(Board * rNewBoard)
@@ -52,10 +51,6 @@ std::vector<Move> & Piece::GetMoves()
     return mLegalMoves;
 }
 
-PieceSet Piece::GetPieceType() const
-{
-    return mPieceType;
-}
 
 Colour Piece::GetColour() const
 {
