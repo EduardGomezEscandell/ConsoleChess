@@ -52,8 +52,10 @@ public:
     virtual void UpdateLegalMoves() = 0;
     void SetLocation(const int & rank, const int & file);
     void ChangeBoard(Board * rNewBoard);
+    void SetAliveState(bool alive);
 
     // Getters
+    bool IsAlive() const;
     virtual PieceSet GetPieceType() const = 0;
     virtual char GetPieceCharacter() const = 0;
     std::vector<Move> & GetMoves();
@@ -67,7 +69,7 @@ public:
     virtual bool HasCastlingRights() const;
 
 protected:
-
+    bool mIsAlive = true;
     int mLocation[2];
     Board * mParentBoard;
     std::vector<Move> mLegalMoves;

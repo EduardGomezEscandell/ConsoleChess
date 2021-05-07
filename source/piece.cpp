@@ -135,4 +135,16 @@ bool Piece::HasCastlingRights() const
     return false;
 }
 
+void Piece::SetAliveState(bool alive)
+{
+    mIsAlive = alive;
+}
+
+
+bool Piece::IsAlive() const
+{
+    return mIsAlive;
+}
+
+
 }

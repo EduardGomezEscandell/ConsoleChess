@@ -91,14 +91,14 @@ CHESS_DEFINE_TEST(KingInCheck)
     board.CreatePieceInLocation(PieceSet::ROOK, 5, 0, Colour::BLACK);
     board.UpdateLegalMoves();
 
-    AssertTrue(king->IsInCheck());
+    AssertTrue(king->IsInCheck(), "King failed to notice it is in check");
     
     // Checking negative test
     board.GetSquare(5,0).Vacate();
     board.ResetAttacks();
     board.UpdateLegalMoves();
 
-    AssertFalse(king->IsInCheck());
+    AssertFalse(king->IsInCheck(), "King in check test yielded a false positive");
 }
 
 CHESS_DEFINE_TEST(ShortCastle)

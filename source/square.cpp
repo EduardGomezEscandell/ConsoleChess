@@ -32,6 +32,7 @@ void Square::SetLocation(const unsigned int Rank, const unsigned int File, Board
 
 void Square::Vacate()
 {
+    if(mContent) mContent->SetAliveState(false);
     mContent = nullptr;
 }
 
@@ -44,6 +45,7 @@ void Square::SwapContent(Square & rOther)
 
 void Square::OverwriteContent(Piece * rPiece)
 {
+    this->Vacate();
     this->mContent = rPiece;
 }
 

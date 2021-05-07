@@ -342,11 +342,19 @@ void Board::ResetAttack(const unsigned int rank, const unsigned int file)
 
 void Board::UpdateLegalMoves()
 {
-    for(auto & square : mSquares)
+    for(auto it = mPieces.begin(); it != mPieces.end(); it++)
     {
-        if(!square.IsEmpty())
+        Piece * piece = it->get();
+
+        if(piece->IsAlive())
         {
-            square.pGetContent()->UpdateLegalMoves();
+            piece->UpdateLegalMoves();
+        }
+        else // Removing piece
+        {
+            auto tmp = it;
+            it--;
+            mPieces.erase(tmp);
         }
     }
 
