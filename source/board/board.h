@@ -16,7 +16,6 @@ class Board
 public:
     // Constructors
     Board();
-    Board(const std::string & rFen);
     Board(const Board & rRHS);
 
     // Access

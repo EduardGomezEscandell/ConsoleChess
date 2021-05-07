@@ -1,5 +1,6 @@
 #include "test_pawn.h"
 #include "../board/board.h"
+#include "../fen/FEN.h"
 
 namespace ConsoleChess {
 
@@ -66,7 +67,7 @@ CHESS_DEFINE_TEST(Notation)
 
 CHESS_DEFINE_TEST(Promotion)
 {
-    Board board("8/P7/8/8/8/8/p7/8");
+    Board board = FEN::Reader("8/P7/8/8/8/8/p7/8");
     Piece * wpawn = board.pGetSquareContent(6, 0); // white pawn about to promote
     Piece * bpawn = board.pGetSquareContent(1, 0); // black pawn
 
@@ -92,7 +93,7 @@ CHESS_DEFINE_TEST(Promotion)
 
 CHESS_DEFINE_TEST(DoubleAdvance)
 {
-    Board board("8/p7/8/8/8/8/P7/8");
+    Board board = FEN::Reader("8/p7/8/8/8/8/P7/8");
 
     Piece * wpawn = board.pGetSquareContent(1, 0); // white pawn
     Piece * bpawn = board.pGetSquareContent(6, 0); // black pawn

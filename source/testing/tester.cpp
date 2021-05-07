@@ -10,6 +10,7 @@
 #include "../board/test_board.h"
 #include "../interface/test_interface.h"
 #include "../algebraic_notation/test_algebraic.h"
+#include "../fen/test_FEN.h"
 
 namespace ConsoleChess {
 
@@ -25,6 +26,7 @@ Tester::Tester(const Verbosity & verbosity) :
     mTestSuites.emplace_back(new BoardTestSuite(mVerbosity));
     mTestSuites.emplace_back(new InterfaceTestSuite(mVerbosity));
     mTestSuites.emplace_back(new AlgebraicNotationTestSuite(mVerbosity));
+    mTestSuites.emplace_back(new FENTestSuite(mVerbosity));
 }
 
 void Tester::Print(const Verbosity & minimum_verbosity, const char * message) const

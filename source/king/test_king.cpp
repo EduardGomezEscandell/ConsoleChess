@@ -1,5 +1,6 @@
 #include "test_king.h"
 #include "../board/board.h"
+#include "../fen/FEN.h"
 
 namespace ConsoleChess {
 
@@ -103,7 +104,7 @@ CHESS_DEFINE_TEST(KingInCheck)
 
 CHESS_DEFINE_TEST(ShortCastle)
 {
-    Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQK2R"); // Initial configuration without kingside bishop & rook
+    Board board = FEN::Reader("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQK2R"); // Initial configuration without kingside bishop & rook
     board.UpdateLegalMoves();
     
     Piece * king = board.pGetSquareContent(0, 4);
@@ -117,7 +118,7 @@ CHESS_DEFINE_TEST(ShortCastle)
 
 CHESS_DEFINE_TEST(LongCastle)
 {
-    Board board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R3KBNR"); // Initial configuration without kingside bishop & rook
+    Board board = FEN::Reader("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/R3KBNR"); // Initial configuration without kingside bishop & rook
     board.UpdateLegalMoves();
     
     Piece * king = board.pGetSquareContent(0, 4);
@@ -131,7 +132,7 @@ CHESS_DEFINE_TEST(LongCastle)
 
 CHESS_DEFINE_TEST(CastleObstructedByAttack)
 {
-    Board board("rnbqkbnr/ppp1pppp/8/8/8/8/PPP1PPPP/R3KBNR"); // Initial configuration without kingside bishop & rook
+    Board board = FEN::Reader("rnbqkbnr/ppp1pppp/8/8/8/8/PPP1PPPP/R3KBNR"); // Initial configuration without kingside bishop & rook
     board.UpdateLegalMoves();
     
     Piece * king = board.pGetSquareContent(0, 4);

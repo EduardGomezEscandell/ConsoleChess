@@ -69,36 +69,6 @@ CHESS_DEFINE_TEST(CopyConstructor)
     AssertDifferent(original, new_king);                          // Ensuring the new piece is different instance
 }
 
-CHESS_DEFINE_TEST(FEN)
-{
-    Board board_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"); // Starting position
-    
-    Board board_std;
-    board_std.SetUpInitialPieces();
-
-    for(unsigned int rank=0; rank<Board::NumberOfRanks; rank++)
-    {
-        for(unsigned int file=0; file<Board::NumberOfFiles; file++)
-        {
-            Piece * piece_fen = board_fen.pGetSquareContent(rank, file);
-            Piece * piece_std = board_std.pGetSquareContent(rank, file);
-
-            // Asserting same full/emptyness
-            std::stringstream ss;
-            ss << "Disagreement on whether " << Square::GetName(rank, file) << " is full or empty \n";
-            AssertEqual<bool, bool, std::string>(piece_fen, piece_std, ss.str());
-            if(piece_fen == nullptr) continue; // Both agree square is empty
-
-            // Neither is empty
-            ss << "Standard board and FEN disagree on constents of square " << Square::GetName(rank, file) << "\n";
-            AssertEqual(piece_fen->GetPieceType(), piece_std->GetPieceType(), ss.str());
-        }
-    }
-
-    // TODO: Test other FEN fields
-
-}
-
 CHESS_DEFINE_TEST(KingInCheck)
 {
     Board board;
@@ -129,7 +99,6 @@ CHESS_TEST_LIST(BoardTestSuite)
     CHESS_TEST_LIST_ITEM(BoardTests::CreatePiece)
     CHESS_TEST_LIST_ITEM(BoardTests::FullPieceSet)
     CHESS_TEST_LIST_ITEM(BoardTests::CopyConstructor)
-    CHESS_TEST_LIST_ITEM(BoardTests::FEN)
     CHESS_TEST_LIST_ITEM(BoardTests::KingInCheck)
 }
 

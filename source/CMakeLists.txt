@@ -29,6 +29,7 @@ add_executable(ConsoleChess main.cpp
                             queen/queen.cpp
                             pawn/pawn.cpp
                             algebraic_notation/algebraic_notation.cpp
+                            fen/FEN.cpp
 )
 
 # Compiling unit tests
@@ -59,4 +60,6 @@ add_executable(ConsoleChessTests testing/main_tests.cpp
                                  pawn/test_pawn.cpp
                                  algebraic_notation/algebraic_notation.cpp
                                  algebraic_notation/test_algebraic.cpp
+                                 fen/FEN.cpp
+                                 fen/test_FEN.cpp
 )
