@@ -132,7 +132,7 @@ std::string FEN::Writer(const Board & rBoard)
     std::stringstream output;
 
     // Board state
-    for(int r=0; r<8; r++)
+    for(int r=7; r>=0; r--)
     {
         unsigned int count = 0;
 
@@ -160,7 +160,7 @@ std::string FEN::Writer(const Board & rBoard)
         {
             output << count;
         }
-        if(r != 7)
+        if(r != 0)
         {
             output << '/';
         }

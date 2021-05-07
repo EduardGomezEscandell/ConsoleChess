@@ -41,7 +41,7 @@ CHESS_DEFINE_TEST(Writer)
     board.SetUpInitialPieces();
 
     const std::string fen = FEN::Writer(board);
-    const std::string fen_expected = "RNBQKBNR/PPPPPPPP/8/8/8/8/pppppppp/rnbqkbnr w KQkq - 0 1";
+    const std::string fen_expected = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
     AssertEqual(fen, fen_expected, "Failed to generate FEN string for initial position");
 }
