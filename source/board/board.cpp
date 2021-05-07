@@ -150,6 +150,13 @@ const Piece * Board::GetKing(Colour colour) const
     return king;
 }
 
+
+unsigned int Board::GetMoveCount() const
+{
+    return mMoveCount;
+}
+
+
 Colour Board::GetColourOccupied(const int & rank, const int & file) const
 {
     const Square & square = mSquares[CoordsToIndex(rank, file)];
@@ -402,6 +409,7 @@ void Board::DoMove(const Move & rMove)
     }
 
     mColourToMove = OppositeColour(mColourToMove);
+    mMoveCount++;
 }
 
 Colour Board::WhoMoves() const

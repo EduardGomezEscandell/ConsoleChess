@@ -59,10 +59,10 @@ CHESS_DEFINE_TEST(Notation)
     char c;
 
     c = white_pawn.GetPieceCharacter();
-    AssertEqual(c, 'O', "Incorrect notation for white pawn");
+    AssertEqual(c, 'P', "Incorrect notation for white pawn");
 
     c = black_pawn.GetPieceCharacter();
-    AssertEqual(c, 'o', "Incorrect notation for black pawn");
+    AssertEqual(c, 'p', "Incorrect notation for black pawn");
 }
 
 CHESS_DEFINE_TEST(Promotion)

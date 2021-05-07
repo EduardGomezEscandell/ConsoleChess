@@ -4,6 +4,7 @@
 namespace ConsoleChess {
 
 namespace FENTests {
+
 CHESS_DEFINE_TEST(Reader)
 {
     Board board_fen = FEN::Reader("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"); // Starting position
@@ -34,6 +35,17 @@ CHESS_DEFINE_TEST(Reader)
 
 }
 
+CHESS_DEFINE_TEST(Writer)
+{
+    Board board;
+    board.SetUpInitialPieces();
+
+    const std::string fen = FEN::Writer(board);
+    const std::string fen_expected = "RNBQKBNR/PPPPPPPP/8/8/8/8/pppppppp/rnbqkbnr w KQkq - 0 1";
+
+    AssertEqual(fen, fen_expected, "Failed to generate FEN string for initial position");
+}
+
 }
 
 
@@ -41,6 +53,7 @@ CHESS_DEFINE_TEST(Reader)
 CHESS_TEST_LIST(FENTestSuite)
 {
     CHESS_TEST_LIST_ITEM(FENTests::Reader)
+    CHESS_TEST_LIST_ITEM(FENTests::Writer)
 }
 
 

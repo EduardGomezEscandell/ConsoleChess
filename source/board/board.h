@@ -30,6 +30,8 @@ public:
     Piece * GetKing(Colour colour);
     const Piece * GetKing(Colour colour) const;
 
+    unsigned int GetMoveCount() const;
+
     // Editors
     void DoMove(const Move & Move);
 
@@ -64,6 +66,7 @@ public:
     static constexpr int NumberOfSquares = NumberOfRanks * NumberOfFiles;
 
 protected:
+    unsigned int mMoveCount = 1;
     Square mSquares[NumberOfSquares];
     std::list<std::unique_ptr<Piece>> mPieces;
     Piece * mWhiteKing = nullptr;

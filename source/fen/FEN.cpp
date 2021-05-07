@@ -34,6 +34,7 @@ std::tuple<PieceSet, Colour> GetPieceFromFEN(char c)
     return std::tie(piece, col);
 }
 
+
 bool ValidateFEN(const char * str)
 {
     static const std::regex regex(R"((([rnbqkpRNBQKP1-8]{1,8}|[1-8])\/){7}([rnbqkpRNBQKP1-8]{1,8}|[1-8])( [wb] K{0,1}Q{0,1}k{0,1}q{0,1} (-|[a-h][36]) [0-9]+ [0-9]+){0,1})");
@@ -116,9 +117,83 @@ Board FEN::Reader(const char * str)
     return board;
 }
 
+bool RookCanCastle(const Board & rBoard, const int rank, const int file, Colour colour)
+{
+    const Piece * corner_piece = rBoard.pGetSquareContent(rank, file);
+    if(!corner_piece) return false;                                     // Square is empty
+    if(corner_piece->GetPieceType() != PieceSet::ROOK) return false;    // Square is occupied by another piece type
+    if(corner_piece->GetColour() != colour) return false;               // Rook is enemy rook
+    return corner_piece->HasCastlingRights();
+}
+
+
 std::string FEN::Writer(const Board & rBoard)
 {
-    return "";
+    std::stringstream output;
+
+    // Board state
+    for(int r=0; r<8; r++)
+    {
+        unsigned int count = 0;
+
+        for(int f=0; f<8; f++)
+        {
+            const Square & square = rBoard.GetSquare(r,f);
+            if(square.IsEmpty())
+            {
+                count++;
+            }
+            else // There is a piece
+            {
+                if(count > 0)
+                {
+                    output << count;
+                    count = 0;
+                }
+                output << square.pGetContent()->GetPieceCharacter();
+            }
+            
+        }
+
+        // End of rank
+        if(count > 0)
+        {
+            output << count;
+        }
+        if(r != 7)
+        {
+            output << '/';
+        }
+    }
+    output << ' ';
+
+    // Active colour
+    output << (rBoard.WhoMoves() == Colour::WHITE ? 'w' : 'b') << ' ';
+
+    // Castling
+    if(rBoard.GetKing(Colour::WHITE) && rBoard.GetKing(Colour::WHITE)->HasCastlingRights())
+    {
+        if(RookCanCastle(rBoard, 0, 7, Colour::WHITE)) output << 'K';
+        if(RookCanCastle(rBoard, 0, 0, Colour::WHITE)) output << 'Q';
+    }
+
+    if(rBoard.GetKing(Colour::BLACK) && rBoard.GetKing(Colour::BLACK)->HasCastlingRights())
+    {
+        if(RookCanCastle(rBoard, 7, 7, Colour::BLACK)) output << 'k';
+        if(RookCanCastle(rBoard, 7, 0, Colour::BLACK)) output << 'q';
+    }
+    output << ' ';
+
+    // En passant: TODO
+    output << "- ";
+
+    // Halfmove clock: TODO
+    output << "0 ";
+
+    // Fullmove clock
+    output << rBoard.GetMoveCount();
+
+    return output.str();
 }
 
 }
