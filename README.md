@@ -6,16 +6,16 @@ This project aims to create a console application to play chess. In the future I
 This project is a work in progress.
 
 So far the program can:
-- Most moves:
+- Perform most moves:
   - Pieces
-  - Pawn capture, single and double advance and promotion
+  - Pawn capture, single and double advance and promotion.
   - Castling
-- Disallow moving the king into check
-- Display the board on console
-- Parse a move in algebraic input notation
-- Validate if a player is in check
-- Import and export of gamestate in FEN format.
-
+- Disallow moving the king into check.
+- Display the board on console.
+- Parse a move in algebraic input notation.
+- Validate if a player is in check.
+- Export the gamestate in FEN format.
+- Import the gamestate in FEN format (UI not implemented).
 
 Short-term goals:
 - Implement missing movement rules:
@@ -33,12 +33,15 @@ Short-term goals:
 Mid-term goals:
 - Impement the gameflow
 - Import and export of games in PGN format.
-- Show stats during the game (captured pieces, etc)
+- Show stats during the game:
+  - Captured pieces
+  - Move history
+  - Valid moves
 
 Long term goals:
 - Implement a rudimentary chess engine
 - Use stockfish as an oponent
-- Implement a rudimentary evaluation score
+- Implement a rudimentary accuracy score
 - Implement a GUI
 
 ## How-to ...
@@ -50,4 +53,7 @@ CMake can be used. Compilation script `build.sh` is provided for linux users. Fo
 If you build it, two executables are generated. `build/Release/ConsoleChess` runs the game. `build/Release/ChessTests <verbosity>` runs the unit tests. Call it with different levels of verbosity (0--2) to see more or fewer details.
 
 ### Play
-Wait for a few weeks while I implement the features in my free time. Then build the project and run `ConsoleChess`. Pick a colour and input your moves as requested. Either find a friend to play with or wait for a while longer while I implement an AI.
+Build the project and run `ConsoleChess`.Input your moves as requested. Either find a friend to play with or wait for a while longer while I implement an AI.
+You can use commands for varius reasons. Use `/help` when asked for a move for a summary of possible commands. You can, for instance, export your gamestate in FEN format with `/fen`.
+
+Note that some features are missing (see previous sections)
