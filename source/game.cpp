@@ -11,7 +11,7 @@ Game::Game()
 
 void Game::Run()
 {
-    Colour c = Interface::Intro();
+    Interface::Intro();
 
     bool game_is_over = false;
     while(!game_is_over)

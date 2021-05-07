@@ -15,14 +15,17 @@ namespace ConsoleChess {
 class Interface
 {
 public:
-    Interface() {}
+    Interface() = delete;
 
-    static Colour Intro();
+    static void Intro();
 
     static void DisplayBoard(const Board & rBoard);
     static Move AskMove(const Board & rBoard);
 
     static std::tuple<Move, bool> ParseAndValidateMove(const std::string & input, const Board & rBoard);
+
+    static void RunCommand(const std::string & command, const Board & board);
+
 protected:
 
     static int ChooseRandomColour();
