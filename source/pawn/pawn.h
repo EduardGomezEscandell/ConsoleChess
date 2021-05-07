@@ -21,6 +21,11 @@ public:
 
 protected:
     friend class Board;
+
+    void EmplaceMoveMaybePromote(const int DepartureRank,
+                                 const int DepartureFile,
+                                 const int LandingRank,
+                                 const int LandingFile);
 };
 
 }

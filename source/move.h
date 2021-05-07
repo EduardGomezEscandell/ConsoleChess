@@ -70,10 +70,12 @@ public:
     Move(const int & departure_rank,
          const int & departure_file,
          const int & landing_rank,
-         const int & landing_file);
+         const int & landing_file,
+         const PieceSet promotion = PieceSet::NONE);
 
     Move(const int & landing_rank,
-         const int & landing_file);
+         const int & landing_file,
+         const PieceSet promotion = PieceSet::NONE);
 
     Move();
 

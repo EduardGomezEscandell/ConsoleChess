@@ -64,6 +64,54 @@ CHESS_DEFINE_TEST(Notation)
     AssertEqual(c, 'o', "Incorrect notation for black pawn");
 }
 
+CHESS_DEFINE_TEST(Promotion)
+{
+    Board board("8/P7/8/8/8/8/p7/8");
+    Piece * wpawn = board.pGetSquareContent(6, 0); // white pawn about to promote
+    Piece * bpawn = board.pGetSquareContent(1, 0); // black pawn
+
+    board.UpdateLegalMoves();
+
+    // White pawn check
+    std::vector<Move> expected_moves = {{6,0,7,0, PieceSet::QUEEN},
+                                        {6,0,7,0, PieceSet::ROOK},
+                                        {6,0,7,0, PieceSet::BISHOP},
+                                        {6,0,7,0, PieceSet::KNIGHT}
+    };
+    AssertEqualContainers(wpawn->GetMoves(), expected_moves, "White pawn promotion not properly calculated");
+
+    // Black pawn test
+    expected_moves.clear();
+    expected_moves = {{1,0,0,0, PieceSet::QUEEN},
+                      {1,0,0,0, PieceSet::ROOK},
+                      {1,0,0,0, PieceSet::BISHOP},
+                      {1,0,0,0, PieceSet::KNIGHT}
+    };
+    AssertEqualContainers(bpawn->GetMoves(), expected_moves, "Black pawn promotion not properly calculated");
+}
+
+CHESS_DEFINE_TEST(DoubleAdvance)
+{
+    Board board("8/p7/8/8/8/8/P7/8");
+
+    Piece * wpawn = board.pGetSquareContent(1, 0); // white pawn
+    Piece * bpawn = board.pGetSquareContent(6, 0); // black pawn
+
+    board.UpdateLegalMoves();
+
+    // White pawn check
+    std::vector<Move> expected_moves = {{1,0,2,0},
+                                        {1,0,3,0}
+    };
+    AssertEqualContainers(wpawn->GetMoves(), expected_moves, "White pawn double advance not properly implemented");
+
+    // Black pawn test
+    expected_moves.clear();
+    expected_moves = {{6,0,5,0},
+                      {6,0,4,0}
+    };
+    AssertEqualContainers(bpawn->GetMoves(), expected_moves, "Black pawn double advance not properly implemented");
+}
 
 
 }
@@ -72,6 +120,8 @@ CHESS_TEST_LIST(PawnTestSuite)
 {
     CHESS_TEST_LIST_ITEM(PawnTests::Movement);
     CHESS_TEST_LIST_ITEM(PawnTests::Notation);
+    CHESS_TEST_LIST_ITEM(PawnTests::Promotion);
+    CHESS_TEST_LIST_ITEM(PawnTests::DoubleAdvance);
 }
 
 

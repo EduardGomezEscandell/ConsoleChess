@@ -13,24 +13,27 @@ Move Move::MoveFromBits(uint16_t data16, uint8_t data8)
     return m;
 }
 
+
 Move::Move(const int & departure_rank,
            const int & departure_file,
            const int & landing_rank,
-           const int & landing_file)
+           const int & landing_file,
+           const PieceSet promotion)
 {
-    mData16 = 0;
     if(departure_rank>=0) SetDepartureRank(departure_rank);
     if(departure_file>=0) SetDepartureFile(departure_file);
     if(landing_rank>=0)   SetLandingRank(landing_rank);
     if(landing_file>=0)   SetLandingFile(landing_file);
+    SetPromotion(promotion);
 }
 
 Move::Move(const int & landing_rank,
-           const int & landing_file)
+           const int & landing_file,
+           const PieceSet promotion)
 {
     if(landing_rank>=0)   SetLandingRank(landing_rank);
     if(landing_file>=0)   SetLandingFile(landing_file);
-
+    SetPromotion(promotion);
 }
 
 Move::Move()
