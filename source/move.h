@@ -36,9 +36,10 @@ class Move
     
     *** mData8 ***
 
-    00000 000
-    |     |
-    |     Promotion*
+    0000 0 000
+    |    | |
+    |    | Promotion*
+    |    En passant target
     Unused
 
     >Promotion:
@@ -60,7 +61,8 @@ class Move
     static constexpr uint16_t KnownDF_mask     = 0b0000000000000001;
     static constexpr uint16_t ThreeDigit_mask  = 0b0000000000000111;
 
-    static constexpr uint16_t Promotion_mask   =         0b00000111;
+    static constexpr uint8_t Promotion_mask   =         0b00000111;
+    static constexpr uint8_t EnPassant_mask   =         0b00001000;
 
     friend bool operator==(const Move & rLHS, const Move & rRHS);
 
@@ -81,6 +83,7 @@ public:
 
     static Move ShortCastle();
     static Move LongCastle();
+    static Move PawnDoublePush(const int & landing_rank, const int & landing_file, const Colour colour);
 
     void SetDepartureRank(unsigned int rank);
     void SetDepartureFile(unsigned int file);
@@ -91,6 +94,7 @@ public:
     void SetShortCastle(bool set=true);
     void SetLongCastle(bool set=true);
     void SetPromotion(PieceSet piece);
+    void SetEnPassant(bool set=true);
 
     int GetDepartureRank() const;
     int GetDepartureFile() const;
@@ -101,6 +105,7 @@ public:
     bool GetShortCastle() const;
     bool GetLongCastle() const;
     PieceSet GetPromotion() const;
+    bool GetEnPassant() const;
 };
 
 std::ostream& operator<<(std::ostream& os, const Move& m);

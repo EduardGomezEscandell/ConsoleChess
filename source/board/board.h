@@ -8,6 +8,7 @@
 #include <list>
 #include <memory>
 #include <string>
+#include <optional>
 
 namespace ConsoleChess {
 
@@ -31,6 +32,8 @@ public:
     const Piece * GetKing(Colour colour) const;
 
     unsigned int GetMoveCount() const;
+    Square * GetEnPassantSquare();
+    const Square * GetEnPassantSquare() const;
 
     // Editors
     void DoMove(const Move & Move);
@@ -67,6 +70,7 @@ public:
 
 protected:
     unsigned int mMoveCount = 1;
+    Square * mEnPassantSquare = nullptr;
     Square mSquares[NumberOfSquares];
     std::list<std::unique_ptr<Piece>> mPieces;
     Piece * mWhiteKing = nullptr;

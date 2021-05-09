@@ -36,24 +36,28 @@ void Pawn::UpdateLegalMoves()
     if(mColour==Colour::WHITE && initial_rank == 1 && CheckDestinationSquare(initial_rank+2, initial_file))
     {
         mLegalMoves.emplace_back(initial_rank, initial_file, initial_rank+2, initial_file);
+        mLegalMoves.back().SetEnPassant();
     }
     if(mColour==Colour::BLACK && initial_rank == 6 && CheckDestinationSquare(initial_rank-2, initial_file))
     {
         mLegalMoves.emplace_back(initial_rank, initial_file, initial_rank-2, initial_file);
+        mLegalMoves.back().SetEnPassant();
     }
 
     // Single-square moves
     const int target_rank = initial_rank + (mColour == Colour::WHITE ? 1 : -1);
 
     // Captures to the left
-    if(initial_file > 0 && CheckIfCaptures(target_rank, initial_file-1))
+    if(initial_file > 0 &&
+        (CheckIfCaptures(target_rank, initial_file-1) || IsEnPassantSquare(target_rank, initial_file-1)))
     {
         EmplaceMoveMaybePromote(initial_rank, initial_file, target_rank, initial_file-1);
         mParentBoard->SetAttack(target_rank, initial_file-1, mColour);
     }
 
     // Captures to the right
-    if(initial_file < 7 && CheckIfCaptures(target_rank, initial_file+1))
+    if(initial_file < 7 && 
+        (CheckIfCaptures(target_rank, initial_file+1) || IsEnPassantSquare(target_rank, initial_file+1)))
     {
         EmplaceMoveMaybePromote(initial_rank, initial_file, target_rank, initial_file+1);
         mParentBoard->SetAttack(target_rank, initial_file+1, mColour);
@@ -67,5 +71,14 @@ void Pawn::UpdateLegalMoves()
 
 }
 
+bool Pawn::IsEnPassantSquare(const unsigned int Rank, const unsigned int File) const
+{
+    const Square * en_passant_square = mParentBoard->GetEnPassantSquare();
+
+    if(!en_passant_square) return false;
+
+    return en_passant_square->GetRank() == Rank 
+            && en_passant_square->GetFile() == File;
+}
 
 }

@@ -336,6 +336,7 @@ bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type) con
     }
     else // Departure square is not fully specified
     {
+        unsigned int valid_move_count = 0;
 
         for(const auto & square : mSquares)
         {
@@ -346,18 +347,26 @@ bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type) con
             {
                 rMove.SetDepartureRank(square.GetRank());
                 rMove.SetDepartureFile(square.GetFile());
-                return true;
+
+                if(square.pGetContent()->GetPieceType() == PieceSet::PAWN)
+                {
+                    if(abs(square.GetRank() - departure_rank) == 2)
+                    {
+                        rMove.SetEnPassant();
+                    }
+                }
+                valid_move_count++;
             }
         }
 
-        return false;
+        return valid_move_count==1; // If >1, then the move is underdefined (for example two rooks may be able move to the same square)
     }
 }
 
 /**
  * @brief DoMove performs the move indicated in Move.
  * This move will not be validated, so run it through ValidateAndCompleteMove before attempting to perform it, else the behaviour is undefined.
- * 
+ * En passant square is updated. Colour to move is updated. Move count is increassed.
  * @param Move: The move to perform
  */
 void Board::DoMove(const Move & rMove)
@@ -408,6 +417,18 @@ void Board::DoMove(const Move & rMove)
         MovePiece(departure, landing);
     }
 
+    if(rMove.GetEnPassant()==true)
+    {
+        const unsigned int file = rMove.GetLandingFile();
+        const unsigned int landing_rank = rMove.GetLandingRank();
+        const unsigned int en_passant_rank = (landing_rank + rMove.GetDepartureRank())/2;
+        mEnPassantSquare = &GetSquare(en_passant_rank, file);
+    }
+    else
+    {
+        mEnPassantSquare = nullptr;
+    }
+
     mColourToMove = OppositeColour(mColourToMove);
     mMoveCount++;
 }
@@ -431,6 +452,16 @@ void Board::MovePiece(Square & rDeparture, Square & rLanding)
     rLanding.Vacate();
     rLanding.SwapContent(rDeparture);
 
+}
+
+Square * Board::GetEnPassantSquare()
+{
+    return mEnPassantSquare;
+}
+
+const Square * Board::GetEnPassantSquare() const
+{
+    return mEnPassantSquare;
 }
 
 /**

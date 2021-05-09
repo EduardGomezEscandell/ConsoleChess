@@ -102,16 +102,36 @@ CHESS_DEFINE_TEST(DoubleAdvance)
 
     // White pawn check
     std::vector<Move> expected_moves = {{1,0,2,0},
-                                        {1,0,3,0}
+                                        Move::PawnDoublePush(3,0, Colour::WHITE)
     };
     AssertEqualContainers(wpawn->GetMoves(), expected_moves, "White pawn double advance not properly implemented");
 
     // Black pawn test
     expected_moves.clear();
     expected_moves = {{6,0,5,0},
-                      {6,0,4,0}
+                      Move::PawnDoublePush(4,0, Colour::BLACK)
     };
     AssertEqualContainers(bpawn->GetMoves(), expected_moves, "Black pawn double advance not properly implemented");
+}
+
+CHESS_DEFINE_TEST(EnPassant)
+{
+    Board board = FEN::Reader("8/8/8/8/1p6/8/P7/8");
+    Piece * attacker = board.pGetSquareContent(3,1);
+    
+    board.UpdateLegalMoves();
+
+    board.DoMove(Move::PawnDoublePush(3,0, Colour::WHITE));
+    board.UpdateLegalMoves();
+
+
+    std::vector<Move> expected_moves = {
+        {3,1,2,1},
+        {3,1,2,0}
+    };
+
+    AssertEqualContainers(expected_moves, attacker->GetMoves(), "Failed to capture en passant");
+
 }
 
 
@@ -123,6 +143,7 @@ CHESS_TEST_LIST(PawnTestSuite)
     CHESS_TEST_LIST_ITEM(PawnTests::Notation);
     CHESS_TEST_LIST_ITEM(PawnTests::Promotion);
     CHESS_TEST_LIST_ITEM(PawnTests::DoubleAdvance);
+    CHESS_TEST_LIST_ITEM(PawnTests::EnPassant);
 }
 
 

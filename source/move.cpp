@@ -53,6 +53,15 @@ Move Move::LongCastle()
 }
 
 
+Move Move::PawnDoublePush(const int & landing_rank, const int & landing_file, const Colour colour)
+{
+    const unsigned int departure_rank = colour==Colour::WHITE ? landing_rank-2 : landing_rank+2;
+    auto m = Move(departure_rank, landing_file, landing_rank, landing_file);
+    m.SetEnPassant();
+    return m;
+}
+
+
 std::ostream& operator<<(std::ostream& os, const Move& m)
 {   
     const int departure_rank = m.IsDepartureRankKnown() ? m.GetDepartureRank() : -1;
@@ -149,6 +158,18 @@ void Move::SetPromotion(PieceSet piece)
     mData8 = mData8 | info;             // Setting promotion bits
 }
 
+void Move::SetEnPassant(bool set)
+{
+    if(set)
+    {
+        mData8 = mData8 | EnPassant_mask;
+    } 
+    else 
+    {
+        mData8 = mData8 & ~EnPassant_mask;
+    }
+}
+
 int Move::GetDepartureRank() const
 {
     return static_cast<int>((DepRank_mask & mData16) >> 13);
@@ -211,6 +232,13 @@ PieceSet Move::GetPromotion() const
     default: CHESS_THROW << "Unreachable code reached";
     }
 }
+
+
+bool Move::GetEnPassant() const
+{
+    return static_cast<bool>(EnPassant_mask & mData8);
+}
+
 
 
 }

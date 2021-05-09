@@ -26,6 +26,8 @@ protected:
                                  const int DepartureFile,
                                  const int LandingRank,
                                  const int LandingFile);
+
+    bool IsEnPassantSquare(const unsigned int LandingRank, const unsigned int LandingFile) const;
 };
 
 }
