@@ -88,6 +88,28 @@ CHESS_DEFINE_TEST(KingInCheck)
     AssertFalse(board.IsInCheck(Colour::BLACK));
 }
 
+CHESS_DEFINE_TEST(TwoPossibleMoves)
+{
+    Board board;
+    board.CreatePieceInLocation(PieceSet::ROOK, 0,5, Colour::WHITE); // Rook on f1
+    board.CreatePieceInLocation(PieceSet::ROOK, 7,5, Colour::WHITE); // Rook on f8
+    board.UpdateLegalMoves();
+
+    Move move{5, 5}; // Move ?f6
+    AssertFalse(board.ValidateAndCompleteMove(move, PieceSet::ROOK), "Failed to notice move Rf6 is ambiguous: both rooks can move to f6");
+
+    move = Move{5,5};
+    move.SetDepartureFile(5);
+    AssertFalse(board.ValidateAndCompleteMove(move, PieceSet::ROOK), "Failed to notice move Rff6 is ambiguous: both rooks are on the F file");
+
+    move = Move{5,5};
+    move.SetDepartureRank(0);
+    AssertTrue(board.ValidateAndCompleteMove(move, PieceSet::ROOK), "Failed to validate move R1f6");
+
+    move = Move{0,5,5,5};
+    AssertTrue(board.ValidateAndCompleteMove(move, PieceSet::ROOK), "Failed to validate move Rf1f6");
+}
+
 
 }
 
@@ -100,6 +122,7 @@ CHESS_TEST_LIST(BoardTestSuite)
     CHESS_TEST_LIST_ITEM(BoardTests::FullPieceSet)
     CHESS_TEST_LIST_ITEM(BoardTests::CopyConstructor)
     CHESS_TEST_LIST_ITEM(BoardTests::KingInCheck)
+    CHESS_TEST_LIST_ITEM(BoardTests::TwoPossibleMoves)
 }
 
 
