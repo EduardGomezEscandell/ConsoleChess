@@ -40,6 +40,24 @@ Board::Board(const Board & rRHS)
         mPieces.emplace_back(rRHS.mSquares[i].pGetContent()->Clone(this));
         mSquares[i].OverwriteContent(mPieces.back().get());
     }
+
+    mMoveCount = rRHS.mMoveCount;
+    
+    if(rRHS.mEnPassantSquare)
+    {
+        mEnPassantSquare = &GetSquare(rRHS.mEnPassantSquare->GetRank(), rRHS.mEnPassantSquare->GetFile());
+    }
+    
+    if(rRHS.mWhiteKing)
+    {
+        mWhiteKing = pGetSquareContent(rRHS.mWhiteKing->mLocation[0], rRHS.mWhiteKing->mLocation[1]);
+    }
+    if(rRHS.mBlackKing)
+    {
+        mBlackKing = pGetSquareContent(rRHS.mBlackKing->mLocation[0], rRHS.mBlackKing->mLocation[1]);
+    }
+    
+    mColourToMove = rRHS.mColourToMove;
 }
 
 Square & Board::GetSquare(const int & rank, const int & file)
