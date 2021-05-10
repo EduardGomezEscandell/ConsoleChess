@@ -93,10 +93,16 @@ CHESS_DEFINE_TEST(ReaderSomeCastling)
 
 CHESS_DEFINE_TEST(ReaderExtraFields)
 {
-    Board board_fen = FEN::Reader("rnbqkbnr/ppp1pppp/8/3p4/8/8/PPPPPPPP/RNBQKBNR b KQkq - 0 2"); // Position after 1d4
+    Board board_fen = FEN::Reader("rnbqkbnr/ppp1pppp/8/3p4/8/8/PPPPPPPP/RNBQKBNR b KQkq d3 0 2"); // Position after 1d4
     
     AssertEqual(board_fen.WhoMoves(), Colour::BLACK, "Failed to read whose turn it is to move");
     AssertEqual(board_fen.GetMoveCount(), (unsigned int) 2, "Failed to read the move count");
+
+    Square * square = board_fen.GetEnPassantSquare();
+
+    AssertTrue(square, "Failed to parse en passant square");
+    AssertEqual(square->GetRank(), 2u, "Failed to read en passant square's rank");
+    AssertEqual(square->GetFile(), 3u, "Failed to read en passant square's file");
 }
 
 CHESS_DEFINE_TEST(Writer)
