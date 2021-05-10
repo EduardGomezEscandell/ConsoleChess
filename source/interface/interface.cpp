@@ -64,10 +64,11 @@ int Interface::StartMenu()
 
 Board Interface::ReadFEN()
 {
-    std::cout << "Write the game in Forsyth–Edwards Notation (FEN): ";
+    std::cout << "Write the game in Forsyth–Edwards Notation (FEN): \n > ";
     bool valid_fen = false;
     
     std::string fen;
+    std::getline(std::cin, fen); // Emptying buffer
     while(!valid_fen)
     {
         std::getline(std::cin, fen);
@@ -75,7 +76,7 @@ Board Interface::ReadFEN()
 
         if(!valid_fen)
         {
-            std::cout << "Invalid FEN. Please check for any typos and try again: ";
+            std::cout << "Invalid FEN. Please check for any typos and try again: \n > ";
         }
     }
 
@@ -109,7 +110,7 @@ Move Interface::AskMove(const Board & rBoard)
 
         std::cout << "Enter a move or a /command: ";
         std::string answer;
-        
+
         std::getline(std::cin, answer);
 
         if(answer[0] == '/')
