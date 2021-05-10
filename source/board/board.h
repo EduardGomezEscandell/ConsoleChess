@@ -48,6 +48,10 @@ public:
     void ResetAttacks();
     void UpdateLegalMoves();
 
+    void SetColourToMove(const Colour c);
+    void SetEnPassantTarget(const int Rank, const int File);
+    void SetMoveCounter(const unsigned int count);
+
     // Queries
     Colour WhoMoves() const;
     bool SquareIsEmpty(const int & rank, const int & file);

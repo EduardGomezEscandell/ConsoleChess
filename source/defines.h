@@ -72,6 +72,7 @@ enum class Colour : short
 Colour OppositeColour(const Colour c);
 
 std::ostream& operator<<(std::ostream& os, const PieceSet& p);
+std::ostream& operator<<(std::ostream& os, const Colour& p);
 
 }
 

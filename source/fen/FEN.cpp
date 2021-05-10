@@ -37,7 +37,7 @@ std::tuple<PieceSet, Colour> GetPieceFromFEN(char c)
 
 bool FEN::Validator(const char * str)
 {
-    static const std::regex regex(R"((([rnbqkpRNBQKP1-8]{1,8}|[1-8])\/){7}([rnbqkpRNBQKP1-8]{1,8}|[1-8])( [wb] K{0,1}Q{0,1}k{0,1}q{0,1} (-|[a-h][36]) [0-9]+ [0-9]+){0,1})");
+    static const std::regex regex(R"((([rnbqkpRNBQKP1-8]{1,8}|[1-8])\/){7}([rnbqkpRNBQKP1-8]{1,8}|[1-8])( [wb] ((K{0,1}Q{0,1}k{0,1}q{0,1})|-) (-|[a-h][36]) [0-9]+ [0-9]+){0,1})");
 
     bool valid = std::regex_match(str, regex);
     if(!valid) return false;
@@ -81,38 +81,125 @@ Board FEN::Reader(const char * str)
 
     if(!FEN::Validator(str)) CHESS_THROW << "Invalid FEN : \n    <" << str << ">\n";
 
+    const char * it = str-1;
+    
     // Reading position block
-    unsigned int file = 0;
-    unsigned int rank = 7;
-    for(const char * ptr = str; *ptr != '\0'; ptr++)
     {
-        const char c = *ptr;
-        if(c==' ') break; // End of block
+        unsigned int file = 0;
+        unsigned int rank = 7;
 
-        if(c=='/') // End of rank
+        while(*(++it) != ' ') // Iterating chars until spacebar is reached
         {
-            file = 0;
-            rank--;
-        }
-        else if(c >= '0' && c <= '9') // Empty squares
-        {
-            file += (c - '0');
-        }
-        else
-        {
-            Colour col;
-            PieceSet piece_type;
-            std::tie(piece_type, col) = GetPieceFromFEN(c);
+            const char c = *it;
 
-            if(piece_type == PieceSet::NONE)
+            if(c=='\0') return board; // Short notation
+
+            if(c=='/') // End of rank
             {
-                CHESS_THROW << "Unexpected character when reading FEN : " << c;
+                file = 0;
+                rank--;
             }
+            else if(c >= '0' && c <= '9') // Empty squares
+            {
+                file += (c - '0');
+            }
+            else
+            {
+                Colour col;
+                PieceSet piece_type;
+                std::tie(piece_type, col) = GetPieceFromFEN(c);
 
-            board.CreatePieceInLocation(piece_type, rank, file, col);
-            file++;
+                if(piece_type == PieceSet::NONE)
+                {
+                    CHESS_THROW << "Unexpected character when reading FEN : " << c;
+                }
+
+                board.CreatePieceInLocation(piece_type, rank, file, col);
+                file++;
+            }
         }
     }
+
+    // Active colour
+    it++;
+    if(*it == 'b')
+    {
+        board.SetColourToMove(Colour::BLACK);
+    }
+    else
+    {
+        board.SetColourToMove(Colour::WHITE);
+    }
+    it++;
+
+    // Castling
+    {
+        bool WhiteLong  = false;
+        bool WhiteShort = false;
+        bool BlackLong  = false;
+        bool BlackShort = false;
+
+        while(*(++it) != ' ') // Iterating chars until spacebar is reached
+        {
+            switch (*it)
+            {
+                case 'K':    WhiteShort = true;    break;
+                case 'Q':    WhiteLong  = true;    break;
+                case 'k':    BlackShort = true;    break;
+                case 'q':    BlackLong  = true;    break;
+                case '-':   break;
+            }
+        }
+
+        if(!WhiteLong)
+        {
+            Piece * rook = board.pGetSquareContent(0,0);
+            if(rook && rook->GetColour()==Colour::WHITE) rook->RemoveCastlingRights();
+        }
+
+        if(!WhiteShort)
+        {
+            Piece * rook = board.pGetSquareContent(0,7);
+            if(rook && rook->GetColour()==Colour::WHITE) rook->RemoveCastlingRights();
+        }
+
+        if(!BlackLong)
+        {
+            Piece * rook = board.pGetSquareContent(7,0);
+            if(rook && rook->GetColour()==Colour::BLACK) rook->RemoveCastlingRights();
+        }
+
+        if(!BlackShort)
+        {
+            Piece * rook = board.pGetSquareContent(7,7);
+            if(rook && rook->GetColour()==Colour::BLACK) rook->RemoveCastlingRights();
+        }
+    }
+
+    // En Passant target square
+    it++;
+    if(*it != '-')
+    {
+        const unsigned int file = *it - 'a';
+        it++;
+        const unsigned int rank = *it - '1';
+        it++;
+        board.SetEnPassantTarget(rank, file);
+    }
+    else
+    {
+        it++;
+    }
+
+    // Halfmove clock
+    while(*(++it) != ' ') // Iterating chars until spacebar is reached;
+    {
+        // TODO
+    }
+
+    // Move counter
+    it++;
+    board.SetMoveCounter(atoi(it));
 
     return board;
 }
@@ -174,13 +261,29 @@ std::string FEN::Writer(const Board & rBoard)
     bool no_castling = true;
     if(rBoard.GetKing(Colour::WHITE) && rBoard.GetKing(Colour::WHITE)->HasCastlingRights())
     {
-        if(RookCanCastle(rBoard, 0, 7, Colour::WHITE)) output << 'K'; no_castling=false;
-        if(RookCanCastle(rBoard, 0, 0, Colour::WHITE)) output << 'Q'; no_castling=false;
+        if(RookCanCastle(rBoard, 0, 7, Colour::WHITE))
+        {
+            output << 'K';
+            no_castling=false;
+        }
+        if(RookCanCastle(rBoard, 0, 0, Colour::WHITE))
+        {
+            output << 'Q';
+            no_castling=false;
+        }
     }
     if(rBoard.GetKing(Colour::BLACK) && rBoard.GetKing(Colour::BLACK)->HasCastlingRights())
     {
-        if(RookCanCastle(rBoard, 7, 7, Colour::BLACK)) output << 'k'; no_castling=false;
-        if(RookCanCastle(rBoard, 7, 0, Colour::BLACK)) output << 'q'; no_castling=false;
+        if(RookCanCastle(rBoard, 7, 7, Colour::BLACK))
+        {
+            output << 'k';
+            no_castling=false;
+        }
+        if(RookCanCastle(rBoard, 7, 0, Colour::BLACK))
+        {
+            output << 'q';
+            no_castling=false;
+        }
     }
     
     if(no_castling)
@@ -190,8 +293,16 @@ std::string FEN::Writer(const Board & rBoard)
 
     output << ' ';
 
-    // En passant: TODO
-    output << "- ";
+    // En passant:
+    const Square * en_passant_square = rBoard.GetEnPassantSquare();
+    if(en_passant_square)
+    {
+        output << en_passant_square->GetName() << ' ';
+    }
+    else
+    {
+        output << "- ";
+    }
 
     // Halfmove clock: TODO
     output << "0 ";

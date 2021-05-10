@@ -37,6 +37,20 @@ std::ostream& operator<<(std::ostream& os, const PieceSet& p)
     return os;
 }
 
+std::ostream& operator<<(std::ostream& os, const Colour& c)
+{
+    switch (c)
+    {
+    case Colour::WHITE:     os << "WHITE";      break;
+    case Colour::BLACK:     os << "BLACK";      break;
+    case Colour::BOTH:      os << "BOTH";       break;
+    case Colour::UNDEFINED: os << "UNDEFINED";  break;
+    
+    default: CHESS_THROW << "Unreachable code reached";
+    }
+
+    return os;
+}
 
 
 }

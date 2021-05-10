@@ -452,7 +452,7 @@ void Board::DoMove(const Move & rMove)
         const unsigned int file = rMove.GetLandingFile();
         const unsigned int landing_rank = rMove.GetLandingRank();
         const unsigned int en_passant_rank = (landing_rank + rMove.GetDepartureRank())/2;
-        mEnPassantSquare = &GetSquare(en_passant_rank, file);
+        SetEnPassantTarget(en_passant_rank, file);
     }
     else
     {
@@ -461,6 +461,11 @@ void Board::DoMove(const Move & rMove)
 
     mColourToMove = OppositeColour(mColourToMove);
     mMoveCount++;
+}
+
+void Board::SetMoveCounter(const unsigned int count)
+{
+    mMoveCount = count;
 }
 
 Colour Board::WhoMoves() const
@@ -492,6 +497,20 @@ Square * Board::GetEnPassantSquare()
 const Square * Board::GetEnPassantSquare() const
 {
     return mEnPassantSquare;
+}
+
+void Board::SetColourToMove(const Colour c)
+{
+    if(c != Colour::WHITE && c!=Colour::BLACK)
+    {
+        CHESS_THROW << "Cannot set board colour to move to " << c <<".";
+    }
+    mColourToMove = c;
+}
+
+void Board::SetEnPassantTarget(const int Rank, const int File)
+{
+    mEnPassantSquare = &GetSquare(Rank, File);
 }
 
 /**
