@@ -70,7 +70,7 @@ Board Interface::ReadFEN()
     std::string fen;
     while(!valid_fen)
     {
-        std::cin >> fen;
+        std::getline(std::cin, fen);
         valid_fen = FEN::Validator(fen.c_str());
 
         if(!valid_fen)
@@ -109,7 +109,8 @@ Move Interface::AskMove(const Board & rBoard)
 
         std::cout << "Enter a move or a /command: ";
         std::string answer;
-        std::cin >> answer;
+        
+        std::getline(std::cin, answer);
 
         if(answer[0] == '/')
         {

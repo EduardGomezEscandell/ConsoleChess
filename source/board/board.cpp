@@ -380,7 +380,7 @@ bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type) con
 
                 if(square.pGetContent()->GetPieceType() == PieceSet::PAWN)
                 {
-                    if(abs(square.GetRank() - departure_rank) == 2)
+                    if(abs(square.GetRank() - rMove.GetLandingRank()) == 2)
                     {
                         rMove.SetEnPassant();
                     }
