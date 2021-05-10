@@ -16,7 +16,7 @@ public:
 
 protected:
     std::unique_ptr<Player> mPlayers[2];
-    Board mBoard;
+    std::unique_ptr<Board> mpBoard;
 
     bool PlayerTurn();
 };

@@ -1,4 +1,5 @@
 #include "game.h"
+#include "fen/FEN.h"
 #include "interface/interface.h"
 
 
@@ -6,12 +7,26 @@ namespace ConsoleChess {
 
 Game::Game()
 {
-    mBoard.SetUpInitialPieces();
 }
 
 void Game::Run()
 {
     Interface::Intro();
+
+    const int option = Interface::StartMenu();
+
+    switch (option)
+    {
+    case 1:
+        mpBoard = std::make_unique<Board>();
+        mpBoard->SetUpInitialPieces();
+        break;
+    case 2:
+        mpBoard = std::make_unique<Board>(Interface::ReadFEN());
+        break;
+    default:
+        break;
+    }
 
     bool game_is_over = false;
     while(!game_is_over)
@@ -26,11 +41,15 @@ void Game::Run()
  */
 bool Game::PlayerTurn()
 {
-    Interface::DisplayBoard(mBoard);
+#ifndef NDEBGUG
+    if(!mpBoard) CHESS_THROW << "Tried to make a player turn with no board";
+#endif
+
+    Interface::DisplayBoard(*mpBoard);
     
-    mBoard.UpdateLegalMoves();
-    auto move = Interface::AskMove(mBoard);
-    mBoard.DoMove(move);
+    mpBoard->UpdateLegalMoves();
+    auto move = Interface::AskMove(*mpBoard);
+    mpBoard->DoMove(move);
 
     return false;
 }

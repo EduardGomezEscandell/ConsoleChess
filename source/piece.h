@@ -46,6 +46,13 @@ class Piece
 public:
     // Constructors
     Piece(const int & rank, const int & file, Board * parent_board, const Colour & colour);
+    
+    /**
+     * @brief Clone: This method allocates a raw pointer and copies the relevant information top clone the piece.
+     * Ownership is granted to the caller, so it's recomended to use this method only to construct smart pointers.
+     * @param parent_board: The board that will contain the clone.
+     * @return Piece*: The raw pointer containing the clone.
+     */
     virtual Piece * Clone(Board * parent_board) const = 0;
     
     // Editors

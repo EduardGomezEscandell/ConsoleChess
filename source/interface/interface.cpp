@@ -50,6 +50,38 @@ void Interface::Intro()
     // return colour;
 }
 
+int Interface::StartMenu()
+{
+    std::stringstream query;
+    query << "Chose an option:\n"
+          << " [1] Start game\n"
+          << " [2] Import game in FEN format\n"
+          << "Chose an option";
+
+    std::map<std::string, int> options = {{"1", 1}, {"", 1}, {"2", 2}};
+    return Interface::Question(query.str(), options);
+}
+
+Board Interface::ReadFEN()
+{
+    std::cout << "Write the game in Forsyth–Edwards Notation (FEN): ";
+    bool valid_fen = false;
+    
+    std::string fen;
+    while(!valid_fen)
+    {
+        std::cin >> fen;
+        valid_fen = FEN::Validator(fen.c_str());
+
+        if(!valid_fen)
+        {
+            std::cout << "Invalid FEN. Please check for any typos and try again: ";
+        }
+    }
+
+    return FEN::Reader(fen.c_str());
+}
+
 int Interface::ChooseRandomColour()
 {
     srand(time(nullptr));

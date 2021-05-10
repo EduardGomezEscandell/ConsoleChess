@@ -35,7 +35,7 @@ std::tuple<PieceSet, Colour> GetPieceFromFEN(char c)
 }
 
 
-bool ValidateFEN(const char * str)
+bool FEN::Validator(const char * str)
 {
     static const std::regex regex(R"((([rnbqkpRNBQKP1-8]{1,8}|[1-8])\/){7}([rnbqkpRNBQKP1-8]{1,8}|[1-8])( [wb] K{0,1}Q{0,1}k{0,1}q{0,1} (-|[a-h][36]) [0-9]+ [0-9]+){0,1})");
 
@@ -79,7 +79,7 @@ Board FEN::Reader(const char * str)
 {
     Board board;
 
-    if(!ValidateFEN(str)) CHESS_THROW << "Invalid FEN : \n    <" << str << ">\n";
+    if(!FEN::Validator(str)) CHESS_THROW << "Invalid FEN : \n    <" << str << ">\n";
 
     // Reading position block
     unsigned int file = 0;

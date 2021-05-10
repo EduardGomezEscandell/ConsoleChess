@@ -18,6 +18,8 @@ public:
     Interface() = delete;
 
     static void Intro();
+    static int StartMenu();
+    static Board ReadFEN();
 
     static void DisplayBoard(const Board & rBoard);
     static Move AskMove(const Board & rBoard);

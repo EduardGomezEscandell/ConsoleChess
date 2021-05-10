@@ -31,15 +31,27 @@ Board::Board()
     }
 }
 
+/**
+ * @brief Board copy constructor. Square and pieces are copied as well.
+ * @param rRHS: The board to copy
+ */
 Board::Board(const Board & rRHS)
 {
-    for(int i=0; i<NumberOfSquares; i++)
+    for(unsigned int i=0; i<Board::NumberOfSquares; i++)
     {
-        if(rRHS.mSquares[i].IsEmpty()) continue;
-
-        mPieces.emplace_back(rRHS.mSquares[i].pGetContent()->Clone(this));
-        mSquares[i].OverwriteContent(mPieces.back().get());
+        mSquares[i] = rRHS.mSquares[i];
+        mSquares[i].mContent = nullptr; // Cannot use Square::Vacate since that changes the state of the piece
+        mSquares[i].mpOwner = this;
     }
+
+    for(const auto & piece : rRHS.mPieces)
+    {
+        mPieces.emplace_back(piece->Clone(this));
+        const unsigned int mRank = piece->mLocation[0];
+        const unsigned int mFile = piece->mLocation[1];
+        GetSquare(mRank, mFile).OverwriteContent(mPieces.back().get());
+    }
+
 
     mMoveCount = rRHS.mMoveCount;
     

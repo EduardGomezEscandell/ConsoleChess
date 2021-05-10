@@ -75,7 +75,6 @@ protected:
     std::list<std::unique_ptr<Piece>> mPieces;
     Piece * mWhiteKing = nullptr;
     Piece * mBlackKing = nullptr;
-    static std::tuple<PieceSet, Colour> GetPieceFromFEN(char c);
     Colour mColourToMove = Colour::WHITE;
 
     static unsigned int CoordsToIndex(const unsigned int rank, const unsigned int file);
