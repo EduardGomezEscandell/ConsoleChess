@@ -8,19 +8,19 @@ This project is a work in progress.
 So far the program can:
 - Perform most moves:
   - Pieces
-  - Pawn capture, single and double advance and promotion.
+  - Pawn capture, single and double advance, promotion and capture en passant.
   - Castling
 - Disallow moving the king into check.
 - Display the board on the console.
 - Parse a move in algebraic input notation.
 - Validate if a player is in check.
-- Export the game-state in FEN format.
-- Import the game-state in FEN format (UI not implemented).
+- Export the game-state in FEN format (except half-move clock: 0 is printed).
+- Import the game-state in FEN format (except half-move clock: it is ignored).
+- Run the game between two players (except end of game).
 
 Short-term goals:
 - Implement missing movement rules:
   - Invalidate moves that put a player in check (pins)
-  - En passant
 - Output a move in algebraic notation
 - Check for end-game conditions:
   - Stalemate
@@ -31,7 +31,6 @@ Short-term goals:
   - Resignation
 
 Mid-term goals:
-- Implement the game flow
 - Import and export of games in PGN format.
 - Show stats during the game:
   - Captured pieces
