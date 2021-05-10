@@ -382,7 +382,7 @@ bool Board::ValidateAndCompleteMove(Move & rMove, const PieceSet piece_type) con
                 {
                     if(abs(square.GetRank() - rMove.GetLandingRank()) == 2)
                     {
-                        rMove.SetEnPassant();
+                        rMove.SetPawnDoublePush();
                     }
                 }
                 valid_move_count++;
@@ -447,7 +447,7 @@ void Board::DoMove(const Move & rMove)
         MovePiece(departure, landing);
     }
 
-    if(rMove.GetEnPassant()==true)
+    if(rMove.GetPawnDoublePush()==true)
     {
         const unsigned int file = rMove.GetLandingFile();
         const unsigned int landing_rank = rMove.GetLandingRank();

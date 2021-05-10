@@ -36,12 +36,12 @@ void Pawn::UpdateLegalMoves()
     if(mColour==Colour::WHITE && initial_rank == 1 && CheckDestinationSquare(initial_rank+2, initial_file))
     {
         mLegalMoves.emplace_back(initial_rank, initial_file, initial_rank+2, initial_file);
-        mLegalMoves.back().SetEnPassant();
+        mLegalMoves.back().SetPawnDoublePush();
     }
     if(mColour==Colour::BLACK && initial_rank == 6 && CheckDestinationSquare(initial_rank-2, initial_file))
     {
         mLegalMoves.emplace_back(initial_rank, initial_file, initial_rank-2, initial_file);
-        mLegalMoves.back().SetEnPassant();
+        mLegalMoves.back().SetPawnDoublePush();
     }
 
     // Single-square moves

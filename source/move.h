@@ -94,7 +94,7 @@ public:
     void SetShortCastle(bool set=true);
     void SetLongCastle(bool set=true);
     void SetPromotion(PieceSet piece);
-    void SetEnPassant(bool set=true);
+    void SetPawnDoublePush(bool set=true);
 
     int GetDepartureRank() const;
     int GetDepartureFile() const;
@@ -105,7 +105,7 @@ public:
     bool GetShortCastle() const;
     bool GetLongCastle() const;
     PieceSet GetPromotion() const;
-    bool GetEnPassant() const;
+    bool GetPawnDoublePush() const;
 };
 
 std::ostream& operator<<(std::ostream& os, const Move& m);

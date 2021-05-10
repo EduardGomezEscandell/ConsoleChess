@@ -57,7 +57,7 @@ Move Move::PawnDoublePush(const int & landing_rank, const int & landing_file, co
 {
     const unsigned int departure_rank = colour==Colour::WHITE ? landing_rank-2 : landing_rank+2;
     auto m = Move(departure_rank, landing_file, landing_rank, landing_file);
-    m.SetEnPassant();
+    m.SetPawnDoublePush();
     return m;
 }
 
@@ -158,7 +158,7 @@ void Move::SetPromotion(PieceSet piece)
     mData8 = mData8 | info;             // Setting promotion bits
 }
 
-void Move::SetEnPassant(bool set)
+void Move::SetPawnDoublePush(bool set)
 {
     if(set)
     {
@@ -234,7 +234,7 @@ PieceSet Move::GetPromotion() const
 }
 
 
-bool Move::GetEnPassant() const
+bool Move::GetPawnDoublePush() const
 {
     return static_cast<bool>(EnPassant_mask & mData8);
 }
