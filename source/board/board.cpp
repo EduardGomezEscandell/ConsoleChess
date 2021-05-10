@@ -445,6 +445,14 @@ void Board::DoMove(const Move & rMove)
         Square & departure = mSquares[CoordsToIndex(rMove.GetDepartureRank(), rMove.GetDepartureFile())];
         Square & landing = mSquares[CoordsToIndex(rMove.GetLandingRank(), rMove.GetLandingFile())];
         MovePiece(departure, landing);
+
+        if(&landing == GetEnPassantSquare())
+        {
+            const unsigned int file = landing.GetFile();
+            const unsigned int rank_ep = landing.GetRank();
+            const unsigned int rank_capture = mColourToMove == Colour::WHITE ? rank_ep - 1 : rank_ep + 1;
+            GetSquare(rank_capture, file).Vacate();
+        }
     }
 
     if(rMove.GetPawnDoublePush()==true)
