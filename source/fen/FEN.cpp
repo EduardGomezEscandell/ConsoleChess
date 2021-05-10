@@ -171,17 +171,23 @@ std::string FEN::Writer(const Board & rBoard)
     output << (rBoard.WhoMoves() == Colour::WHITE ? 'w' : 'b') << ' ';
 
     // Castling
+    bool no_castling = true;
     if(rBoard.GetKing(Colour::WHITE) && rBoard.GetKing(Colour::WHITE)->HasCastlingRights())
     {
-        if(RookCanCastle(rBoard, 0, 7, Colour::WHITE)) output << 'K';
-        if(RookCanCastle(rBoard, 0, 0, Colour::WHITE)) output << 'Q';
+        if(RookCanCastle(rBoard, 0, 7, Colour::WHITE)) output << 'K'; no_castling=false;
+        if(RookCanCastle(rBoard, 0, 0, Colour::WHITE)) output << 'Q'; no_castling=false;
     }
-
     if(rBoard.GetKing(Colour::BLACK) && rBoard.GetKing(Colour::BLACK)->HasCastlingRights())
     {
-        if(RookCanCastle(rBoard, 7, 7, Colour::BLACK)) output << 'k';
-        if(RookCanCastle(rBoard, 7, 0, Colour::BLACK)) output << 'q';
+        if(RookCanCastle(rBoard, 7, 7, Colour::BLACK)) output << 'k'; no_castling=false;
+        if(RookCanCastle(rBoard, 7, 0, Colour::BLACK)) output << 'q'; no_castling=false;
     }
+    
+    if(no_castling)
+    {
+        output << '-';
+    }
+
     output << ' ';
 
     // En passant: TODO
